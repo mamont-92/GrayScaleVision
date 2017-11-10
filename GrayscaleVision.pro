@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui quickwidgets qml quick
+CONFIG   += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,3 +30,6 @@ SOURCES += main.cpp\
 HEADERS  += MainWindow.h
 
 FORMS    += MainWindow.ui
+
+RESOURCES += \
+    main.qrc
