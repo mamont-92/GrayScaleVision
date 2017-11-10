@@ -1,5 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>QML/Filter.qml</file>
+        <file>QML/FilterInput.qml</file>
+        <file>QML/FilterManager.qml</file>
+        <file>QML/FilterOutput.qml</file>
+        <file>QML/main.qml</file>
+        <file>QML/FilterManagerLogic.js</file>
     </qresource>
 </RCC>
