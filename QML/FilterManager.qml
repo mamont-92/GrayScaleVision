@@ -119,6 +119,7 @@ Item {
             x: model.x
             y: model.y
             number: model.number
+            name: model.name
             inputNum: model.inputCount
             outputNum: model.outputCount
 

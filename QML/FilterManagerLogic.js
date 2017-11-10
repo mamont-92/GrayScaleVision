@@ -24,6 +24,7 @@ function createNewFilter(type, x, y){
 
         if(repeaterModel != null){
             repeaterModel.append({number:newId,
+                                     name: type,
                                      x:x, y:y,
                                      inputCount: filterTemplate.inConnectors,
                                      outputCount: filterTemplate.outConnectors});

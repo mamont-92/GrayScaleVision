@@ -14,6 +14,7 @@ Item {
     property int outputNum: 0
     property int number: 0
     property int type: FilterType.spatial;
+    property string name: ""
 
     signal positionChangedByDrag(real xpos, real ypos)
     signal connected(int outputFilterNumber, int outputConnectorNumber, int inputConnectorNumber)
@@ -58,6 +59,7 @@ Item {
     }
 
     Rectangle {
+        id: background
         anchors.leftMargin: 5
         anchors.rightMargin: 5
         anchors.fill: parent
@@ -66,6 +68,16 @@ Item {
         border.width: 4
         border.color: type == FilterType.spatial ? "green" : "blue"
         radius: 3
+    }
+
+    Text {
+        text: name
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: background.border.width
+        font.family: "Helvetica"
+        font.pointSize: 8
+        color: "red"
     }
 
     Column {
