@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "types"
 
 Item {
     id: root
@@ -9,9 +10,10 @@ Item {
     Drag.hotSpot.x: 0
     Drag.hotSpot.y: 0
 
-    property int inputNum: 3
-    property int outputNum: 1
+    property int inputNum: 0
+    property int outputNum: 0
     property int number: 0
+    property int type: FilterType.spatial;
 
     signal positionChangedByDrag(real xpos, real ypos)
     signal connected(int outputFilterNumber, int outputConnectorNumber, int inputConnectorNumber)
@@ -61,6 +63,9 @@ Item {
         anchors.fill: parent
 
         color: "black"
+        border.width: 4
+        border.color: type == FilterType.spatial ? "green" : "blue"
+        radius: 3
     }
 
     Column {

@@ -1,0 +1,2 @@
+singleton FilterType 1.0 FilterTypeObject.qml 
+singleton ConnectorType 1.0 ConnectorTypeObject.qml

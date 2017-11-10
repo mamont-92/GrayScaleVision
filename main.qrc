@@ -6,5 +6,8 @@
         <file>QML/FilterOutput.qml</file>
         <file>QML/main.qml</file>
         <file>QML/FilterManagerLogic.js</file>
+        <file>QML/types/FilterTypeObject.qml</file>
+        <file>QML/types/qmldir</file>
+        <file>QML/types/ConnectorTypeObject.qml</file>
     </qresource>
 </RCC>
