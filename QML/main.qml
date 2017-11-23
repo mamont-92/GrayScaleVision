@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.0
 import QtQml 2.2
 import "utils"
+import grayscalevision.core 1.0
 
 Window {
     id: root
@@ -10,9 +11,13 @@ Window {
     width: 640
     height: 480
 
-    FilterManager{
-        id: filterManager
+    FilterManagerVisual{
+        id: filterManagerVisual
         anchors.fill: parent
+    }
+
+    FilterManagerBackend {
+        id: filterManagerBackend
     }
 
     FilterPanel{

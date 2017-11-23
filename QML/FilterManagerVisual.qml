@@ -3,7 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.0
 import QtQml 2.2
 
-import "FilterManagerLogic.js" as FilterManagerLogic
+import "FilterManagerVisualLogic.js" as FilterManagerLogic
 
 Item {
     id: root
