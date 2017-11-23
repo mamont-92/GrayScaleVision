@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>QML/Filter.qml</file>
+        <file>QML/FilterInput.qml</file>
+        <file>QML/FilterOutput.qml</file>
+        <file>QML/main.qml</file>
+        <file>QML/types/FilterTypeObject.qml</file>
+        <file>QML/types/qmldir</file>
+        <file>QML/types/ConnectorTypeObject.qml</file>
+        <file>QML/utils/RealParameter.qml</file>
+        <file>QML/utils/TrackBar.qml</file>
+        <file>QML/FilterPanel.qml</file>
+        <file>QML/FilterManagerVisual.qml</file>
+        <file>QML/FilterManagerVisualLogic.js</file>
+    </qresource>
+</RCC>

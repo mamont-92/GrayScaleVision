@@ -1,11 +1,12 @@
-#include "MainWindow.h"
-#include <QApplication>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include "Core/FilterManagerBackend.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return a.exec();
+    QGuiApplication app(argc, argv);
+    QQmlApplicationEngine engine;
+    qmlRegisterType<FilterManagerBackend>("grayscalevision.core", 1, 0, "FilterManagerBackend");
+    engine.load(QUrl(QStringLiteral("qrc:/QML/main.qml")));
+    return app.exec();
 }

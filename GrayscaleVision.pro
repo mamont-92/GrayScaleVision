@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui quickwidgets qml quick
+CONFIG   += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,9 +24,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += main.cpp\
-        MainWindow.cpp
+SOURCES += main.cpp \
+    Core/FilterManagerBackend.cpp
 
-HEADERS  += MainWindow.h
+HEADERS  += \
+    Core/FilterManagerBackend.h
 
-FORMS    += MainWindow.ui
+FORMS    +=
+
+RESOURCES += \
+    main.qrc
