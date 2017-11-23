@@ -15,8 +15,33 @@ Window {
         anchors.fill: parent
     }
 
-    RealParameter{
-        width: 300
+    FilterPanel{
+        id: filterPanel
+        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+        width: 200
+        anchors.right: parent.right
+
+        Text {
+            id: filterPanelTextText
+
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+
+            text: "filter params"
+        }
+
+        RealParameter{
+            id: param1
+
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.top: filterPanelTextText.bottom
+            transform: Scale{ xScale: 0.5; yScale: 0.5}
+        }
+
     }
+
+
 
 }

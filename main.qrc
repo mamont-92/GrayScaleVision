@@ -11,5 +11,6 @@
         <file>QML/types/ConnectorTypeObject.qml</file>
         <file>QML/utils/RealParameter.qml</file>
         <file>QML/utils/TrackBar.qml</file>
+        <file>QML/FilterPanel.qml</file>
     </qresource>
 </RCC>
