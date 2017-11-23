@@ -14,4 +14,8 @@ Window {
         anchors.fill: parent
     }
 
+    TrackBar{
+
+    }
+
 }
