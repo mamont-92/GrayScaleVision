@@ -12,9 +12,6 @@ Item {
 
     signal valueModified()
 
-    width: 200
-    height: 50
-
     Binding on value {
         when: mouseArea.pressed
         value: slider.x / (track.width - slider.width) * (maxValue - minValue) + minValue

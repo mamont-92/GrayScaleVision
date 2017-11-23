@@ -9,6 +9,7 @@
         <file>QML/types/FilterTypeObject.qml</file>
         <file>QML/types/qmldir</file>
         <file>QML/types/ConnectorTypeObject.qml</file>
-        <file>QML/TrackBar.qml</file>
+        <file>QML/utils/RealParameter.qml</file>
+        <file>QML/utils/TrackBar.qml</file>
     </qresource>
 </RCC>
