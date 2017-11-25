@@ -8,10 +8,15 @@ import "FilterManagerVisualLogic.js" as FilterManagerLogic
 Item {
     id: root
 
+    signal filterAdded(int number, string type)
+    signal filterRemove(int number)
+    signal connectionAdded(int outputFilterNumber, int outputConnectorNumber, int inputFilterNumber, int inputConnectorNumber)
+
     Component.onCompleted: {
         FilterManagerLogic.fillContexMenuModel(filterCreationContexMenuModel);
         FilterManagerLogic.repeaterModel = filtersModel;
         FilterManagerLogic.canvas = mainCanvas;
+        FilterManagerLogic.filterManager = root;
     }
 
     /*DropArea {  //useless now
@@ -98,7 +103,8 @@ Item {
             MenuItem {
                 text: model.text
                 onTriggered: {
-                    FilterManagerLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
+                    var num = FilterManagerLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
+                    //root.filterAdded(num, model.text);
                     FilterManagerLogic.updateCanvas();
                 }
             }
@@ -112,6 +118,9 @@ Item {
         anchors.fill: parent
         model: ListModel {
             id: filtersModel
+            onRowsInserted: {
+                console.log("added");
+            }
         }
 
         delegate : Filter {

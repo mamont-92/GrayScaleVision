@@ -14,6 +14,12 @@ Window {
     FilterManagerVisual{
         id: filterManagerVisual
         anchors.fill: parent
+        onConnectionAdded: {
+            filterManagerBackend.connectFilters(outputFilterNumber, outputConnectorNumber, inputFilterNumber, inputConnectorNumber);
+        }
+        onFilterAdded: {
+            filterManagerBackend.addFilter(number, type);
+        }
     }
 
     FilterManagerBackend {

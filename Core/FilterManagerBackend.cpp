@@ -1,21 +1,25 @@
 #include "FilterManagerBackend.h"
 #include <QDebug>
 
-FilterManagerBackend::FilterManagerBackend(QObject *parent) : QObject(parent), m_userName("macho")
+FilterManagerBackend::FilterManagerBackend(QObject *parent) : QObject(parent)
 {
     qDebug() << "constructor";
 }
 
-QString FilterManagerBackend::userName()
+void FilterManagerBackend::addFilter(int num, QString type)
 {
-    return m_userName;
+    qDebug() << "add filter: " << num << "  " << type;
+    m_filters.insert(num, Filter(type));
 }
 
-void FilterManagerBackend::setUserName(const QString &userName)
+void FilterManagerBackend::removeFilter(int num)
 {
-    if (userName == m_userName)
-        return;
+    qDebug() << "remove filter: " << num;
+    m_filters.remove(num);
+}
 
-    m_userName = userName;
-    emit userNameChanged();
+void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn)
+{
+    qDebug() << "connect filters: " << filterOut << "  " << filterIn;
+    m_connections.append(Connection(filterOut, connectorOut, filterIn, connectorIn));
 }
