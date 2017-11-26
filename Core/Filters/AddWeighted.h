@@ -9,6 +9,6 @@ public:
     AddWeighted();
     DECLARE_READABLE_NAME("add weighted")
 };
-REGISTER_FILTER(AddWeighted)
+REGISTER_FILTER(AddWeighted, 2, 1)
 
 #endif // ADDWEIGHTED_H

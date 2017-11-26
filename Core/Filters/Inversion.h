@@ -10,7 +10,7 @@ public:
 
     DECLARE_READABLE_NAME("inversion")
 };
-REGISTER_FILTER(Inversion)
+REGISTER_FILTER(Inversion, 1, 1)
 
 
 #endif // ADDWEIGHTED_H

@@ -12,35 +12,48 @@ class AbstractFilter;
 
 typedef std::function<AbstractFilter * ()> filterCreationFunc;
 
+struct FilterInfo
+{
+    QString type;
+    int inputs;
+    int outputs;
+    filterCreationFunc creationFunc;
+
+    FilterInfo(QString _type = "", int _inputs = 0, int _outputs = 0,
+               filterCreationFunc _func = [] () -> AbstractFilter * {return NULL;}):
+                type(_type), inputs(_inputs), outputs(_outputs), creationFunc(_func) {}
+};
+
+typedef QHashIterator<QString, FilterInfo> FilterInfoIterator;
+
 class FilterCreator
 {
 public:
     FilterCreator();
 
     static AbstractFilter * create(QString type){
-        filterCreationFunc defFunc = [] () -> AbstractFilter * {return NULL;};
-        return filterFuncs().value(type, defFunc)();
+        return filtersInfo().value(type).creationFunc();
     }
 
-    static void registerFIlter(QString type, filterCreationFunc func){
-        filterFuncs().insert(type, func);
+    static void registerFIlter(QString type, int inputs, int outputs, filterCreationFunc func){
+        filtersInfo().insert(type, FilterInfo(type, inputs, outputs, func));
     }
 
-public:
-    static QHash<QString, filterCreationFunc> & filterFuncs(){
-        static QHash<QString, filterCreationFunc> _filterFuncs;
-        return _filterFuncs;
+//public:
+    static QHash<QString, FilterInfo> & filtersInfo(){
+        static QHash<QString, FilterInfo> _filtersInfo;
+        return _filtersInfo;
     }
 };
 
 class FilterRegistrator{
 public:
-    FilterRegistrator(QString type, filterCreationFunc func){
-        FilterCreator::registerFIlter(type, func);
+    FilterRegistrator(QString type, int inputs, int outputs, filterCreationFunc func){
+        FilterCreator::registerFIlter(type, inputs, outputs, func);
     }
 };
 
-#define REGISTER_FILTER(filter) static FilterRegistrator filter_reg_##filter(##filter::readableName(), [] () -> AbstractFilter * { return new  filter(); });
+#define REGISTER_FILTER(filter, inputs, outputs) static FilterRegistrator filter_reg_##filter(##filter::readableName(), inputs, outputs, [] () -> AbstractFilter * { return new  filter(); });
 
 
 #endif // FILTERCREATOR_H

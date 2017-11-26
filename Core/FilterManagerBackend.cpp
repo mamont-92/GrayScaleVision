@@ -12,7 +12,7 @@ void FilterManagerBackend::addFilter(int num, QString type)
     AbstractFilter * ptr = FilterCreator::create(type);
     qDebug() << "add filter: " << num << "  " << type << " " << ptr;
     m_filters.insert(num, ptr);
-    qDebug() << "size: " << FilterCreator::filterFuncs().size();
+    qDebug() << "size: " << FilterCreator::filtersInfo().size();
 }
 
 void FilterManagerBackend::removeFilter(int num)
@@ -29,7 +29,7 @@ void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int f
 
 QVariant FilterManagerBackend::filterCreationTemplate()
 {
-    QVariantMap resultObject;
+    /*QVariantMap resultObject;
 
     QVariantMap inverisonObject;
     QVariantMap addWeightedObject;
@@ -43,6 +43,18 @@ QVariant FilterManagerBackend::filterCreationTemplate()
     resultObject.insert("inversion", QVariant::fromValue(inverisonObject));
     resultObject.insert("add weighted", QVariant::fromValue(addWeightedObject));
 
-    return QVariant::fromValue(resultObject);
+    return QVariant::fromValue(resultObject);*/
 
+    QVariantMap resultMap;
+
+    FilterInfoIterator iter(FilterCreator::filtersInfo());
+    while (iter.hasNext()) {
+        iter.next();
+        QVariantMap currentFilterMap;
+        currentFilterMap.insert("outConnectors", iter.value().outputs);
+        currentFilterMap.insert("inConnectors", iter.value().inputs);
+        resultMap.insert(iter.key(), QVariant::fromValue(currentFilterMap));
+    }
+
+    return QVariant::fromValue(resultMap);
 }
