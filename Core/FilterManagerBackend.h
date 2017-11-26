@@ -8,6 +8,9 @@
 #include <QVector>
 #include <QPair>
 
+#include "AbstractFilter.h"
+#include "FilterCreator.h"
+
 struct Connection
 {
     int outFilter;
@@ -19,11 +22,11 @@ struct Connection
         outFilter(_outFilter), outConnector(_outConnector), inFilter(_inFilter), inConnector(_inConnector) {}
 };
 
-class Filter{
+/*class Filter{
 public:
     QString type;
     Filter(QString _type) : type(_type){}
-};
+};*/
 
 class FilterManagerBackend : public QObject
 {
@@ -38,7 +41,7 @@ public:
 
 private:
     QList<Connection> m_connections;
-    QHash<int, Filter> m_filters;
+    QHash<int, AbstractFilter * > m_filters;
 };
 
 #endif // FilterManagerBackend_H

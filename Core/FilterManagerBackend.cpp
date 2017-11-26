@@ -8,14 +8,16 @@ FilterManagerBackend::FilterManagerBackend(QObject *parent) : QObject(parent)
 
 void FilterManagerBackend::addFilter(int num, QString type)
 {
-    qDebug() << "add filter: " << num << "  " << type;
-    m_filters.insert(num, Filter(type));
+    AbstractFilter * ptr = FilterCreator::create(type);
+    qDebug() << "add filter: " << num << "  " << type << " " << ptr;
+    m_filters.insert(num, ptr);
+    qDebug() << "size: " << FilterCreator::filterFuncs().size();
 }
 
 void FilterManagerBackend::removeFilter(int num)
 {
     qDebug() << "remove filter: " << num;
-    m_filters.remove(num);
+    m_filters.remove(num); // mem leak now
 }
 
 void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn)

@@ -25,10 +25,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp \
-    Core/FilterManagerBackend.cpp
+    Core/FilterManagerBackend.cpp \
+    Core/FilterCreator.cpp \
+    Core/AbstractFilter.cpp \
+    Core/Filters/AddWeighted.cpp \
+    Core/Filters/Inversion.cpp
 
 HEADERS  += \
-    Core/FilterManagerBackend.h
+    Core/FilterManagerBackend.h \
+    Core/FilterCreator.h \
+    Core/AbstractFilter.h \
+    Core/Filters/AddWeighted.h \
+    Core/Filters/Inversion.h \
+    Core/BaseFilters.h
 
 FORMS    +=
 
