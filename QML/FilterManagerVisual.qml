@@ -8,15 +8,18 @@ import "FilterManagerVisualLogic.js" as FilterManagerLogic
 Item {
     id: root
 
+    property var filterCreationTemplate
+
     signal filterAdded(int number, string type)
     signal filterRemove(int number)
     signal connectionAdded(int outputFilterNumber, int outputConnectorNumber, int inputFilterNumber, int inputConnectorNumber)
 
     Component.onCompleted: {
-        FilterManagerLogic.fillContexMenuModel(filterCreationContexMenuModel);
         FilterManagerLogic.repeaterModel = filtersModel;
         FilterManagerLogic.canvas = mainCanvas;
         FilterManagerLogic.filterManager = root;
+        FilterManagerLogic.filterCreationTemplate = filterCreationTemplate;
+        FilterManagerLogic.fillContexMenuModel(filterCreationContexMenuModel);
     }
 
     /*DropArea {  //useless now

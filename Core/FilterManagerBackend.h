@@ -7,6 +7,7 @@
 #include <QList>
 #include <QVector>
 #include <QPair>
+#include <QVariant>
 
 #include "AbstractFilter.h"
 #include "FilterCreator.h"
@@ -32,6 +33,7 @@ public:
     Q_INVOKABLE void addFilter(int num, QString type);
     Q_INVOKABLE void removeFilter(int num);
     Q_INVOKABLE void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
+    Q_INVOKABLE QVariant filterCreationTemplate();
 
 private:
     QList<Connection> m_connections;

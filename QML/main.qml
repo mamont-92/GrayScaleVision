@@ -11,6 +11,11 @@ Window {
     width: 640
     height: 480
 
+    FilterManagerBackend {
+        id: filterManagerBackend
+    }
+
+
     FilterManagerVisual{
         id: filterManagerVisual
         anchors.fill: parent
@@ -20,11 +25,10 @@ Window {
         onFilterAdded: {
             filterManagerBackend.addFilter(number, type);
         }
+        filterCreationTemplate: filterManagerBackend.filterCreationTemplate()
     }
 
-    FilterManagerBackend {
-        id: filterManagerBackend
-    }
+
 
     FilterPanel{
         id: filterPanel

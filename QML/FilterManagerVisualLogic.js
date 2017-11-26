@@ -5,7 +5,7 @@ var repeaterToModelIndex= [];
 var canvas;
 var filterManager;
 
-var filterTypeTemplateArray = {
+var filterCreationTemplate = {
     'blend': {inConnectors: 2, outConnectors: 1},
     'add weighted': {inConnectors: 2, outConnectors: 1},
     'inversion': {inConnectors: 1, outConnectors: 1},
@@ -19,9 +19,9 @@ function genNewId(){
 
 function createNewFilter(type, x, y){
     console.log(type, x,y)
-    if(filterTypeTemplateArray.hasOwnProperty(type)){
+    if(filterCreationTemplate.hasOwnProperty(type)){
         var newId = genNewId();
-        var filterTemplate = filterTypeTemplateArray[type];
+        var filterTemplate = filterCreationTemplate[type];
 
         if(repeaterModel != null){
             repeaterModel.append({number:newId,
@@ -53,7 +53,7 @@ function removeFilter(num){ // TO DO: replace cycle for index in model
 }
 
 function fillContexMenuModel(id){
-    for(var k in filterTypeTemplateArray){
+    for(var k in filterCreationTemplate){
         id.append({text: k})
     }
 }

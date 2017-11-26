@@ -1,5 +1,6 @@
 #include "FilterManagerBackend.h"
 #include <QDebug>
+#include <QMap>
 
 FilterManagerBackend::FilterManagerBackend(QObject *parent) : QObject(parent)
 {
@@ -24,4 +25,24 @@ void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int f
 {
     qDebug() << "connect filters: " << filterOut << "  " << filterIn;
     m_connections.append(Connection(filterOut, connectorOut, filterIn, connectorIn));
+}
+
+QVariant FilterManagerBackend::filterCreationTemplate()
+{
+    QVariantMap resultObject;
+
+    QVariantMap inverisonObject;
+    QVariantMap addWeightedObject;
+
+    inverisonObject.insert("inConnectors", 1);
+    inverisonObject.insert("outConnectors", 1);
+
+    addWeightedObject.insert("inConnectors", 2);
+    addWeightedObject.insert("outConnectors", 1);
+
+    resultObject.insert("inversion", QVariant::fromValue(inverisonObject));
+    resultObject.insert("add weighted", QVariant::fromValue(addWeightedObject));
+
+    return QVariant::fromValue(resultObject);
+
 }
