@@ -22,12 +22,6 @@ struct Connection
         outFilter(_outFilter), outConnector(_outConnector), inFilter(_inFilter), inConnector(_inConnector) {}
 };
 
-/*class Filter{
-public:
-    QString type;
-    Filter(QString _type) : type(_type){}
-};*/
-
 class FilterManagerBackend : public QObject
 {
     Q_OBJECT

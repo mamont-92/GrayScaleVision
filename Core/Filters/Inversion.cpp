@@ -1,4 +1,4 @@
-#include "Inversion.h".h"
+#include "Inversion.h"
 #include <QDebug>
 
 Inversion::Inversion() : AbstractFilter()

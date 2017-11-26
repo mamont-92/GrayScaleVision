@@ -1,16 +1,14 @@
 #ifndef ADDWEIGHTED_H
 #define ADDWEIGHTED_H
 
-#include "Core/FilterCreator.h"
+#include "Core/AbstractFilter.h"
 
 class AddWeighted : public AbstractFilter
 {
 public:
     AddWeighted();
+    DECLARE_READABLE_NAME("add weighted")
 };
-
-static FilterRegistrator filter_reg_AddWeighted("add weighted", [] () -> AbstractFilter * {
-                                                  return new  AddWeighted();
-                                              });
+REGISTER_FILTER(AddWeighted)
 
 #endif // ADDWEIGHTED_H

@@ -1,10 +1,14 @@
 #ifndef FILTERCREATOR_H
 #define FILTERCREATOR_H
 
-#include "AbstractFilter.h"
+//#include "AbstractFilter.h"
 #include <QString>
 #include <functional>
 #include <QHash>
+
+class AbstractFilter;
+
+#define DECLARE_READABLE_NAME(rname) static QString readableName(){ QString _readableName(rname); return _readableName; }
 
 typedef std::function<AbstractFilter * ()> filterCreationFunc;
 
@@ -29,14 +33,14 @@ public:
     }
 };
 
-
-//#define REGISTER_FILTER(filter) temp_##filter; static FilterRegistrator filter_reg_##filter(#filter, [] () -> AbstractFilter * {return new  filter() }); class filter
-
 class FilterRegistrator{
 public:
     FilterRegistrator(QString type, filterCreationFunc func){
         FilterCreator::registerFIlter(type, func);
     }
 };
+
+#define REGISTER_FILTER(filter) static FilterRegistrator filter_reg_##filter(##filter::readableName(), [] () -> AbstractFilter * { return new  filter(); });
+
 
 #endif // FILTERCREATOR_H
