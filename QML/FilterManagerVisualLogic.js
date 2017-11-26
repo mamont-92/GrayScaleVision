@@ -8,7 +8,7 @@ var filterManager;
 var filterTypeTemplateArray = {
     'blend': {inConnectors: 2, outConnectors: 1},
     'add weighted': {inConnectors: 2, outConnectors: 1},
-    'invertion': {inConnectors: 1, outConnectors: 1},
+    'inversion': {inConnectors: 1, outConnectors: 1},
     'source image' : {inConnectors: 0, outConnectors: 1}
 }
 
