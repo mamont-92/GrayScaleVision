@@ -35,8 +35,7 @@ public:
     Q_INVOKABLE void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
     Q_INVOKABLE QVariant filterCreationTemplate();
 
-    ImageDataSpatial inputSlotForFilter(int filterNumber, int slotNumber);
-
+    void updateAllFilters();
 private:
     QList<Connection> m_connections;
     QHash<int, AbstractFilter * > m_filters;

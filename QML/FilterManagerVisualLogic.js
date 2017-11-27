@@ -46,10 +46,10 @@ function removeFilter(num){ // TO DO: replace cycle for index in model
             repeaterModel.remove(i,1);
         }
     }
+    removeAllConnectionsWithFilter(num);
     if(filterManager != null){
         filterManager.filterRemove(num);
     }
-    removeAllConnectionsWithFilter(num);
 }
 
 function fillContexMenuModel(id){

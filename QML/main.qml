@@ -25,6 +25,10 @@ Window {
         onFilterAdded: {
             filterManagerBackend.addFilter(number, type);
         }
+        onFilterRemove: {
+            filterManagerBackend.removeFilter(number);
+        }
+
         filterCreationTemplate: filterManagerBackend.filterCreationTemplate()
     }
 
