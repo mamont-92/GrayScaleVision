@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     Core/FilterCreator.cpp \
     Core/AbstractFilter.cpp \
     Core/Filters/AddWeighted.cpp \
-    Core/Filters/Inversion.cpp
+    Core/Filters/Inversion.cpp \
+    Core/ImageData/ImageDataSpatial.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -37,7 +38,8 @@ HEADERS  += \
     Core/AbstractFilter.h \
     Core/Filters/AddWeighted.h \
     Core/Filters/Inversion.h \
-    Core/BaseFilters.h
+    Core/BaseFilters.h \
+    Core/ImageData/ImageDataSpatial.h
 
 FORMS    +=
 
