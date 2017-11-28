@@ -7,3 +7,8 @@ Inversion::Inversion() : AbstractFilter()
     registerInSlot("scr", 0);
     registerOutSlot("res", 0);
 }
+
+void Inversion::update()
+{
+    qDebug() << "Inversion::update";
+}

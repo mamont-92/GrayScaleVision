@@ -4,23 +4,24 @@
 #include <QObject>
 #include <QtCore>
 #include <QHash>
+#include <QMultiHash>
 #include <QList>
 #include <QVector>
 #include <QPair>
 #include <QVariant>
+
 
 #include "AbstractFilter.h"
 #include "FilterCreator.h"
 
 struct Connection
 {
-    int outFilter;
-    int outConnector;
-    int inFilter;
-    int inConnector;
+    int targetFilter;
+    int targetSlot;
+    int currentSlot;
 
-    Connection(int _outFilter, int _outConnector,int _inFilter, int _inConnector):
-        outFilter(_outFilter), outConnector(_outConnector), inFilter(_inFilter), inConnector(_inConnector) {}
+    Connection(int _targetFilter, int _targetSlot,int _currentSlot):
+        targetFilter(_targetFilter), targetSlot(_targetSlot), currentSlot(_currentSlot) {}
 };
 
 class FilterManagerBackend : public QObject
@@ -37,7 +38,9 @@ public:
 
     void updateAllFilters();
 private:
-    QList<Connection> m_connections;
+    //QList<Connection> m_connections;
+    QMultiHash<int, Connection> m_outConnections, m_inConnections;
+
     QHash<int, AbstractFilter * > m_filters;
 };
 

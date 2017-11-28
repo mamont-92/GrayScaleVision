@@ -8,3 +8,9 @@ AddWeighted::AddWeighted() : AbstractFilter()
     registerInSlot("scr2", 1);
     registerOutSlot("res", 0);
 }
+
+
+void AddWeighted::update()
+{
+    qDebug() << "Add Weighted::update";
+}

@@ -7,6 +7,7 @@ class AddWeighted : public AbstractFilter
 {
 public:
     AddWeighted();
+    void update();
     DECLARE_READABLE_NAME("add weighted")
 };
 REGISTER_FILTER(AddWeighted, 2, 1)

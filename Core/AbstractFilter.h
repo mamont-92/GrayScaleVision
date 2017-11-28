@@ -11,6 +11,8 @@ class AbstractFilter
 public:
     AbstractFilter();
 
+    virtual void update() = 0;
+
     int number();
     void setNumber(int _number);
 
