@@ -17,7 +17,7 @@ void FilterManagerBackend::addFilter(int num, QString type)
     updateAllFilters();
 }
 
-void FilterManagerBackend::removeFilter(int num)
+void FilterManagerBackend::removeFilter(int num) // TO DO :  add removing filter connections
 {
     qDebug() << "remove filter: " << num;
     AbstractFilter * ptr  = m_filters.value(num, NULL);
@@ -65,15 +65,15 @@ void FilterManagerBackend::updateAllFilters()
             QMultiHash<int, Connection>::iterator i = m_inConnections.find(curFilter);
             bool isEndPoint = true;
             while (i != m_inConnections.end() && i.key() == curFilter) {
-                isEndPoint = isEndPoint ;
-                int targetFilter = i.value().targetFilter;
-                updatedFilters.contains(targetFilter);
+                isEndPoint = isEndPoint && updatedFilters.contains(i.value().targetFilter);
                 ++i;
             }
 
             if(isEndPoint){
                 AbstractFilter * filterPtr = m_filters.value(curFilter, NULL);
-                if(filterPtr) filterPtr->update();
+                if(filterPtr){
+                    filterPtr->update();
+                }
                 nonUpdatedFilters.remove(curFilter);
                 updatedFilters.insert(curFilter);
                 nonUpdatedFilters.remove(curFilter);

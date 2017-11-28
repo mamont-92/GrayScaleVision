@@ -3,5 +3,6 @@
 
 #include "Filters/AddWeighted.h"
 #include "Filters/Inversion.h"
+#include "Filters/SourceImage.h"
 
 #endif // BASEFILTERS_H
