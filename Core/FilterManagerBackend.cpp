@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QMap>
 #include <QSet>
+#include <QList>
 
 FilterManagerBackend::FilterManagerBackend(QObject *parent) : QObject(parent)
 {
@@ -55,11 +56,11 @@ void FilterManagerBackend::updateAllFilters()
 {
     qDebug() << "update all filters";
 
-    QSet<int> nonUpdatedFilters = QSet<int>::fromList(m_filters.keys()), updatedFilters;
-    // " nonUpdatedFilters" set is useless, need to operate with list iter
+    QSet<int> updatedFilters;
+    QList<int> nonUpdatedFilters = m_filters.keys();
 
     while(nonUpdatedFilters.count() > 0){
-        QMutableSetIterator<int> iter(nonUpdatedFilters);
+        QMutableListIterator<int> iter(nonUpdatedFilters);
         while(iter.hasNext()){
             int curFilter = iter.next();
 
@@ -80,14 +81,13 @@ void FilterManagerBackend::updateAllFilters()
                         AbstractFilter * targetFilterPtr = m_filters.value(i.value().targetFilter, NULL);
                         if(targetFilterPtr){
                             targetFilterPtr->setInSlot(i.value().targetSlot, filterPtr->outSlot(i.value().currentSlot));
-                        ++i;
                         }
+                        ++i;
                     }
 
                 }
-                nonUpdatedFilters.remove(curFilter);
+                iter.remove();
                 updatedFilters.insert(curFilter);
-                nonUpdatedFilters.remove(curFilter);
             }
 
         }

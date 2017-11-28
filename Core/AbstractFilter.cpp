@@ -1,4 +1,5 @@
 #include "AbstractFilter.h"
+#include <QDebug>
 
 AbstractFilter::AbstractFilter()
 {
@@ -8,14 +9,14 @@ AbstractFilter::AbstractFilter()
 void AbstractFilter::registerInSlot(QString name, qint8 number)
 {
     m_inNames.insert(name, number);
-    if(m_inSlots.size() < (number+1))
+    if(m_inSlots.size() <= number)
         m_inSlots.resize(number+1);
 }
 
 void AbstractFilter::registerOutSlot(QString name, qint8 number)
 {
     m_outNames.insert(name, number);
-    if(m_outSlots.size() < (number+1))
+    if(m_outSlots.size() <= number)
         m_outSlots.resize(number+1);
 }
 
@@ -38,7 +39,7 @@ void AbstractFilter::setInSlot(QString name, ImageDataSpatial data)
 
 void AbstractFilter::setInSlot(qint8 number, ImageDataSpatial data)
 {
-    if( (number > 0) && (number < m_outSlots.size()) )
+    if( (number >= 0) && (number < m_inSlots.size()) )
         m_inSlots[number] = data;
 }
 
