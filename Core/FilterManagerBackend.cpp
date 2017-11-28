@@ -54,21 +54,22 @@ QVariant FilterManagerBackend::filterCreationTemplate()
 
 void FilterManagerBackend::updateAllFilters()
 {
-    qDebug() << "update all filters";
+    qDebug() << "UPDATE ALL FILTERS";
 
     QSet<int> updatedFilters;
     QList<int> nonUpdatedFilters = m_filters.keys();
 
     while(nonUpdatedFilters.count() > 0){
-        QMutableListIterator<int> iter(nonUpdatedFilters);
-        while(iter.hasNext()){
-            int curFilter = iter.next();
-
-            QMultiHash<int, Connection>::iterator i = m_inConnections.find(curFilter);
+        QMutableListIterator<int> mainFilterIterator(nonUpdatedFilters);
+        while(mainFilterIterator.hasNext()){
+            int curFilter = mainFilterIterator.next();
             bool isEndPoint = true;
-            while (i != m_inConnections.end() && i.key() == curFilter) {
-                isEndPoint = isEndPoint && updatedFilters.contains(i.value().targetFilter);
-                ++i;
+
+            QList<Connection> inConnections = m_inConnections.values(curFilter);
+            QListIterator<Connection> inConIter(inConnections);
+            while(inConIter.hasNext() && isEndPoint){
+                Connection inCon = inConIter.next();
+                isEndPoint = isEndPoint && updatedFilters.contains(inCon.targetFilter);
             }
 
             if(isEndPoint){
@@ -76,17 +77,17 @@ void FilterManagerBackend::updateAllFilters()
                 if(filterPtr){
                     filterPtr->update();
 
-                    QMultiHash<int, Connection>::iterator i = m_outConnections.find(curFilter);
-                    while (i != m_outConnections.end() && i.key() == curFilter) {
-                        AbstractFilter * targetFilterPtr = m_filters.value(i.value().targetFilter, NULL);
-                        if(targetFilterPtr){
-                            targetFilterPtr->setInSlot(i.value().targetSlot, filterPtr->outSlot(i.value().currentSlot));
-                        }
-                        ++i;
+                    QList<Connection> outConnections = m_outConnections.values(curFilter);
+                    QListIterator<Connection> outConIter(outConnections);
+                    while(outConIter.hasNext() ){
+                        Connection outCon = outConIter.next();
+                        AbstractFilter * targetPtr = m_filters.value(outCon.targetFilter, NULL);
+                        if(targetPtr)
+                            targetPtr->setInSlot(outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
                     }
 
                 }
-                iter.remove();
+                mainFilterIterator.remove();
                 updatedFilters.insert(curFilter);
             }
 
