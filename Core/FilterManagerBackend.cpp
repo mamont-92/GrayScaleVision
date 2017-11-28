@@ -56,6 +56,7 @@ void FilterManagerBackend::updateAllFilters()
     qDebug() << "update all filters";
 
     QSet<int> nonUpdatedFilters = QSet<int>::fromList(m_filters.keys()), updatedFilters;
+    // " nonUpdatedFilters" set is useless, need to operate with list iter
 
     while(nonUpdatedFilters.count() > 0){
         QMutableSetIterator<int> iter(nonUpdatedFilters);
@@ -73,6 +74,16 @@ void FilterManagerBackend::updateAllFilters()
                 AbstractFilter * filterPtr = m_filters.value(curFilter, NULL);
                 if(filterPtr){
                     filterPtr->update();
+
+                    QMultiHash<int, Connection>::iterator i = m_outConnections.find(curFilter);
+                    while (i != m_outConnections.end() && i.key() == curFilter) {
+                        AbstractFilter * targetFilterPtr = m_filters.value(i.value().targetFilter, NULL);
+                        if(targetFilterPtr){
+                            targetFilterPtr->setInSlot(i.value().targetSlot, filterPtr->outSlot(i.value().currentSlot));
+                        ++i;
+                        }
+                    }
+
                 }
                 nonUpdatedFilters.remove(curFilter);
                 updatedFilters.insert(curFilter);
