@@ -6,6 +6,11 @@ AbstractFilter::AbstractFilter()
 
 }
 
+AbstractFilter::~AbstractFilter()
+{
+
+}
+
 void AbstractFilter::registerInSlot(QString name, qint8 number)
 {
     m_inNames.insert(name, number);

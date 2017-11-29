@@ -1,4 +1,5 @@
 #include "FilterManagerBackend.h"
+#include "FilterCreator.h"
 #include <QDebug>
 #include <QMap>
 #include <QSet>
@@ -90,12 +91,6 @@ void FilterManagerBackend::updateAllFilters()
                 mainFilterIterator.remove();
                 updatedFilters.insert(curFilter);
             }
-
         }
     }
-
-
-
-
-
 }

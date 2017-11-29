@@ -2,12 +2,7 @@
 #define IMAGEDATASPATIAL_H
 
 #include <QRect>
-#include <QVector>
 #include <QSize>
-#include <QtMath>
-#include <functional>
-#include <QPair>
-
 
 //TO DO: add unsafe methods: at, setPixel,
 

@@ -5,14 +5,9 @@
 #include <QtCore>
 #include <QHash>
 #include <QMultiHash>
-#include <QList>
-#include <QVector>
-#include <QPair>
 #include <QVariant>
 
-
 #include "AbstractFilter.h"
-#include "FilterCreator.h"
 
 struct Connection
 {
@@ -38,9 +33,7 @@ public:
 
     void updateAllFilters();
 private:
-    //QList<Connection> m_connections;
     QMultiHash<int, Connection> m_outConnections, m_inConnections;
-
     QHash<int, AbstractFilter * > m_filters;
 };
 
