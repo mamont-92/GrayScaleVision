@@ -1,6 +1,7 @@
 #include "ImageDataSpatial.h"
 
 #include <cmath>
+#include "opencv2/opencv.hpp"
 
 static const float epsilone = 0.000001f;
 
@@ -140,4 +141,14 @@ void ImageDataSpatial::power(float _p) {
     for(qint64 i = 0; i < m_allocatedPixels; ++i){
         m_data[i] = pow(m_data[i], _p);
     }
+}
+
+void ImageDataSpatial::calcMinMax(float & minVal, float & maxVal) const
+{
+    const float* d = data();
+    cv::Mat src(height(), width(), CV_32FC1, (void*)d);
+    double min, max;
+    cv::minMaxIdx(src, &min, &max);
+    minVal = min;
+    maxVal = max;
 }

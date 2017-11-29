@@ -35,6 +35,7 @@ public:
     void boundMax(float maxValue);
 
     void power(float _p); //power
+    void calcMinMax(float & minVal, float & maxVal) const;
 
 //---------end--operators-------------------------------------------------------------------------
 private:
