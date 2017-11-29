@@ -5,7 +5,7 @@
 #include <QSet>
 #include <QList>
 
-FilterManagerBackend::FilterManagerBackend(QObject *parent) : QObject(parent)
+FilterManagerBackend::FilterManagerBackend()
 {
     qDebug() << "constructor";
 }

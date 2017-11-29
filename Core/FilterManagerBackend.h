@@ -19,17 +19,14 @@ struct Connection
         targetFilter(_targetFilter), targetSlot(_targetSlot), currentSlot(_currentSlot) {}
 };
 
-class FilterManagerBackend : public QObject
-{
-    Q_OBJECT
-
+class FilterManagerBackend{
 public:
-    explicit FilterManagerBackend(QObject *parent = nullptr);
+    FilterManagerBackend();
 
-    Q_INVOKABLE void addFilter(int num, QString type);
-    Q_INVOKABLE void removeFilter(int num);
-    Q_INVOKABLE void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
-    Q_INVOKABLE QVariant filterCreationTemplate();
+    void addFilter(int num, QString type);
+    void removeFilter(int num);
+    void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
+    QVariant filterCreationTemplate();
 
     void updateAllFilters();
 private:
