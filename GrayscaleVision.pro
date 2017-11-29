@@ -36,7 +36,8 @@ SOURCES += main.cpp \
     Core/ImageData/ImageDataSpatial.cpp \
     Core/Filters/SourceImage.cpp \
     Core/ImageData/ImageDataLoader.cpp \
-    Core/ImageData/ImageDataRasterizer.cpp
+    Core/ImageData/ImageDataRasterizer.cpp \
+    Core/RasterImageProvider.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -48,7 +49,8 @@ HEADERS  += \
     Core/ImageData/ImageDataSpatial.h \
     Core/Filters/SourceImage.h \
     Core/ImageData/ImageDataLoader.h \
-    Core/ImageData/ImageDataRasterizer.h
+    Core/ImageData/ImageDataRasterizer.h \
+    Core/RasterImageProvider.h
 
 FORMS    +=
 
