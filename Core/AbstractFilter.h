@@ -10,6 +10,7 @@ class AbstractFilter
 {
 public:
     AbstractFilter();
+    virtual ~AbstractFilter();
 
     virtual void update() = 0;
 

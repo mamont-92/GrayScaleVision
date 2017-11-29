@@ -29,8 +29,6 @@ typedef QHashIterator<QString, FilterInfo> FilterInfoIterator;
 class FilterCreator
 {
 public:
-    FilterCreator();
-
     static AbstractFilter * create(QString type){
         return filtersInfo().value(type).creationFunc();
     }
@@ -39,7 +37,6 @@ public:
         filtersInfo().insert(type, FilterInfo(type, inputs, outputs, func));
     }
 
-//public:
     static QHash<QString, FilterInfo> & filtersInfo(){
         static QHash<QString, FilterInfo> _filtersInfo;
         return _filtersInfo;

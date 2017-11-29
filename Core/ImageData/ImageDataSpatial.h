@@ -2,12 +2,7 @@
 #define IMAGEDATASPATIAL_H
 
 #include <QRect>
-#include <QVector>
 #include <QSize>
-#include <QtMath>
-#include <functional>
-#include <QPair>
-
 
 //TO DO: add unsafe methods: at, setPixel,
 
@@ -40,6 +35,7 @@ public:
     void boundMax(float maxValue);
 
     void power(float _p); //power
+    void calcMinMax(float & minVal, float & maxVal) const;
 
 //---------end--operators-------------------------------------------------------------------------
 private:
