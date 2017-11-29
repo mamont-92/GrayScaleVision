@@ -68,6 +68,13 @@ Item {
         border.width: 4
         border.color: type == FilterType.spatial ? "green" : "blue"
         radius: 3
+        Image {
+            anchors.fill: parent
+            anchors.margins: background.border.width
+            id: image
+            fillMode: Image.PreserveAspectFit
+            source: "image://rasterizer/" + root.number
+        }
     }
 
     Text {

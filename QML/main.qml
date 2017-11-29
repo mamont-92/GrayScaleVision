@@ -11,14 +11,28 @@ Window {
     width: 640
     height: 480
 
-    FilterManagerVisual{
-        id: filterManagerVisual
-        anchors.fill: parent
-    }
-
     FilterManagerBackend {
         id: filterManagerBackend
     }
+
+
+    FilterManagerVisual{
+        id: filterManagerVisual
+        anchors.fill: parent
+        onConnectionAdded: {
+            filterManagerBackend.connectFilters(outputFilterNumber, outputConnectorNumber, inputFilterNumber, inputConnectorNumber);
+        }
+        onFilterAdded: {
+            filterManagerBackend.addFilter(number, type);
+        }
+        onFilterRemove: {
+            filterManagerBackend.removeFilter(number);
+        }
+
+        filterCreationTemplate: filterManagerBackend.filterCreationTemplate()
+    }
+
+
 
     FilterPanel{
         id: filterPanel

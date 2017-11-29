@@ -23,12 +23,34 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+include(dependencies.pri)
+include(OpenCV.pri)
+
 
 SOURCES += main.cpp \
-    Core/FilterManagerBackend.cpp
+    Core/FilterManagerBackend.cpp \
+    Core/FilterCreator.cpp \
+    Core/AbstractFilter.cpp \
+    Core/Filters/AddWeighted.cpp \
+    Core/Filters/Inversion.cpp \
+    Core/ImageData/ImageDataSpatial.cpp \
+    Core/Filters/SourceImage.cpp \
+    Core/ImageData/ImageDataLoader.cpp \
+    Core/ImageData/ImageDataRasterizer.cpp \
+    Core/RasterImageProvider.cpp
 
 HEADERS  += \
-    Core/FilterManagerBackend.h
+    Core/FilterManagerBackend.h \
+    Core/FilterCreator.h \
+    Core/AbstractFilter.h \
+    Core/Filters/AddWeighted.h \
+    Core/Filters/Inversion.h \
+    Core/BaseFilters.h \
+    Core/ImageData/ImageDataSpatial.h \
+    Core/Filters/SourceImage.h \
+    Core/ImageData/ImageDataLoader.h \
+    Core/ImageData/ImageDataRasterizer.h \
+    Core/RasterImageProvider.h
 
 FORMS    +=
 

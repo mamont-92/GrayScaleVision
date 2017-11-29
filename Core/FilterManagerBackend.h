@@ -3,28 +3,38 @@
 
 #include <QObject>
 #include <QtCore>
+#include <QHash>
+#include <QMultiHash>
+#include <QVariant>
+
+#include "AbstractFilter.h"
+
+struct Connection
+{
+    int targetFilter;
+    int targetSlot;
+    int currentSlot;
+
+    Connection(int _targetFilter, int _targetSlot,int _currentSlot):
+        targetFilter(_targetFilter), targetSlot(_targetSlot), currentSlot(_currentSlot) {}
+};
 
 class FilterManagerBackend : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
 
 public:
     explicit FilterManagerBackend(QObject *parent = nullptr);
 
-    QString userName();
-    void setUserName(const QString &userName);
+    Q_INVOKABLE void addFilter(int num, QString type);
+    Q_INVOKABLE void removeFilter(int num);
+    Q_INVOKABLE void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
+    Q_INVOKABLE QVariant filterCreationTemplate();
 
-    void addFilter(int num, QString type);
-    void deleteFilter(int num);
-    void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
-
-
-signals:
-    void userNameChanged();
-
+    void updateAllFilters();
 private:
-    QString m_userName;
+    QMultiHash<int, Connection> m_outConnections, m_inConnections;
+    QHash<int, AbstractFilter * > m_filters;
 };
 
 #endif // FilterManagerBackend_H
