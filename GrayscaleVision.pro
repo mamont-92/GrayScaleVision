@@ -25,6 +25,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 include(dependencies.pri)
 include(OpenCV.pri)
+include(OpenMP.pri)
+
 
 
 SOURCES += main.cpp \
