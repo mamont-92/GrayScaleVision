@@ -4,8 +4,10 @@
 #include <QMap>
 #include <QSet>
 #include <QList>
+#include "ImageData/ImageDataRasterizer.h"
+#include <QMutexLocker>
 
-FilterManagerBackend::FilterManagerBackend(QObject *parent) : QObject(parent)
+FilterManagerBackend::FilterManagerBackend(QObject *parent) :QObject(parent)
 {
     qDebug() << "constructor";
 }
@@ -56,6 +58,9 @@ QVariant FilterManagerBackend::filterCreationTemplate()
 void FilterManagerBackend::updateAllFilters()
 {
     qDebug() << "UPDATE ALL FILTERS";
+    m_imageMutex.lock();
+    m_images.clear();
+    m_imageMutex.unlock();
 
     QSet<int> updatedFilters;
     QList<int> nonUpdatedFilters = m_filters.keys();
@@ -78,13 +83,26 @@ void FilterManagerBackend::updateAllFilters()
                 if(filterPtr){
                     filterPtr->update();
 
+                    QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0));
+                    m_imageMutex.lock();
+                    m_images.insert(curFilter, img);
+                    m_imageMutex.unlock();
+                    emit imageRastered(curFilter);
+
                     QList<Connection> outConnections = m_outConnections.values(curFilter);
                     QListIterator<Connection> outConIter(outConnections);
                     while(outConIter.hasNext() ){
+                        qDebug() << "setting in data";
                         Connection outCon = outConIter.next();
                         AbstractFilter * targetPtr = m_filters.value(outCon.targetFilter, NULL);
-                        if(targetPtr)
-                            targetPtr->setInSlot(outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
+                        if(targetPtr){
+                            qDebug() << "set in: " << outCon.targetFilter << outCon.currentSlot;
+
+                            targetPtr->setInSlot((qint8)outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
+                            //targetPtr->setInSlot(outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
+                        }
+                        else
+                            qDebug() << "FUCK";
                     }
 
                 }
@@ -93,4 +111,10 @@ void FilterManagerBackend::updateAllFilters()
             }
         }
     }
+}
+
+QImage FilterManagerBackend::images(int filterNumber)
+{
+    QMutexLocker locker(&m_imageMutex);
+    return m_images.value(filterNumber, QImage());
 }

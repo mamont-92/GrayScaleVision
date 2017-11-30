@@ -2,6 +2,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QFontMetrics>
+#include "GlobalContext.h"
 
 RasterImageProvider::RasterImageProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
 {
@@ -10,23 +11,33 @@ RasterImageProvider::RasterImageProvider() : QQuickImageProvider(QQuickImageProv
 
 QPixmap RasterImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    int width = 100;
-    int height = 50;
 
-    if (size)
-        *size = QSize(width, height);
-    QPixmap pixmap(requestedSize.width() > 0 ? requestedSize.width() : width,
-                   requestedSize.height() > 0 ? requestedSize.height() : height);
-    pixmap.fill("yellow");
+    QString number = id;
+    int ind=number.indexOf("_");
+    if(ind >=0)
+        number.truncate(ind);
+    QImage img = GlobalContext::instance().filterManager()->images(number.toInt());
+    if(img.isNull()){
+        int width = 100;
+        int height = 50;
 
-    QPainter painter(&pixmap);
-    painter.setFont(QFont("Arial", 8, QFont::Bold));
+        if (size)
+            *size = QSize(width, height);
+        QPixmap pixmap(requestedSize.width() > 0 ? requestedSize.width() : width,
+                       requestedSize.height() > 0 ? requestedSize.height() : height);
+        pixmap.fill("red");
 
-    QFontMetrics fm(painter.font());
-    QRect fontRect = fm.boundingRect(id);
+        QPainter painter(&pixmap);
+        painter.setFont(QFont("Arial", 8, QFont::Bold));
 
-    fontRect.moveCenter(pixmap.rect().center());
-    painter.drawText(fontRect, Qt::AlignCenter, id);
+        QFontMetrics fm(painter.font());
+        QRect fontRect = fm.boundingRect(number);
 
-    return pixmap;
+        fontRect.moveCenter(pixmap.rect().center());
+        painter.drawText(fontRect, Qt::AlignCenter, number);
+        return pixmap;
+    }
+    else{
+        return QPixmap::fromImage(img);
+    }
 }

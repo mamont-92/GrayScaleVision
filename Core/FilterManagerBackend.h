@@ -6,6 +6,8 @@
 #include <QHash>
 #include <QMultiHash>
 #include <QVariant>
+#include <QImage>
+#include <QMutex>
 
 #include "AbstractFilter.h"
 
@@ -19,22 +21,25 @@ struct Connection
         targetFilter(_targetFilter), targetSlot(_targetSlot), currentSlot(_currentSlot) {}
 };
 
-class FilterManagerBackend : public QObject
-{
+class FilterManagerBackend : public QObject {
     Q_OBJECT
-
 public:
-    explicit FilterManagerBackend(QObject *parent = nullptr);
+    FilterManagerBackend(QObject *parent=Q_NULLPTR);
 
-    Q_INVOKABLE void addFilter(int num, QString type);
-    Q_INVOKABLE void removeFilter(int num);
-    Q_INVOKABLE void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
-    Q_INVOKABLE QVariant filterCreationTemplate();
+    void addFilter(int num, QString type);
+    void removeFilter(int num);
+    void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
+    QVariant filterCreationTemplate();
 
     void updateAllFilters();
+    QImage images(int filterNumber);
+signals:
+    void imageRastered(int number);
 private:
+    QMutex m_imageMutex;
     QMultiHash<int, Connection> m_outConnections, m_inConnections;
     QHash<int, AbstractFilter * > m_filters;
+    QHash<int, QImage> m_images;
 };
 
 #endif // FilterManagerBackend_H

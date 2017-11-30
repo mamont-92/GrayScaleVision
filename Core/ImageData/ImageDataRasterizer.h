@@ -7,7 +7,7 @@
 class ImageDataRasterizer
 {
 public:
-    static QImage ImageDataToQImage(const ImageDataSpatial & imgData);
+    static QImage ImageDataToQImage(ImageDataSpatialPtr imgDataPtr);
 };
 
 #endif // IMAGEDATARASTERIZER_H
