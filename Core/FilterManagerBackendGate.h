@@ -18,6 +18,8 @@ public:
     Q_INVOKABLE void removeFilter(int num);
     Q_INVOKABLE void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
     Q_INVOKABLE QVariant filterCreationTemplate();
+signals:
+    void imageRastered(int number);
 private:
     FilterManagerBackend * m_filterManager;
 };

@@ -20,6 +20,11 @@ Item {
     signal connected(int outputFilterNumber, int outputConnectorNumber, int inputConnectorNumber)
     signal menuRequest(int xpos, int ypos)
 
+    function reloadImage(){
+        image.source = "image://rasterizer/" + root.number + "_" + Math.random();
+        console.log(image.source, root.number);
+    }
+
     function inputConnectorPos(number){
         var coords = {x:0, y:0}
         if((number >= 0) &(number < inputRepeater.count)){
@@ -75,6 +80,7 @@ Item {
             fillMode: Image.PreserveAspectFit
             source: "image://rasterizer/" + root.number
         }
+
     }
 
     Text {

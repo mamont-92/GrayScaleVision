@@ -13,6 +13,9 @@ Window {
 
     FilterManagerBackend {
         id: filterManagerBackend
+        onImageRastered: {
+            filterManagerVisual.updateFilterImage(number);
+        }
     }
 
 

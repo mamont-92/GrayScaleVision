@@ -14,24 +14,21 @@ public:
 
     virtual void update() = 0;
 
-    int number();
-    void setNumber(int _number);
+    void setInSlot(QString name, ImageDataSpatialPtr data);
+    void setInSlot(qint8 number, ImageDataSpatialPtr data);
 
-    void setInSlot(QString name, ImageDataSpatial data);
-    void setInSlot(qint8 number, ImageDataSpatial data);
-
-    ImageDataSpatial outSlot(QString name);
-    ImageDataSpatial outSlot(qint8 number);
+    ImageDataSpatialPtr outSlot(QString name);
+    ImageDataSpatialPtr outSlot(qint8 number);
 protected:
     void registerInSlot(QString name, qint8 number);
     void registerOutSlot(QString name, qint8 number);
-    void setOutSlot(QString name, ImageDataSpatial data);
-    void setOutSlot(int number, ImageDataSpatial data);
+    void setOutSlot(QString name, ImageDataSpatialPtr data);
+    void setOutSlot(int number, ImageDataSpatialPtr data);
 private:
     QHash<QString, int> m_outNames;
     QHash<QString, int> m_inNames;
-    QVector<ImageDataSpatial > m_outSlots;
-    QVector<ImageDataSpatial > m_inSlots;
+    QVector<ImageDataSpatialPtr> m_outSlots;
+    QVector<ImageDataSpatialPtr> m_inSlots;
 };
 
 #endif // ABSTRACTFILTER_H

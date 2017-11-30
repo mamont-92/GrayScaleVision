@@ -14,6 +14,12 @@ Item {
     signal filterRemove(int number)
     signal connectionAdded(int outputFilterNumber, int outputConnectorNumber, int inputFilterNumber, int inputConnectorNumber)
 
+    function updateFilterImage(filterNumber){
+        console.log("on img updated: ",filterNumber );
+        var inputFilter = filterByNumber(filterNumber);
+        inputFilter.reloadImage();
+    }
+
     Component.onCompleted: {
         FilterManagerLogic.repeaterModel = filtersModel;
         FilterManagerLogic.canvas = mainCanvas;

@@ -4,6 +4,10 @@
 FilterManagerBackendGate::FilterManagerBackendGate(QObject *parent) : QObject(parent), m_filterManager(NULL)
 {
     m_filterManager = GlobalContext::instance().filterManager();
+    connect(m_filterManager, &FilterManagerBackend::imageRastered, [this] (int number) {
+        qDebug() << "update image";
+        emit imageRastered(number);
+    });
 }
 
 void FilterManagerBackendGate::addFilter(int num, QString type)

@@ -18,7 +18,7 @@ private:
     GlobalContext(GlobalContext const&);
     void operator=(GlobalContext const&);
 
-    FilterManagerBackend * m_filterManager;
+    FilterManagerBackend * m_filterManager; // pointers because of destroing singleton before app destroing
     RasterImageProvider * m_imageProvider;
 };
 
