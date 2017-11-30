@@ -39,7 +39,8 @@ SOURCES += main.cpp \
     Core/ImageData/ImageDataRasterizer.cpp \
     Core/RasterImageProvider.cpp \
     Core/FilterManagerBackendGate.cpp \
-    Core/GlobalContext.cpp
+    Core/GlobalContext.cpp \
+    Core/Filters/CLAHE.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -54,7 +55,8 @@ HEADERS  += \
     Core/ImageData/ImageDataRasterizer.h \
     Core/RasterImageProvider.h \
     Core/FilterManagerBackendGate.h \
-    Core/GlobalContext.h
+    Core/GlobalContext.h \
+    Core/Filters/CLAHE.h
 
 FORMS    +=
 
