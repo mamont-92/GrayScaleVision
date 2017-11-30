@@ -92,10 +92,17 @@ void FilterManagerBackend::updateAllFilters()
                     QList<Connection> outConnections = m_outConnections.values(curFilter);
                     QListIterator<Connection> outConIter(outConnections);
                     while(outConIter.hasNext() ){
+                        qDebug() << "setting in data";
                         Connection outCon = outConIter.next();
                         AbstractFilter * targetPtr = m_filters.value(outCon.targetFilter, NULL);
-                        if(targetPtr)
-                            targetPtr->setInSlot(outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
+                        if(targetPtr){
+                            qDebug() << "set in: " << outCon.targetFilter << outCon.currentSlot;
+
+                            targetPtr->setInSlot((qint8)outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
+                            //targetPtr->setInSlot(outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
+                        }
+                        else
+                            qDebug() << "FUCK";
                     }
 
                 }

@@ -15,13 +15,16 @@ public:
     virtual void update() = 0;
 
     void setInSlot(QString name, ImageDataSpatialPtr data);
-    void setInSlot(qint8 number, ImageDataSpatialPtr data);
+    void setInSlot(int number, ImageDataSpatialPtr data);
 
     ImageDataSpatialPtr outSlot(QString name);
-    ImageDataSpatialPtr outSlot(qint8 number);
+    ImageDataSpatialPtr outSlot(int number);
 protected:
-    void registerInSlot(QString name, qint8 number);
-    void registerOutSlot(QString name, qint8 number);
+    ImageDataSpatialPtr inSlot(QString name);
+    ImageDataSpatialPtr inSlot(int number);
+
+    void registerInSlot(QString name, int number);
+    void registerOutSlot(QString name, int number);
     void setOutSlot(QString name, ImageDataSpatialPtr data);
     void setOutSlot(int number, ImageDataSpatialPtr data);
 private:
