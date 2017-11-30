@@ -42,7 +42,8 @@ SOURCES += main.cpp \
     Core/RasterImageProvider.cpp \
     Core/FilterManagerBackendGate.cpp \
     Core/GlobalContext.cpp \
-    Core/Filters/CLAHE.cpp
+    Core/Filters/CLAHE.cpp \
+    Core/Filters/BoundByPercent.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -58,7 +59,8 @@ HEADERS  += \
     Core/RasterImageProvider.h \
     Core/FilterManagerBackendGate.h \
     Core/GlobalContext.h \
-    Core/Filters/CLAHE.h
+    Core/Filters/CLAHE.h \
+    Core/Filters/BoundByPercent.h
 
 FORMS    +=
 
