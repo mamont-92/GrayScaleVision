@@ -10,6 +10,14 @@ Window {
     visible: true
     width: 640
     height: 480
+    property real minRightPanelRatio: 0.25
+    property real maxRightPanelRatio: 0.95
+    property real rightPanelRatio: 0.75
+
+    Binding on rightPanelRatio {
+        when: borderMouseArea.pressed
+        value: borderRect.x / root.width
+    }
 
     FilterManagerBackend {
         id: filterManagerBackend
@@ -39,12 +47,50 @@ Window {
     }
 
 
+    Rectangle{
+        id: borderRect
+
+        property int minX : root.width * root.minRightPanelRatio;
+        property int maxX : root.width * root.maxRightPanelRatio;
+
+        color: "grey"
+        y: 0
+        width: 5
+        height: parent.height
+
+        Binding on x {
+            when: !borderMouseArea.pressed
+            value: rightPanelRatio*root.width
+        }
+
+        MouseArea{
+            id: borderMouseArea
+            drag.target: borderRect
+            onReleased: borderRect.Drag.drop()
+            drag.axis: Drag.XAxis
+
+            cursorShape: Qt.SizeHorCursor;
+
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top : parent.top
+            anchors.bottom: parent.bottom
+        }
+
+        onXChanged: {
+            if(x < minX)
+                x = minX;
+            if(x > maxX)
+                x = maxX;
+        }
+
+    }
 
     FilterPanel{
         id: filterPanel
         anchors.bottom: parent.bottom
         anchors.top: parent.top
-        width: 200
+        anchors.left: borderRect.right
         anchors.right: parent.right
 
         Text {
@@ -62,9 +108,7 @@ Window {
             anchors.right: parent.right
             anchors.top: filterPanelTextText.bottom
             anchors.bottom: parent.bottom
-            //height: 300
-            //filterNumber: 0
-
+            anchors.margins: 10
         }
 
     }
