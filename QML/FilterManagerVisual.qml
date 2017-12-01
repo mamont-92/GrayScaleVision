@@ -13,6 +13,7 @@ Item {
     signal filterAdded(int number, string type)
     signal filterRemove(int number)
     signal connectionAdded(int outputFilterNumber, int outputConnectorNumber, int inputFilterNumber, int inputConnectorNumber)
+    signal filerSelected(int number)
 
     function updateFilterImage(filterNumber){
         console.log("on img updated: ",filterNumber );
@@ -176,6 +177,10 @@ Item {
                 filteContexMenu.x = xpos;
                 filteContexMenu.y = ypos;
                 filteContexMenu.open();
+            }
+
+            onSelected: {
+                root.filerSelected(number);
             }
         }
     }

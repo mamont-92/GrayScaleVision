@@ -31,6 +31,9 @@ Window {
         onFilterRemove: {
             filterManagerBackend.removeFilter(number);
         }
+        onFilerSelected: {
+            imageViewer.filterNumber = number;
+        }
 
         filterCreationTemplate: filterManagerBackend.filterCreationTemplate()
     }
@@ -53,13 +56,15 @@ Window {
             text: "filter params"
         }
 
-        RealParameter{
-            id: param1
-
+        ImageViewer{
+            id: imageViewer
             anchors.left: parent.left
-            anchors.leftMargin: 10
+            anchors.right: parent.right
             anchors.top: filterPanelTextText.bottom
-            transform: Scale{ xScale: 0.5; yScale: 0.5}
+            anchors.bottom: parent.bottom
+            //height: 300
+            //filterNumber: 0
+
         }
 
     }

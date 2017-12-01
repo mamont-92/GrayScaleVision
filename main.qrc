@@ -12,5 +12,6 @@
         <file>QML/FilterPanel.qml</file>
         <file>QML/FilterManagerVisual.qml</file>
         <file>QML/FilterManagerVisualLogic.js</file>
+        <file>QML/ImageViewer.qml</file>
     </qresource>
 </RCC>
