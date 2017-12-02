@@ -18,6 +18,8 @@ public:
     Q_INVOKABLE void removeFilter(int num);
     Q_INVOKABLE void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
     Q_INVOKABLE QVariant filterCreationTemplate();
+public slots:
+    void filterParameterModified(QVariant filterParam); //QVariantMap {"filterNumber" : int, "parameter" : QVariantMap {"name":QString, "value": QVariant} }
 signals:
     void imageRastered(int number);
 private:

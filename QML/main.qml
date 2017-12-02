@@ -14,6 +14,8 @@ Window {
     property real maxRightPanelRatio: 0.95
     property real rightPanelRatio: 0.75
 
+    signal filterParameterModified(var filterParameter)
+
     Binding on rightPanelRatio {
         when: borderMouseArea.pressed
         value: borderRect.x / root.width
@@ -113,7 +115,8 @@ Window {
             anchors.bottom: parent.bottom
             anchors.margins: 10
             onParameterModified: {
-                console.log(filterNumber, parameter)
+                //console.log(filterNumber, parameter)
+                root.filterParameterModified({"filterNumber": filterNumber, "parameter":parameter})
             }
         }
 

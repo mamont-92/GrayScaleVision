@@ -54,7 +54,7 @@ FilterWidget {
         onAccepted: {
             console.log("You chose: " + openDialog.fileUrls);
             var pathValue = openDialog.fileUrls;
-            root.parameterModified({value: pathValue});
+            root.parameterModified({name: "path" , value: pathValue});
         }
         onRejected: {
             console.log("Canceled");
