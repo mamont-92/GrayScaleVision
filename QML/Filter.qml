@@ -19,6 +19,12 @@ Item {
     signal positionChangedByDrag(real xpos, real ypos)
     signal connected(int outputFilterNumber, int outputConnectorNumber, int inputConnectorNumber)
     signal menuRequest(int xpos, int ypos)
+    signal selected(int number)
+
+    function reloadImage(){
+        image.source = "image://rasterizer/" + root.number + "_" + Math.random();
+        console.log(image.source, root.number);
+    }
 
     function inputConnectorPos(number){
         var coords = {x:0, y:0}
@@ -53,7 +59,12 @@ Item {
         }
         onClicked: {
             if(mouse.button & Qt.RightButton) {
-                root.menuRequest(mouseX, mouseY)
+                root.menuRequest(mouseX, mouseY);
+            }
+            else{
+                if(mouse.button & Qt.LeftButton) {
+                    root.selected(root.number);
+                }
             }
         }
     }
@@ -68,6 +79,14 @@ Item {
         border.width: 4
         border.color: type == FilterType.spatial ? "green" : "blue"
         radius: 3
+        Image {
+            anchors.fill: parent
+            anchors.margins: background.border.width
+            id: image
+            fillMode: Image.PreserveAspectFit
+            source: "image://rasterizer/" + root.number
+        }
+
     }
 
     Text {

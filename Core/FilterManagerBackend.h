@@ -3,28 +3,43 @@
 
 #include <QObject>
 #include <QtCore>
+#include <QHash>
+#include <QMultiHash>
+#include <QVariant>
+#include <QImage>
+#include <QMutex>
 
-class FilterManagerBackend : public QObject
+#include "AbstractFilter.h"
+
+struct Connection
 {
+    int targetFilter;
+    int targetSlot;
+    int currentSlot;
+
+    Connection(int _targetFilter, int _targetSlot,int _currentSlot):
+        targetFilter(_targetFilter), targetSlot(_targetSlot), currentSlot(_currentSlot) {}
+};
+
+class FilterManagerBackend : public QObject {
     Q_OBJECT
-    Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
-
 public:
-    explicit FilterManagerBackend(QObject *parent = nullptr);
-
-    QString userName();
-    void setUserName(const QString &userName);
+    FilterManagerBackend(QObject *parent=Q_NULLPTR);
 
     void addFilter(int num, QString type);
-    void deleteFilter(int num);
+    void removeFilter(int num);
     void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
+    QVariant filterCreationTemplate();
 
-
+    void updateAllFilters();
+    QImage images(int filterNumber);
 signals:
-    void userNameChanged();
-
+    void imageRastered(int number);
 private:
-    QString m_userName;
+    QMutex m_imageMutex;
+    QMultiHash<int, Connection> m_outConnections, m_inConnections;
+    QHash<int, AbstractFilter * > m_filters;
+    QHash<int, QImage> m_images;
 };
 
 #endif // FilterManagerBackend_H

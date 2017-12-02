@@ -8,10 +8,25 @@ import "FilterManagerVisualLogic.js" as FilterManagerLogic
 Item {
     id: root
 
+    property var filterCreationTemplate
+
+    signal filterAdded(int number, string type)
+    signal filterRemove(int number)
+    signal connectionAdded(int outputFilterNumber, int outputConnectorNumber, int inputFilterNumber, int inputConnectorNumber)
+    signal filerSelected(int number)
+
+    function updateFilterImage(filterNumber){
+        console.log("on img updated: ",filterNumber );
+        var inputFilter = filterByNumber(filterNumber);
+        inputFilter.reloadImage();
+    }
+
     Component.onCompleted: {
-        FilterManagerLogic.fillContexMenuModel(filterCreationContexMenuModel);
         FilterManagerLogic.repeaterModel = filtersModel;
         FilterManagerLogic.canvas = mainCanvas;
+        FilterManagerLogic.filterManager = root;
+        FilterManagerLogic.filterCreationTemplate = filterCreationTemplate;
+        FilterManagerLogic.fillContexMenuModel(filterCreationContexMenuModel);
     }
 
     /*DropArea {  //useless now
@@ -26,6 +41,13 @@ Item {
                 return f;
         }
         return null;
+    }
+
+    function filterName(num){
+        var filter = filterByNumber(num);
+        if(filter != null)
+            return filter.name;
+        return "";
     }
 
     Canvas {
@@ -98,7 +120,8 @@ Item {
             MenuItem {
                 text: model.text
                 onTriggered: {
-                    FilterManagerLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
+                    var num = FilterManagerLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
+                    //root.filterAdded(num, model.text);
                     FilterManagerLogic.updateCanvas();
                 }
             }
@@ -112,6 +135,9 @@ Item {
         anchors.fill: parent
         model: ListModel {
             id: filtersModel
+            onRowsInserted: {
+                console.log("added");
+            }
         }
 
         delegate : Filter {
@@ -158,6 +184,10 @@ Item {
                 filteContexMenu.x = xpos;
                 filteContexMenu.y = ypos;
                 filteContexMenu.open();
+            }
+
+            onSelected: {
+                root.filerSelected(number);
             }
         }
     }
