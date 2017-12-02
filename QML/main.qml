@@ -112,6 +112,9 @@ Window {
             height: 70
             anchors.bottom: parent.bottom
             anchors.margins: 10
+            onParameterModified: {
+                console.log(filterNumber, parameter)
+            }
         }
 
         ImageViewer{

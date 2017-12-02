@@ -1,9 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Dialogs 1.2
 
-Item {
+FilterWidget {
     id: root
-    property string name: "SourceImage"
+    name: "SourceImage"
 
     Text{
         id: text
@@ -52,11 +52,12 @@ Item {
         folder: shortcuts.home
         nameFilters: ["TIFF image files (*.tiff *.tif)"]
         onAccepted: {
-            console.log("You chose: " + openDialog.fileUrls)
+            console.log("You chose: " + openDialog.fileUrls);
+            var pathValue = openDialog.fileUrls;
+            root.parameterModified({value: pathValue});
         }
         onRejected: {
-            console.log("Canceled")
+            console.log("Canceled");
         }
-        //Component.onCompleted: visible = true
     }
 }

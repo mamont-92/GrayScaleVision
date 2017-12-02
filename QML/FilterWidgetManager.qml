@@ -6,6 +6,9 @@ Item {
     id: root
 
     property string currentName: ""
+    property int currentFilter: -1
+
+    signal parameterModified(int filterNumber, var parameter)
 
     AddWeighted{
         id: addWeightedWidget
@@ -40,5 +43,9 @@ Item {
         visible: root.currentName == name
         anchors.fill: parent
         anchors.margins: 1
+
+        onParameterModified: {
+            root.parameterModified(currentFilter, parameter)
+        }
     }
 }

@@ -1,8 +1,8 @@
 import QtQuick 2.0
 
-Item {
+FilterWidget {
     id: root
-    property string name: "BoundByPercent"
+    name: "BoundByPercent"
 
     Text{
         id: text

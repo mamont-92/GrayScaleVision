@@ -1,8 +1,8 @@
 import QtQuick 2.0
 
-Item {
+FilterWidget {
     id: root
-    property string name: "inversion"
+    name: "inversion"
 
     Text{
         id: text

@@ -1,8 +1,8 @@
 import QtQuick 2.0
 
-Item {
+FilterWidget {
     id: root
-    property string name: "add weighted"
+    name: "add weighted"
 
     Text{
         id: text

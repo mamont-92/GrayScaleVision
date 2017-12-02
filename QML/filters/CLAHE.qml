@@ -1,8 +1,8 @@
 import QtQuick 2.0
 
-Item {
+FilterWidget {
     id: root
-    property string name: "CLAHE"
+    name: "CLAHE"
 
     Text{
         id: text

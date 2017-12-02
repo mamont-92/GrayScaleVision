@@ -19,5 +19,6 @@
         <file>QML/filters/CLAHE.qml</file>
         <file>QML/filters/SourceImage.qml</file>
         <file>QML/FilterWidgetManager.qml</file>
+        <file>QML/filters/FilterWidget.qml</file>
     </qresource>
 </RCC>
