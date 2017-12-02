@@ -43,6 +43,13 @@ Item {
         return null;
     }
 
+    function filterName(num){
+        var filter = filterByNumber(num);
+        if(filter != null)
+            return filter.name;
+        return "";
+    }
+
     Canvas {
         id: mainCanvas
         anchors.fill: parent

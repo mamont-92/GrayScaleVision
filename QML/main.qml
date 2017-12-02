@@ -41,6 +41,7 @@ Window {
         }
         onFilerSelected: {
             imageViewer.filterNumber = number;
+            filterWidgetManager.currentName = filterManagerVisual.filterName(number);
         }
 
         filterCreationTemplate: filterManagerBackend.filterCreationTemplate()
@@ -102,12 +103,23 @@ Window {
             text: "filter params"
         }
 
+
+
+        FilterWidgetManager{
+            id: filterWidgetManager
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 70
+            anchors.bottom: parent.bottom
+            anchors.margins: 10
+        }
+
         ImageViewer{
             id: imageViewer
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: filterPanelTextText.bottom
-            anchors.bottom: parent.bottom
+            anchors.bottom: filterWidgetManager.top
             anchors.margins: 10
         }
 
