@@ -34,3 +34,10 @@ QVariant FilterManagerBackendGate::filterCreationTemplate()
         return m_filterManager->filterCreationTemplate();
     return QVariant();
 }
+
+void FilterManagerBackendGate::filterParameterModified(QVariant filterParam)
+{
+    qDebug() << filterParam;
+}
+
+
