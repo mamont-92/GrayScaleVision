@@ -43,7 +43,9 @@ SOURCES += main.cpp \
     Core/FilterManagerBackendGate.cpp \
     Core/GlobalContext.cpp \
     Core/Filters/CLAHE.cpp \
-    Core/Filters/BoundByPercent.cpp
+    Core/Filters/BoundByPercent.cpp \
+    Core/Params/IntegerParameter.cpp \
+    Core/AbstractParameter.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -60,7 +62,9 @@ HEADERS  += \
     Core/FilterManagerBackendGate.h \
     Core/GlobalContext.h \
     Core/Filters/CLAHE.h \
-    Core/Filters/BoundByPercent.h
+    Core/Filters/BoundByPercent.h \
+    Core/Params/IntegerParameter.h \
+    Core/AbstractParameter.h
 
 FORMS    +=
 

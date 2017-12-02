@@ -3,11 +3,15 @@
 
 #include "opencv2/opencv.hpp"
 
-CLAHE::CLAHE() : AbstractFilter()
+CLAHE::CLAHE() : AbstractFilter(),
+    clipCount(80, 4, 120),
+    tileSize(8,2, 16)
 {
     qDebug() << "Constructor CLAHE";
     registerInSlot("scr", 0);
     registerOutSlot("res", 0);
+    registerParameter("clip count", &clipCount);
+    registerParameter("tile size", &tileSize);
 }
 
 void CLAHE::update()
@@ -31,10 +35,11 @@ void CLAHE::update()
     inMat.convertTo(tempUShortMat, CV_16UC1, 1.f/delta*maxUShortVal, (-1.0)*minVal*maxUShortVal/delta);
 
     cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE();
-    clahe->setClipLimit(120);
-    int tileSize = 8;
-    clahe->setTilesGridSize(cv::Size(tileSize,tileSize));
+    clahe->setClipLimit(clipCount.value().toInt());
+    int tSize = tileSize.value().toInt();
+    clahe->setTilesGridSize(cv::Size(tSize,tSize));
     clahe->apply(tempUShortMat,outMat);
+
     outMat.convertTo(outMat, CV_32FC1, 1.f/delta*maxUShortVal, 0);
 
     ImageDataSpatialPtr resultDataPtr = ImageDataSpatialPtr::create(outMat.cols, outMat.rows);
