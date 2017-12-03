@@ -18,7 +18,6 @@ Item {
             root.widgets[filterName].params = filterInfo["params"];
             root.filterNumber = filterInfo["number"];
             root.filterName = filterName;
-
         }
     }
 

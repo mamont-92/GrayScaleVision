@@ -53,8 +53,11 @@ FilterWidget {
         nameFilters: ["TIFF image files (*.tiff *.tif)"]
         onAccepted: {
             console.log("You chose: " + openDialog.fileUrls);
-            var pathValue = openDialog.fileUrls;
-            root.parameterModified({name: "path" , value: pathValue});
+            //var pathValue = openDialog.fileUrls;
+            var path = openDialog.fileUrl.toString();
+            path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
+
+            root.parameterModified({name: "path" , value: path});
         }
         onRejected: {
             console.log("Canceled");
