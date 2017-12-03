@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
 
     Q_INVOKABLE QVariant filterCreationTemplate();
+    Q_INVOKABLE QVariant filterParamsInfo(int filterNumber);
 
 signals:
     void imageRastered(int number);

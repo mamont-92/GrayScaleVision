@@ -10,6 +10,14 @@ QVariant IntegerParameter::value() const
     return QVariant::fromValue(m_value);
 }
 
+QVariant IntegerParameter::info() const
+{
+    QVariantMap parameter = {{"value", QVariant::fromValue(m_value)},
+                             {"min", QVariant::fromValue(m_minValue)},
+                             {"max", QVariant::fromValue(m_maxValue)}};
+    return QVariant::fromValue(parameter);
+}
+
 void IntegerParameter::setValue(const QVariant & _value)
 {
     bool isCorrect = true;

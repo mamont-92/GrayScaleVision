@@ -5,6 +5,37 @@ FilterWidget {
     id: root
     name: "CLAHE"
 
+    QtObject{
+        id: paramsStorage
+        property int clipCountValue
+        property int clipCountMin
+        property int clipCountMax
+
+        property int tileSizeValue
+        property int tileSizeMin
+        property int tileSizeMax
+    }
+
+    /**/
+
+    onParamsChanged: {
+        if(params != null){
+            if(params.hasOwnProperty("clip count")){
+                var clipCount = params["clip count"];
+                paramsStorage.clipCountValue = clipCount["value"];
+                paramsStorage.clipCountMin = clipCount["min"];
+                paramsStorage.clipCountMax = clipCount["max"];
+            }
+
+            if(params.hasOwnProperty("tile size")){
+                var tileSize = params["tile size"];
+                paramsStorage.tileSizeValue = tileSize["value"];
+                paramsStorage.tileSizeMin = tileSize["min"];
+                paramsStorage.tileSizeMax = tileSize["max"];
+            }
+        }
+    }
+
     Text{
         id: text
 
@@ -25,16 +56,13 @@ FilterWidget {
         anchors.right: parent.right
         anchors.top: text.bottom
 
-        from: 2
-        to: 120
+        from: paramsStorage.clipCountMin
+        to: paramsStorage.clipCountMax
+        value: paramsStorage.clipCountValue
         editable: true
 
         onValueModified: {
             root.parameterModified({"name":"clip count", "value":value})
-        }
-
-        Component.onCompleted: {
-            value = 8
         }
     }
 

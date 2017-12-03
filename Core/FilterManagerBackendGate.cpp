@@ -41,3 +41,9 @@ QVariant FilterManagerBackendGate::filterCreationTemplate()
     return QVariant();
 }
 
+QVariant FilterManagerBackendGate::filterParamsInfo(int filterNumber)
+{
+    if(m_filterManager)
+        return m_filterManager->filterParamsInfo(filterNumber);
+    return QVariant();
+}

@@ -69,6 +69,27 @@ QVariant AbstractFilter::parameterValue(QString name) const
     return QVariant();
 }
 
+QVariant AbstractFilter::parameterInfo(QString name) const
+{
+    AbstractParameter * parameter = m_params.value(name, NULL);
+    if(parameter)
+        return parameter->info();
+    return QVariant();
+}
+
+QVariant AbstractFilter::allParametersInfo() const
+{
+    QVariantMap resultMap;
+
+    QHashIterator<QString, AbstractParameter*> iter(m_params);
+    while(iter.hasNext()){
+        iter.next();
+        if(iter.value())
+            resultMap.insert(iter.key(), iter.value()->info());
+    }
+    return QVariant::fromValue(resultMap);
+}
+
 ImageDataSpatialPtr AbstractFilter::outSlot(QString name)
 {
     return outSlot(m_outNames.value(name, -1));

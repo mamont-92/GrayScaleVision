@@ -42,9 +42,12 @@ Window {
         }
         onFilerSelected: {
             imageViewer.filterNumber = number;
-            filterWidgetManager.currentFilter = number;
-            filterWidgetManager.currentName = filterManagerVisual.filterName(number);
 
+            filterWidgetManager.filterInfo = {
+                            "number": number,
+                            "name" : filterManagerVisual.filterName(number),
+                            "params" : filterManagerBackend.filterParamsInfo(number)
+            };
         }
 
         filterCreationTemplate: filterManagerBackend.filterCreationTemplate()

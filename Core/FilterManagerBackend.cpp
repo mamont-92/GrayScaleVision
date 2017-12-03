@@ -63,6 +63,14 @@ QVariant FilterManagerBackend::filterCreationTemplate()
     return QVariant::fromValue(resultMap);
 }
 
+QVariant FilterManagerBackend::filterParamsInfo(int filterNumber)
+{
+    AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
+    if(filterPtr)
+        return filterPtr->allParametersInfo();
+    return QVariant();
+}
+
 void FilterManagerBackend::updateAllFilters()
 {
     qDebug() << "UPDATE ALL FILTERS";

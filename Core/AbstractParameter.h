@@ -11,6 +11,7 @@ public:
     virtual ~AbstractParameter();
 
     virtual QVariant value() const = 0;
+    virtual QVariant info() const = 0;
     virtual void setValue(const QVariant & _value) = 0;
 };
 

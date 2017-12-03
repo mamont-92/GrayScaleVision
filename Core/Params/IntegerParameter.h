@@ -9,6 +9,7 @@ public:
     IntegerParameter(int _value = 0, int _minValue = 0, int _maxValue = 100);
 
     QVariant value() const;
+    QVariant info() const;
 
     void setValue(const QVariant & _value);
     void setValue(const int & _value);
