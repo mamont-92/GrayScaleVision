@@ -6,5 +6,6 @@
 #include "Filters/SourceImage.h"
 #include "Filters/CLAHE.h"
 #include "Filters/BoundByPercent.h"
+#include "Filters/Power.h"
 
 #endif // BASEFILTERS_H

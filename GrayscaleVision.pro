@@ -45,7 +45,8 @@ SOURCES += main.cpp \
     Core/Filters/CLAHE.cpp \
     Core/Filters/BoundByPercent.cpp \
     Core/Params/IntegerParameter.cpp \
-    Core/AbstractParameter.cpp
+    Core/AbstractParameter.cpp \
+    Core/Filters/Power.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -64,7 +65,8 @@ HEADERS  += \
     Core/Filters/CLAHE.h \
     Core/Filters/BoundByPercent.h \
     Core/Params/IntegerParameter.h \
-    Core/AbstractParameter.h
+    Core/AbstractParameter.h \
+    Core/Filters/Power.h
 
 FORMS    +=
 
