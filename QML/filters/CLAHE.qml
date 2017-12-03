@@ -5,35 +5,27 @@ FilterWidget {
     id: root
     name: "CLAHE"
 
-    QtObject{
-        id: paramsStorage
-        property int clipCountValue
-        property int clipCountMin
-        property int clipCountMax
-
-        property int tileSizeValue
-        property int tileSizeMin
-        property int tileSizeMax
-    }
-
-    /**/
-
-    onParamsChanged: {
+    function updateParams(){
         if(params != null){
             if(params.hasOwnProperty("clip count")){
                 var clipCount = params["clip count"];
-                paramsStorage.clipCountValue = clipCount["value"];
-                paramsStorage.clipCountMin = clipCount["min"];
-                paramsStorage.clipCountMax = clipCount["max"];
+                spinBox.from = clipCount["min"];
+                spinBox.to = clipCount["max"];
+                spinBox.value = clipCount["value"];
+
             }
 
             if(params.hasOwnProperty("tile size")){
                 var tileSize = params["tile size"];
-                paramsStorage.tileSizeValue = tileSize["value"];
-                paramsStorage.tileSizeMin = tileSize["min"];
+                /*paramsStorage.tileSizeMin = tileSize["min"];
                 paramsStorage.tileSizeMax = tileSize["max"];
+                paramsStorage.tileSizeValue = tileSize["value"];*/
             }
         }
+    }
+
+    onParamsChanged: {
+        updateParams();
     }
 
     Text{
@@ -56,9 +48,6 @@ FilterWidget {
         anchors.right: parent.right
         anchors.top: text.bottom
 
-        from: paramsStorage.clipCountMin
-        to: paramsStorage.clipCountMax
-        value: paramsStorage.clipCountValue
         editable: true
 
         onValueModified: {

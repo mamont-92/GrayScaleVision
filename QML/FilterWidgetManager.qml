@@ -12,8 +12,7 @@ Item {
 
     signal parameterModified(int filterNumber, var parameter)
 
-
-    onFilterInfoChanged: {
+    function updateWidgets(){
         if(filterInfo != null){
             var filterName = filterInfo["name"];
             root.widgets[filterName].params = filterInfo["params"];
@@ -21,6 +20,10 @@ Item {
             root.filterName = filterName;
 
         }
+    }
+
+    onFilterInfoChanged: {
+        updateWidgets();
     }
 
 

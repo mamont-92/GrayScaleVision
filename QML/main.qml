@@ -119,8 +119,6 @@ Window {
             anchors.bottom: parent.bottom
             anchors.margins: 10
             onParameterModified: {
-                //console.log(filterNumber, parameter)
-                //root.filterParameterModified({"filterNumber": filterNumber, "parameter":parameter})
                 filterManagerBackend.setParameterValueForFilter(filterNumber, parameter["name"], parameter["value"])
             }
         }
