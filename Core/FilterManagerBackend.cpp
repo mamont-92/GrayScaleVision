@@ -39,6 +39,14 @@ void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int f
     updateAllFilters();
 }
 
+void FilterManagerBackend::setParameterValueForFilter(int filterNumber, QString paramName, QVariant value)
+{
+    AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
+    if(filterPtr)
+        filterPtr->setParameter(paramName, value);
+    updateAllFilters();
+}
+
 QVariant FilterManagerBackend::filterCreationTemplate()
 {
     QVariantMap resultMap;

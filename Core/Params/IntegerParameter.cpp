@@ -15,7 +15,7 @@ void IntegerParameter::setValue(const QVariant & _value)
     bool isCorrect = true;
     int newValue = _value.toInt(&isCorrect);
     if(isCorrect)
-        setValue(_value);
+        setValue(newValue);
 }
 
 
