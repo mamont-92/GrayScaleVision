@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Controls 2.2
 
 Item {
@@ -25,14 +25,12 @@ Item {
             }
             else{
                 if(fromTrackBar){
-                    spinBox.value = value;
                     fromTrackBar = false;
-                    console.log("trackbar mod", value)
+                    spinBox.value = value;
                 }
                 else{
-                    trackBar.value = value;
                     fromSpinBox = false;
-                    console.log("spinbox mod", value)
+                    trackBar.value = value;
                 }
                 root.valueModified();
             }
@@ -40,15 +38,10 @@ Item {
     }
 
 
-
-    SpinBox {
-        id: spinBox
-
-        width: 130
-
-        from: minValue
-        to: maxValue
-        editable: true
+    IntEdit{
+        id:  spinBox
+        minValue: root.minValue
+        maxValue: root.maxValue
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -60,7 +53,7 @@ Item {
         }
 
         Component.onCompleted: {
-            value = root.value
+            value = valueSync.value
         }
     }
 
@@ -72,9 +65,10 @@ Item {
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+
         anchors.left: spinBox.right
         anchors.right: parent.right
-        anchors.leftMargin: 10
+        anchors.leftMargin: 2
 
         onValueModified: {
             valueSync.fromTrackBar = true;
@@ -82,9 +76,8 @@ Item {
         }
 
         Component.onCompleted: {
-            value = root.value
+            value = valueSync.value
         }
 
     }
-
 }
