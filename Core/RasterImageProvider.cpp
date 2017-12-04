@@ -14,7 +14,7 @@ QPixmap RasterImageProvider::requestPixmap(const QString &id, QSize *size, const
 
     QString number = id;
     int ind=number.indexOf("_");
-    if(ind >=0)
+    if(ind >=1)
         number.truncate(ind);
     QImage img = GlobalContext::instance().filterManager()->images(number.toInt());
     if(img.isNull()){

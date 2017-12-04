@@ -39,6 +39,14 @@ void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int f
     updateAllFilters();
 }
 
+void FilterManagerBackend::setParameterValueForFilter(int filterNumber, QString paramName, QVariant value)
+{
+    AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
+    if(filterPtr)
+        filterPtr->setParameter(paramName, value);
+    updateAllFilters();
+}
+
 QVariant FilterManagerBackend::filterCreationTemplate()
 {
     QVariantMap resultMap;
@@ -53,6 +61,14 @@ QVariant FilterManagerBackend::filterCreationTemplate()
     }
 
     return QVariant::fromValue(resultMap);
+}
+
+QVariant FilterManagerBackend::filterParamsInfo(int filterNumber)
+{
+    AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
+    if(filterPtr)
+        return filterPtr->allParametersInfo();
+    return QVariant();
 }
 
 void FilterManagerBackend::updateAllFilters()

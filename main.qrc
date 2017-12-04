@@ -12,5 +12,13 @@
         <file>QML/FilterPanel.qml</file>
         <file>QML/FilterManagerVisual.qml</file>
         <file>QML/FilterManagerVisualLogic.js</file>
+        <file>QML/ImageViewer.qml</file>
+        <file>QML/filters/Inversion.qml</file>
+        <file>QML/filters/AddWeighted.qml</file>
+        <file>QML/filters/BoundByPercent.qml</file>
+        <file>QML/filters/CLAHE.qml</file>
+        <file>QML/filters/SourceImage.qml</file>
+        <file>QML/FilterWidgetManager.qml</file>
+        <file>QML/filters/FilterWidget.qml</file>
     </qresource>
 </RCC>

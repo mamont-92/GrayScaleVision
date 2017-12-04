@@ -42,7 +42,15 @@ SOURCES += main.cpp \
     Core/RasterImageProvider.cpp \
     Core/FilterManagerBackendGate.cpp \
     Core/GlobalContext.cpp \
-    Core/Filters/CLAHE.cpp
+    Core/Filters/CLAHE.cpp \
+    Core/Filters/BoundByPercent.cpp \
+    Core/Params/IntegerParameter.cpp \
+    Core/AbstractParameter.cpp \
+    Core/Filters/Power.cpp \
+    Core/Params/StringParameter.cpp \
+    Core/Params/Matrix3x3Parameter.cpp \
+    Core/Filters/Convolution3x3.cpp \
+    Core/Filters/BilateralBlur.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -58,7 +66,15 @@ HEADERS  += \
     Core/RasterImageProvider.h \
     Core/FilterManagerBackendGate.h \
     Core/GlobalContext.h \
-    Core/Filters/CLAHE.h
+    Core/Filters/CLAHE.h \
+    Core/Filters/BoundByPercent.h \
+    Core/Params/IntegerParameter.h \
+    Core/AbstractParameter.h \
+    Core/Filters/Power.h \
+    Core/Params/StringParameter.h \
+    Core/Params/Matrix3x3Parameter.h \
+    Core/Filters/Convolution3x3.h \
+    Core/Filters/BilateralBlur.h
 
 FORMS    +=
 
