@@ -7,5 +7,6 @@
 #include "Filters/CLAHE.h"
 #include "Filters/BoundByPercent.h"
 #include "Filters/Power.h"
+#include "Filters/Convolution3x3.h"
 
 #endif // BASEFILTERS_H

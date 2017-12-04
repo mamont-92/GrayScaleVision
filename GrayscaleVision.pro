@@ -47,7 +47,9 @@ SOURCES += main.cpp \
     Core/Params/IntegerParameter.cpp \
     Core/AbstractParameter.cpp \
     Core/Filters/Power.cpp \
-    Core/Params/StringParameter.cpp
+    Core/Params/StringParameter.cpp \
+    Core/Params/Matrix3x3Parameter.cpp \
+    Core/Filters/Convolution3x3.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -68,7 +70,9 @@ HEADERS  += \
     Core/Params/IntegerParameter.h \
     Core/AbstractParameter.h \
     Core/Filters/Power.h \
-    Core/Params/StringParameter.h
+    Core/Params/StringParameter.h \
+    Core/Params/Matrix3x3Parameter.h \
+    Core/Filters/Convolution3x3.h
 
 FORMS    +=
 
