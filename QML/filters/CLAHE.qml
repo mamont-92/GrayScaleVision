@@ -1,5 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Controls 2.2
+
+import "../utils"
 
 FilterWidget{
     id: root
@@ -9,17 +11,17 @@ FilterWidget{
         if(params != null){
             if(params.hasOwnProperty("clip count")){
                 var clipCount = params["clip count"];
-                spinBox.from = clipCount["min"];
-                spinBox.to = clipCount["max"];
-                spinBox.value = clipCount["value"];
+                clipCountParameter.minValue = clipCount["min"];
+                clipCountParameter.maxValue = clipCount["max"];
+                clipCountParameter.value = clipCount["value"];
 
             }
 
             if(params.hasOwnProperty("tile size")){
                 var tileSize = params["tile size"];
-                /*paramsStorage.tileSizeMin = tileSize["min"];
-                paramsStorage.tileSizeMax = tileSize["max"];
-                paramsStorage.tileSizeValue = tileSize["value"];*/
+                tileSizeParameter.minValue = tileSize["min"];
+                tileSizeParameter.maxValue = tileSize["max"];
+                tileSizeParameter.value = tileSize["value"];
             }
         }
     }
@@ -28,31 +30,47 @@ FilterWidget{
         updateParams();
     }
 
-    Text{
-        id: text
 
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
 
-        text: qsTr("apply CLAHE algorithm")
-        font.family: "Poor Richard"
-        font.italic: true
-        font.pointSize: 10
-        style: Text.Raised
-    }
+    Column{
+        anchors.fill: parent
+        spacing: 5
 
-    SpinBox {
-        id: spinBox
+        Text{
+            id: text
+
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            text: qsTr("apply CLAHE algorithm")
+            font.family: "Poor Richard"
+            font.italic: true
+            font.pointSize: 10
+            style: Text.Raised
+        }
+
+    RealParameter{
+        id: clipCountParameter
 
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: text.bottom
-
-        editable: true
 
         onValueModified: {
             root.parameterModified({"name":"clip count", "value":value})
         }
     }
+
+    RealParameter{
+        id: tileSizeParameter
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        onValueModified: {
+            root.parameterModified({"name":"tile size", "value":value})
+        }
+    }
+
+    }
+
 
 }

@@ -8,7 +8,7 @@ Item {
     property real minValue: 0
     property real maxValue: 100
     property real value: 0
-    property int buttonWidth: 40
+    property int buttonWidth: 30
 
     signal valueModified()
 
@@ -70,7 +70,6 @@ Item {
         Text {
             id: maxValueButtonText
             text: maxValue
-            //anchors.centerIn: parent.Center
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
         }

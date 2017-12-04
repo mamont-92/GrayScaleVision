@@ -20,5 +20,6 @@
         <file>QML/filters/SourceImage.qml</file>
         <file>QML/FilterWidgetManager.qml</file>
         <file>QML/filters/FilterWidget.qml</file>
+        <file>QML/utils/IntEdit.qml</file>
     </qresource>
 </RCC>
