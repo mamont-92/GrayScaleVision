@@ -10,6 +10,11 @@ QVariant IntegerParameter::value() const
     return QVariant::fromValue(m_value);
 }
 
+int IntegerParameter::valueInt() const
+{
+    return m_value;
+}
+
 QVariant IntegerParameter::info() const
 {
     QVariantMap parameter = {{"value", QVariant::fromValue(m_value)},

@@ -2,6 +2,7 @@
 #include <QDebug>
 
 #include "opencv2/opencv.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 
 CLAHE::CLAHE() : AbstractFilter(),
     clipCount(80, 4, 120),
@@ -44,8 +45,6 @@ void CLAHE::update()
 
     ImageDataSpatialPtr resultDataPtr = ImageDataSpatialPtr::create(outMat.cols, outMat.rows);
     memcpy(reinterpret_cast<uchar*>(resultDataPtr->data()), outMat.data, sizeof(float)*outMat.cols*outMat.rows);
-
-
 
     setOutSlot("res", resultDataPtr);
 }

@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 
-FilterWidget {
+FilterWidget{
     id: root
     name: "CLAHE"
 
