@@ -7,11 +7,12 @@ Item { // TO DO: replace in filter qml image by this object
 
     onFilterNumberChanged: {
         reloadImage();
+        resetImageTransform();
     }
 
     function reloadImage(){
-        image.source = "image://rasterizer/" + root.filterNumber + "_" + Math.random();
-        resetImageTransform();
+        if(filterNumber >= 0)
+            image.source = "image://rasterizer/" + root.filterNumber + "_" + Math.random();
     }
 
     function resetImageTransform(){

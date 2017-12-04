@@ -2,18 +2,18 @@
 #define SourceImage_H
 
 #include "Core/AbstractFilter.h"
+#include "Core/Params/StringParameter.h"
 
 class SourceImage : public AbstractFilter
 {
 public:
-    SourceImage();
-    QString fileName() const;
-    void setFileName(QString _fileName);
+    SourceImage();    
+    StringParameter path;
 
     void update();
     DECLARE_READABLE_NAME("SourceImage")
 private:
-    QString m_fileName;
+    QString m_oldPath;
 };
 REGISTER_FILTER(SourceImage, 0, 1)
 

@@ -28,9 +28,22 @@ void FilterManagerBackendGate::connectFilters(int filterOut, int connectorOut, i
         m_filterManager->connectFilters(filterOut, connectorOut, filterIn, connectorIn);
 }
 
+void FilterManagerBackendGate::setParameterValueForFilter(int filterNumber, QString paramName, QVariant value)
+{
+    if(m_filterManager)
+        m_filterManager->setParameterValueForFilter(filterNumber, paramName, value);
+}
+
 QVariant FilterManagerBackendGate::filterCreationTemplate()
 {
     if(m_filterManager)
         return m_filterManager->filterCreationTemplate();
+    return QVariant();
+}
+
+QVariant FilterManagerBackendGate::filterParamsInfo(int filterNumber)
+{
+    if(m_filterManager)
+        return m_filterManager->filterParamsInfo(filterNumber);
     return QVariant();
 }

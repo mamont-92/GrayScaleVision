@@ -23,6 +23,7 @@ Window {
         id: filterManagerBackend
         onImageRastered: {
             filterManagerVisual.updateFilterImage(number);
+            imageViewer.reloadImage();
         }
     }
 
@@ -41,6 +42,12 @@ Window {
         }
         onFilerSelected: {
             imageViewer.filterNumber = number;
+
+            filterWidgetManager.filterInfo = {
+                            "number": number,
+                            "name" : filterManagerVisual.filterName(number),
+                            "params" : filterManagerBackend.filterParamsInfo(number)
+            };
         }
 
         filterCreationTemplate: filterManagerBackend.filterCreationTemplate()
@@ -102,12 +109,26 @@ Window {
             text: "filter params"
         }
 
+
+
+        FilterWidgetManager{
+            id: filterWidgetManager
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 70
+            anchors.bottom: parent.bottom
+            anchors.margins: 10
+            onParameterModified: {
+                filterManagerBackend.setParameterValueForFilter(filterNumber, parameter["name"], parameter["value"])
+            }
+        }
+
         ImageViewer{
             id: imageViewer
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: filterPanelTextText.bottom
-            anchors.bottom: parent.bottom
+            anchors.bottom: filterWidgetManager.top
             anchors.margins: 10
         }
 
