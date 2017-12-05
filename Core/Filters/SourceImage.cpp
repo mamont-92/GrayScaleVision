@@ -15,8 +15,10 @@ SourceImage::SourceImage() : AbstractFilter()
 void SourceImage::update()
 {
     qDebug() << "SourceImage::update";
+
     if(m_oldPath != path.value().toString()){
         qDebug() << "SourceImage::LOAD";
+        clearOutSlots();
         m_oldPath = path.value().toString();
         setOutSlot("res", ImageDataLoader::loadFromFile(m_oldPath));
     }

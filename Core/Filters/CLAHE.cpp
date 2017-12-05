@@ -18,6 +18,7 @@ CLAHE::CLAHE() : AbstractFilter(),
 void CLAHE::update()
 {
     qDebug() << "CLAHE::update";
+    clearOutSlots();
 
     ImageDataSpatialPtr inputDataPtr = inSlot("scr");
     if(inputDataPtr.isNull())

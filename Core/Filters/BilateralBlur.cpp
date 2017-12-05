@@ -21,6 +21,7 @@ BilateralBlur::BilateralBlur() : AbstractFilter(),
 void BilateralBlur::update()
 {
     qDebug() << "BilateralBlur::update";
+    clearOutSlots();
 
     ImageDataSpatialPtr inputDataPtr = inSlot("src");
     if(inputDataPtr.isNull())
