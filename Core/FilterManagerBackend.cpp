@@ -24,11 +24,35 @@ void FilterManagerBackend::addFilter(int num, QString type)
 void FilterManagerBackend::removeFilter(int num) // TO DO :  add removing filter connections
 {
     qDebug() << "remove filter: " << num;
+    removeAllConnections(num);
     AbstractFilter * ptr  = m_filters.value(num, NULL);
     m_filters.remove(num);
     if(ptr)
         delete ptr;
     updateAllFilters();
+}
+
+void FilterManagerBackend::removeAllConnections(int filterNumber)
+{
+    /*QList<Connection> connectionList = m_outConnections.values(filterNumber);
+    QListIterator<Connection> iter(connectionList);
+    while(iter.hasNext()){
+        Connection con = iter.next();
+
+        QMutableHashIterator<int, Connection> inConIter(m_inConnections);
+        inConIter.next()
+        while(inConIter.findNext(con.targetFilter)){
+            if(inConIter.value().targetFilter == filterNumber)
+                inConIter.remove();
+        }
+    }*/
+    m_outConnections.remove(filterNumber);
+    QMutableHashIterator<int, Connection> inConIter(m_inConnections);
+    while(inConIter.hasNext()){
+        inConIter.next();
+        if(inConIter.value().targetFilter == filterNumber)
+            inConIter.remove();
+    }
 }
 
 void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn)
