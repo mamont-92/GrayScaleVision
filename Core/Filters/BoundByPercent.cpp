@@ -1,11 +1,9 @@
 #include "BoundByPercent.h"
-#include <QDebug>
 
 BoundByPercent::BoundByPercent() : AbstractFilter(),
     minPercent(0.0f, 0.0f, 100.0f),
     maxPercent(100.0f, 0.0f, 100.0f)
 {
-    qDebug() << "Constructor BoundByPercent";
     registerInSlot("scr", 0);
     registerOutSlot("res", 0);
     registerParameter("start", &minPercent);
@@ -14,7 +12,6 @@ BoundByPercent::BoundByPercent() : AbstractFilter(),
 
 void BoundByPercent::update()
 {
-    qDebug() << "BoundByPercent::update";
     clearOutSlots();
     float minRatio = minPercent.valueReal()*0.001;
     float maxRatio = maxPercent.valueReal()*0.001;

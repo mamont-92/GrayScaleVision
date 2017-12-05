@@ -1,8 +1,5 @@
 #include "BilateralBlur.h"
-#include <QDebug>
-
 #include "opencv2/opencv.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
 
 BilateralBlur::BilateralBlur() : AbstractFilter(),
     diameter(9,0,9),

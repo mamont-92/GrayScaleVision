@@ -1,8 +1,5 @@
 #include "AddWeighted.h"
-#include <QDebug>
-
 #include "opencv2/opencv.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
 
 AddWeighted::AddWeighted() : AbstractFilter(),
     alpha(1.0f, -10.0f, 10.0f),
@@ -10,7 +7,6 @@ AddWeighted::AddWeighted() : AbstractFilter(),
     gamma(0.0f, -65535.0f, 65535.0f)
 
 {
-    qDebug() << "Constructor Add Weighted";
     registerInSlot("src1", 0);
     registerInSlot("src2", 1);
     registerOutSlot("res", 0);
@@ -22,9 +18,6 @@ AddWeighted::AddWeighted() : AbstractFilter(),
 
 void AddWeighted::update()
 {
-    qDebug() << "Add Weighted::update";
-    clearOutSlots();
-
     clearOutSlots();
 
     ImageDataSpatialPtr src1DataPtr = inSlot("src1");
@@ -35,7 +28,6 @@ void AddWeighted::update()
 
     if(src1DataPtr->isEmpty() || src2DataPtr->isEmpty())
         return;
-
 
     cv::Mat src1Mat(src1DataPtr->height(), src1DataPtr->width(), CV_32FC1, src1DataPtr->data());
     cv::Mat src2Mat(src2DataPtr->height(), src2DataPtr->width(), CV_32FC1, src2DataPtr->data());

@@ -1,5 +1,4 @@
 #include "Power.h"
-#include <QDebug>
 #include "opencv2/opencv.hpp"
 
 Power::Power() : AbstractFilter(),

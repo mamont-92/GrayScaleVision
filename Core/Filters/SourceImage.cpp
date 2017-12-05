@@ -1,6 +1,5 @@
 #include "SourceImage.h"
 #include "core/ImageData/ImageDataLoader.h"
-#include <QDebug>
 
 SourceImage::SourceImage() : AbstractFilter()
 {

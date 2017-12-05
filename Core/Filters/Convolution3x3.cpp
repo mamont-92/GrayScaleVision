@@ -1,5 +1,4 @@
 #include "Convolution3x3.h"
-#include <QDebug>
 
 float defaultMatData[]={-0.125f, -0.125f, -0.125f,
                         -0.125f,  2.0f  , -0.125f,
@@ -54,12 +53,10 @@ void Convolution3x3::update()
     }
 
     const float * matData = matrix.matValue().data();
-
     #pragma omp parallel for
     for(int i = 1; i < (height -1); ++i){
         for(int j = 1; j < (width -1); ++j){
-            double localSum = 0.0;
-            localSum+= inData[(i-1)*width+j-1] * matData[0*3+0];
+            double localSum = inData[(i-1)*width+j-1] * matData[0*3+0];
             localSum+= inData[(i-1)*width+j] * matData[0*3+1];
             localSum+= inData[(i-1)*width+j+1] * matData[0*3+2];
 

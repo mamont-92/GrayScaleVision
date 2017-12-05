@@ -1,5 +1,4 @@
 #include "Inversion.h"
-#include <QDebug>
 
 Inversion::Inversion() : AbstractFilter()
 {
@@ -27,6 +26,7 @@ void Inversion::update()
     inputDataPtr->calcMinMax(minVal, maxVal);
     int maxInd = inputDataPtr->pixelCount();
 
+    #pragma omp parallel for
     for(int i = 0; i < maxInd; ++i){
         outData[i] = maxVal - inData[i];
     }
