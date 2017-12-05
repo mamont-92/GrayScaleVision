@@ -3,17 +3,15 @@
 
 Inversion::Inversion() : AbstractFilter()
 {
-    qDebug() << "Constructor Inversion";
-    registerInSlot("scr", 0);
+    registerInSlot("src", 0);
     registerOutSlot("res", 0);
 }
 
 void Inversion::update()
 {
-    qDebug() << "Inversion::update";
     clearOutSlots();
 
-    ImageDataSpatialPtr inputDataPtr = inSlot("scr");
+    ImageDataSpatialPtr inputDataPtr = inSlot("src");
     if(inputDataPtr.isNull())
         return;
 

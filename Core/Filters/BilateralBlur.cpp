@@ -10,7 +10,6 @@ BilateralBlur::BilateralBlur() : AbstractFilter(),
     sigmaSpace(50,1, 1000)
 
 {
-    qDebug() << "Constructor BilateralBlur";
     registerInSlot("src", 0);
     registerOutSlot("res", 0);
     registerParameter("diameter", &diameter);
@@ -20,7 +19,6 @@ BilateralBlur::BilateralBlur() : AbstractFilter(),
 
 void BilateralBlur::update()
 {
-    qDebug() << "BilateralBlur::update";
     clearOutSlots();
 
     ImageDataSpatialPtr inputDataPtr = inSlot("src");
@@ -33,10 +31,7 @@ void BilateralBlur::update()
     float minVal, maxVal;
     inputDataPtr->calcMinMax(minVal, maxVal);
 
-    cv::Mat tempUShortMat, outMat,  inMat(inputDataPtr->height(), inputDataPtr->width(), CV_32FC1, inputDataPtr->data());
-
-    const float maxUShortVal = 65535;
-    float delta = qMax(maxVal - minVal, (float)0.00001);
+    cv::Mat outMat, inMat(inputDataPtr->height(), inputDataPtr->width(), CV_32FC1, inputDataPtr->data());
 
     cv::bilateralFilter(inMat, outMat, diameter.valueInt(), sigmaIntensity.valueInt(), sigmaSpace.valueInt());
 
