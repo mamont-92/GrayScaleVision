@@ -50,7 +50,8 @@ SOURCES += main.cpp \
     Core/Params/StringParameter.cpp \
     Core/Params/Matrix3x3Parameter.cpp \
     Core/Filters/Convolution3x3.cpp \
-    Core/Filters/BilateralBlur.cpp
+    Core/Filters/BilateralBlur.cpp \
+    Core/Params/RealParameter.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -74,7 +75,8 @@ HEADERS  += \
     Core/Params/StringParameter.h \
     Core/Params/Matrix3x3Parameter.h \
     Core/Filters/Convolution3x3.h \
-    Core/Filters/BilateralBlur.h
+    Core/Filters/BilateralBlur.h \
+    Core/Params/RealParameter.h
 
 FORMS    +=
 
