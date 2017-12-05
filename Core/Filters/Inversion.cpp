@@ -11,6 +11,7 @@ Inversion::Inversion() : AbstractFilter()
 void Inversion::update()
 {
     qDebug() << "Inversion::update";
+    clearOutSlots();
 
     ImageDataSpatialPtr inputDataPtr = inSlot("scr");
     if(inputDataPtr.isNull())

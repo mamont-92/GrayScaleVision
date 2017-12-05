@@ -34,24 +34,36 @@ void FilterManagerBackend::removeFilter(int num) // TO DO :  add removing filter
 
 void FilterManagerBackend::removeAllConnections(int filterNumber)
 {
-    /*QList<Connection> connectionList = m_outConnections.values(filterNumber);
-    QListIterator<Connection> iter(connectionList);
-    while(iter.hasNext()){
-        Connection con = iter.next();
+    //m_outConnections.remove(filterNumber);
 
-        QMutableHashIterator<int, Connection> inConIter(m_inConnections);
-        inConIter.next()
-        while(inConIter.findNext(con.targetFilter)){
-            if(inConIter.value().targetFilter == filterNumber)
-                inConIter.remove();
-        }
-    }*/
-    m_outConnections.remove(filterNumber);
+    //QList<Connection> list = m_outConnections.values(filterNumber);
+
+    m_inConnections.remove(filterNumber);
+
     QMutableHashIterator<int, Connection> inConIter(m_inConnections);
     while(inConIter.hasNext()){
         inConIter.next();
-        if(inConIter.value().targetFilter == filterNumber)
+        if(inConIter.value().targetFilter == filterNumber){
             inConIter.remove();
+        }
+    }
+
+
+    QMutableHashIterator<int, Connection> outConIter(m_outConnections);
+    while(outConIter.hasNext()){
+        outConIter.next();
+        if(outConIter.value().targetFilter == filterNumber){
+            outConIter.remove();
+        }
+        else{
+            if(outConIter.key() == filterNumber){
+                AbstractFilter * filterPtr = m_filters.value(outConIter.value().targetFilter, NULL);
+                if(filterPtr)
+                    //filterPtr->setInSlot(outConIter.value().targetSlot, ImageDataSpatialPtr());
+                    filterPtr->clearInSlot(0);
+                outConIter.remove();
+            }
+        }
     }
 }
 

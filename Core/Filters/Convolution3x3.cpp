@@ -17,6 +17,8 @@ Convolution3x3::Convolution3x3() : AbstractFilter(), matrix(QMatrix3x3(defaultMa
 void Convolution3x3::update()
 {
     qDebug() << "Convolution3x3::update";
+    clearOutSlots();
+
     float minPercent = 0.1;
     float maxPercent = 0.9;
 
