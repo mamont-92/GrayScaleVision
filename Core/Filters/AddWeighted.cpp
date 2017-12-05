@@ -13,4 +13,5 @@ AddWeighted::AddWeighted() : AbstractFilter()
 void AddWeighted::update()
 {
     qDebug() << "Add Weighted::update";
+    clearOutSlots();
 }

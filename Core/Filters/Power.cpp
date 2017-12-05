@@ -12,6 +12,7 @@ Power::Power() : AbstractFilter()
 void Power::update()
 {
     qDebug() << "Power::update";
+    clearOutSlots();
 
     ImageDataSpatialPtr inputDataPtr = inSlot("scr");
     if(inputDataPtr.isNull())

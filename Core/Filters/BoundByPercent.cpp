@@ -11,6 +11,7 @@ BoundByPercent::BoundByPercent() : AbstractFilter()
 void BoundByPercent::update()
 {
     qDebug() << "BoundByPercent::update";
+    clearOutSlots();
     float minPercent = 0.1;
     float maxPercent = 0.9;
 

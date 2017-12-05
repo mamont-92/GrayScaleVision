@@ -54,6 +54,19 @@ void AbstractFilter::setInSlot(int number, ImageDataSpatialPtr data)
         m_inSlots[number] = data;
 }
 
+void AbstractFilter::clearInSlot(int number)
+{
+    if( (number >= 0) && (number < m_inSlots.size()) )
+        m_inSlots[number].clear();
+}
+
+void AbstractFilter::clearOutSlots()
+{
+    for(int i=0; i < m_outSlots.size(); ++i){
+        m_outSlots[i].reset();
+    }
+}
+
 void AbstractFilter::setParameter(QString name, QVariant value)
 {
     AbstractParameter * parameter = m_params.value(name, NULL);
