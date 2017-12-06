@@ -9,33 +9,39 @@ RasterImageProvider::RasterImageProvider() : QQuickImageProvider(QQuickImageProv
 
 }
 
+QPixmap genEmptyPixmap()
+{
+    QPixmap pixmap(QSize(200,200));
+    pixmap.fill("gray");
+
+    QPainter painter(&pixmap);
+    painter.setFont(QFont("Arial", 16, QFont::Bold));
+
+    QString str ="Empty Image";
+
+    QFontMetrics fm(painter.font());
+    QRect fontRect = fm.boundingRect(str);
+
+    fontRect.moveCenter(pixmap.rect().center());
+    painter.drawText(fontRect, Qt::AlignCenter, str);
+
+    return pixmap;
+}
+
+QPixmap RasterImageProvider::emptyPixmap(){
+    static QPixmap _emptyPixmap = genEmptyPixmap();
+    return _emptyPixmap;
+}
+
 QPixmap RasterImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-
     QString number = id;
     int ind=number.indexOf("_");
     if(ind >=1)
         number.truncate(ind);
     QImage img = GlobalContext::instance().filterManager()->images(number.toInt());
     if(img.isNull()){
-        int width = 100;
-        int height = 50;
-
-        if (size)
-            *size = QSize(width, height);
-        QPixmap pixmap(requestedSize.width() > 0 ? requestedSize.width() : width,
-                       requestedSize.height() > 0 ? requestedSize.height() : height);
-        pixmap.fill("red");
-
-        QPainter painter(&pixmap);
-        painter.setFont(QFont("Arial", 8, QFont::Bold));
-
-        QFontMetrics fm(painter.font());
-        QRect fontRect = fm.boundingRect(number);
-
-        fontRect.moveCenter(pixmap.rect().center());
-        painter.drawText(fontRect, Qt::AlignCenter, number);
-        return pixmap;
+        return emptyPixmap();
     }
     else{
         return QPixmap::fromImage(img);

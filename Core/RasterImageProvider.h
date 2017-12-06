@@ -9,6 +9,8 @@ class RasterImageProvider: public QQuickImageProvider
 public:
     RasterImageProvider();
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
+private:
+    static QPixmap emptyPixmap();
 };
 
 #endif // RASTERIMAGEPROVIDER_H
