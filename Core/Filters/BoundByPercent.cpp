@@ -13,8 +13,8 @@ BoundByPercent::BoundByPercent() : AbstractFilter(),
 void BoundByPercent::update()
 {
     clearOutSlots();
-    float minRatio = minPercent.valueReal()*0.001;
-    float maxRatio = maxPercent.valueReal()*0.001;
+    float minRatio = minPercent.valueReal()*0.01;
+    float maxRatio = maxPercent.valueReal()*0.01;
 
     ImageDataSpatialPtr inputDataPtr = inSlot("scr");
     if(inputDataPtr.isNull())
