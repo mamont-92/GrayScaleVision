@@ -8,5 +8,7 @@
 #include "Filters/BoundByPercent.h"
 #include "Filters/Power.h"
 #include "Filters/Convolution3x3.h"
+#include "Filters/BilateralBlur.h"
+#include "Filters/Laplacian.h"
 
 #endif // BASEFILTERS_H

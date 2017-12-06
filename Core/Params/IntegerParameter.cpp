@@ -1,9 +1,10 @@
 #include "IntegerParameter.h"
 #include <qdebug.h>
 
-IntegerParameter::IntegerParameter(int _value, int _minValue, int _maxValue):
+IntegerParameter::IntegerParameter(int _value, int _minValue, int _maxValue, ValueType _valueType):
                                     AbstractParameter(), m_value(_value),
-                                    m_minValue(_minValue), m_maxValue(_maxValue) {}
+                                    m_minValue(_minValue), m_maxValue(_maxValue),
+                                    m_valueType(_valueType) {}
 
 QVariant IntegerParameter::value() const
 {
@@ -31,10 +32,27 @@ void IntegerParameter::setValue(const QVariant & _value)
         setValue(newValue);
 }
 
+inline int makeLessEven(int _val){
+    return (_val / 2) * 2;
+}
+
+inline int makeLessOdd(int _val){
+    return (_val-1) / 2 + 1;
+}
 
 void IntegerParameter::setValue(const int & _value)
 {
-    m_value = qBound(m_minValue, _value, m_maxValue);
+    int new_value = _value;
+    switch(m_valueType){
+        case OnlyEven:
+            new_value = makeLessEven(_value);
+        break;
+        case OnlyOdd:
+            new_value = makeLessOdd(_value);
+        break;
+
+    }
+    m_value = qBound(m_minValue, new_value, m_maxValue);
 }
 
 void IntegerParameter::setMinValue(const int & _value)
