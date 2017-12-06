@@ -2,7 +2,7 @@
 #include "opencv2/opencv.hpp"
 
 BilateralBlur::BilateralBlur() : AbstractFilter(),
-    diameter(9,0,9),
+    diameter(9,0,9, IntegerParameter::OnlyOdd),
     sigmaIntensity(3000, 1, 65535),
     sigmaSpace(50,1, 1000)
 

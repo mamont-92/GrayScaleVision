@@ -37,7 +37,7 @@ inline int makeLessEven(int _val){
 }
 
 inline int makeLessOdd(int _val){
-    return (_val-1) / 2 + 1;
+    return ((_val-1) / 2 )*2 + 1;
 }
 
 void IntegerParameter::setValue(const int & _value)

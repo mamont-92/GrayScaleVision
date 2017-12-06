@@ -2,7 +2,7 @@
 #include "opencv2/opencv.hpp"
 
 Laplacian::Laplacian() : AbstractFilter(),
-    kernelSize(3, 1, 7)
+    kernelSize(3, 1, 7, IntegerParameter::OnlyOdd)
 {
     registerInSlot("src", 0);
     registerOutSlot("res", 0);
