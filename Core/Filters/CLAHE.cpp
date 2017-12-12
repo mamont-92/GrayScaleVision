@@ -1,14 +1,10 @@
 #include "CLAHE.h"
-#include <QDebug>
-
 #include "opencv2/opencv.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
 
 CLAHE::CLAHE() : AbstractFilter(),
     clipCount(80, 4, 120),
     tileSize(8,2, 16)
 {
-    qDebug() << "Constructor CLAHE";
     registerInSlot("scr", 0);
     registerOutSlot("res", 0);
     registerParameter("clip count", &clipCount);
@@ -17,7 +13,6 @@ CLAHE::CLAHE() : AbstractFilter(),
 
 void CLAHE::update()
 {
-    qDebug() << "CLAHE::update";
     clearOutSlots();
 
     ImageDataSpatialPtr inputDataPtr = inSlot("scr");
