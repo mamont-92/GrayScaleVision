@@ -54,6 +54,12 @@ void AbstractFilter::setInSlot(int number, ImageDataSpatialPtr data)
         m_inSlots[number] = ImageDataSpatialWeakPtr(data);
 }
 
+void AbstractFilter::clearInSlot(int number)
+{
+    if( (number >= 0) && (number < m_inSlots.size()) )
+        m_inSlots[number].clear();
+}
+
 void AbstractFilter::clearOutSlots()
 {
     for(int i=0; i < m_outSlots.size(); ++i){
