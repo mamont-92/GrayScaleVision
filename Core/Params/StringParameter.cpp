@@ -1,5 +1,4 @@
 #include "StringParameter.h"
-#include <qdebug.h>
 
 StringParameter::StringParameter(QString _value):
                             AbstractParameter(), m_value(_value) {}
@@ -22,6 +21,5 @@ void StringParameter::setValue(const QVariant & _value)
 
 void StringParameter::setValue(const QString & _value)
 {
-    qDebug() << "SET STING VALUE" << _value;
     m_value = _value;
 }
