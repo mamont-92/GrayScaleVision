@@ -23,7 +23,6 @@ Item {
 
     function reloadImage(){
         image.source = "image://rasterizer/" + root.number + "_" + Math.random();
-        console.log(image.source, root.number);
     }
 
     function inputConnectorPos(number){

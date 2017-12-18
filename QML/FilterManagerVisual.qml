@@ -16,7 +16,6 @@ Item {
     signal filerSelected(int number)
 
     function updateFilterImage(filterNumber){
-        console.log("on img updated: ",filterNumber );
         var inputFilter = filterByNumber(filterNumber);
         inputFilter.reloadImage();
     }
@@ -135,9 +134,6 @@ Item {
         anchors.fill: parent
         model: ListModel {
             id: filtersModel
-            onRowsInserted: {
-                console.log("added");
-            }
         }
 
         delegate : Filter {
