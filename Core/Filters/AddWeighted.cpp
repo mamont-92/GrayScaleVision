@@ -20,8 +20,8 @@ void AddWeighted::update()
 {
     clearOutSlots();
 
-    ImageDataSpatialPtr src1DataPtr = inSlot("src1");
-    ImageDataSpatialPtr src2DataPtr = inSlot("src2");
+    ImageDataSpatialPtr src1DataPtr = inSlotLock("src1");
+    ImageDataSpatialPtr src2DataPtr = inSlotLock("src2");
 
     if(src1DataPtr.isNull() || src2DataPtr.isNull())
         return;

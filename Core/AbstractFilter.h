@@ -31,8 +31,10 @@ public:
     ImageDataSpatialPtr outSlot(QString name);
     ImageDataSpatialPtr outSlot(int number);
 protected:
-    ImageDataSpatialPtr inSlot(QString name);
-    ImageDataSpatialPtr inSlot(int number);
+    ImageDataSpatialWeakPtr inSlot(QString name);
+    ImageDataSpatialWeakPtr inSlot(int number);
+    ImageDataSpatialPtr inSlotLock(QString name);
+    ImageDataSpatialPtr inSlotLock(int number);
 
     void registerInSlot(QString name, int number);
     void registerOutSlot(QString name, int number);
@@ -43,7 +45,7 @@ private:
     QHash<QString, int> m_outNames;
     QHash<QString, int> m_inNames;
     QVector<ImageDataSpatialPtr> m_outSlots;
-    QVector<ImageDataSpatialPtr> m_inSlots;
+    QVector<ImageDataSpatialWeakPtr> m_inSlots;
     QHash<QString, AbstractParameter* > m_params;
 };
 

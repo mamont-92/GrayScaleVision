@@ -15,7 +15,7 @@ void CLAHE::update()
 {
     clearOutSlots();
 
-    ImageDataSpatialPtr inputDataPtr = inSlot("scr");
+    ImageDataSpatialPtr inputDataPtr = inSlotLock("scr");
     if(inputDataPtr.isNull())
         return;
 
