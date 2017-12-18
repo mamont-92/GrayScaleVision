@@ -112,8 +112,6 @@ ImageDataSpatialPtr AbstractFilter::outSlot(int number)
 {
     if( (number >= 0) && (number < m_outSlots.size()) )
         return m_outSlots[number];
-    else
-        qDebug() << "assert!";
     return  ImageDataSpatialPtr();
 }
 

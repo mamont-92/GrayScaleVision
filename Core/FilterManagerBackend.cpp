@@ -9,21 +9,17 @@
 
 FilterManagerBackend::FilterManagerBackend(QObject *parent) :QObject(parent)
 {
-    qDebug() << "constructor";
 }
 
 void FilterManagerBackend::addFilter(int num, QString type)
 {
     AbstractFilter * ptr = FilterCreator::create(type);
-    qDebug() << "add filter: " << num << "  " << type << " " << ptr;
     m_filters.insert(num, ptr);
-    qDebug() << "size: " << FilterCreator::filtersInfo().size();
     updateAllFilters();
 }
 
 void FilterManagerBackend::removeFilter(int num) // TO DO :  add removing filter connections
 {
-    qDebug() << "remove filter: " << num;
     removeAllConnections(num);
     AbstractFilter * ptr  = m_filters.value(num, NULL);
     m_filters.remove(num);
@@ -126,7 +122,6 @@ QVariant FilterManagerBackend::filterParamsInfo(int filterNumber)
 
 void FilterManagerBackend::updateAllFilters()
 {
-    qDebug() << "UPDATE ALL FILTERS";
     m_imageMutex.lock();
     m_images.clear();
     m_imageMutex.unlock();
@@ -161,17 +156,14 @@ void FilterManagerBackend::updateAllFilters()
                     QList<Connection> outConnections = m_outConnections.values(curFilter);
                     QListIterator<Connection> outConIter(outConnections);
                     while(outConIter.hasNext() ){
-                        qDebug() << "setting in data";
                         Connection outCon = outConIter.next();
                         AbstractFilter * targetPtr = m_filters.value(outCon.targetFilter, NULL);
                         if(targetPtr){
-                            qDebug() << "set in: " << outCon.targetFilter << outCon.currentSlot;
+
 
                             targetPtr->setInSlot((qint8)outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
                             //targetPtr->setInSlot(outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
                         }
-                        else
-                            qDebug() << "FUCK";
                     }
 
                 }
