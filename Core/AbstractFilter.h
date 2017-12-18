@@ -18,6 +18,9 @@ public:
     void setInSlot(QString name, ImageDataSpatialPtr data);
     void setInSlot(int number, ImageDataSpatialPtr data);
 
+    void clearInSlot(int number);
+    void clearOutSlots();
+
     void setParameter(QString name, QVariant value);
 
     QVariant parameterValue(QString name) const;

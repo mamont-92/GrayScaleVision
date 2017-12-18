@@ -6,7 +6,12 @@
 class IntegerParameter : public AbstractParameter
 {
 public:
-    IntegerParameter(int _value = 0, int _minValue = 0, int _maxValue = 100);
+    enum ValueType{
+        ALLValues = 0,
+        OnlyOdd = 1,
+        OnlyEven = 2
+    };
+    IntegerParameter(int _value = 0, int _minValue = 0, int _maxValue = 100, ValueType _valueType = ALLValues);
 
     QVariant value() const;
     int valueInt() const;
@@ -19,6 +24,7 @@ public:
     void setMinMaxValues(const int & _value1, const int & _value2);
 private:
     int m_value, m_minValue, m_maxValue;
+    ValueType m_valueType;
 };
 
 #endif // INTEGERPARAMETER_H

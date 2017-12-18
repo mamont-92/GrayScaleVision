@@ -8,8 +8,8 @@ import grayscalevision.core 1.0
 Window {
     id: root
     visible: true
-    width: 640
-    height: 480
+    width: 800
+    height: 600
     property real minRightPanelRatio: 0.25
     property real maxRightPanelRatio: 0.95
     property real rightPanelRatio: 0.75
@@ -115,7 +115,7 @@ Window {
             id: filterWidgetManager
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 70
+            height: 100
             anchors.bottom: parent.bottom
             anchors.margins: 10
             onParameterModified: {

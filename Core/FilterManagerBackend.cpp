@@ -24,6 +24,7 @@ void FilterManagerBackend::addFilter(int num, QString type)
 void FilterManagerBackend::removeFilter(int num) // TO DO :  add removing filter connections
 {
     qDebug() << "remove filter: " << num;
+    removeAllConnections(num);
     AbstractFilter * ptr  = m_filters.value(num, NULL);
     m_filters.remove(num);
     if(ptr)
@@ -31,12 +32,64 @@ void FilterManagerBackend::removeFilter(int num) // TO DO :  add removing filter
     updateAllFilters();
 }
 
+void FilterManagerBackend::removeAllConnections(int filterNumber)
+{
+    m_outConnections.remove(filterNumber);
+    m_inConnections.remove(filterNumber);
+
+    QMutableHashIterator<int, Connection> inConIter(m_inConnections);
+    while(inConIter.hasNext()){
+        inConIter.next();
+        if(inConIter.value().targetFilter == filterNumber){
+            AbstractFilter * filterPtr = m_filters.value(inConIter.key(), NULL);
+            if(filterPtr)
+                filterPtr->clearInSlot(inConIter.value().currentSlot);
+            inConIter.remove();
+        }
+    }
+
+
+    QMutableHashIterator<int, Connection> outConIter(m_outConnections);
+    while(outConIter.hasNext()){
+        outConIter.next();
+        if(outConIter.value().targetFilter == filterNumber){
+            outConIter.remove();
+        }
+    }
+}
+
 void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn)
 {
-    qDebug() << "connect filters: " << filterOut << "  " << filterIn;
+    //TO DO: add removing conection for "filterIn" at slot "connectorIn"
+    removeConnectionsForFilterInSlot(filterIn, connectorIn);
     m_outConnections.insertMulti(filterOut, Connection(filterIn, connectorIn, connectorOut));
     m_inConnections.insertMulti(filterIn,Connection(filterOut,connectorOut, connectorIn));
+
     updateAllFilters();
+}
+
+void FilterManagerBackend::removeConnectionsForFilterInSlot(int filterNumber, int slot)
+{
+    AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
+    if(filterPtr)
+        filterPtr->clearInSlot(slot);
+
+    QMutableHashIterator<int, Connection> inConIter(m_inConnections);
+    while(inConIter.hasNext()){
+        inConIter.next();
+        if((inConIter.key() == filterNumber) && (inConIter.value().currentSlot == slot)){
+            inConIter.remove();
+        }
+    }
+
+
+    QMutableHashIterator<int, Connection> outConIter(m_outConnections);
+    while(outConIter.hasNext()){
+        outConIter.next();
+        if((outConIter.value().targetFilter == filterNumber) && (outConIter.value().targetSlot == slot) ){
+            outConIter.remove();
+        }
+    }
 }
 
 void FilterManagerBackend::setParameterValueForFilter(int filterNumber, QString paramName, QVariant value)

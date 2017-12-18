@@ -39,6 +39,8 @@ public:
 signals:
     void imageRastered(int number);
 private:
+    void removeAllConnections(int filterNumber);
+    void removeConnectionsForFilterInSlot(int filterNumber, int slot);
     QMutex m_imageMutex;
     QMultiHash<int, Connection> m_outConnections, m_inConnections;
     QHash<int, AbstractFilter * > m_filters;
