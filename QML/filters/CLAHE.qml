@@ -14,6 +14,7 @@ FilterWidget{
                 clipCountParameter.minValue = clipCount["min"];
                 clipCountParameter.maxValue = clipCount["max"];
                 clipCountParameter.value = clipCount["value"];
+                //console.log("clip count parameter", clipCountParameter.value);
 
             }
 
@@ -22,6 +23,7 @@ FilterWidget{
                 tileSizeParameter.minValue = tileSize["min"];
                 tileSizeParameter.maxValue = tileSize["max"];
                 tileSizeParameter.value = tileSize["value"];
+                //console.log("tile size parameter", tileSizeParameter.value);
             }
         }
     }
@@ -48,25 +50,25 @@ FilterWidget{
             style: Text.Raised
         }
 
-    RealParameter{
+    NumParameter{
         id: clipCountParameter
-
+        viewDecimals: 0
         anchors.left: parent.left
         anchors.right: parent.right
 
         onValueModified: {
-            root.parameterModified({"name":"clip count", "value":value})
+            root.parameterModified({"name":"clip count", "value":value.toFixed(viewDecimals)})
         }
     }
 
-    RealParameter{
+    NumParameter{
         id: tileSizeParameter
-
+        viewDecimals: 0
         anchors.left: parent.left
         anchors.right: parent.right
 
         onValueModified: {
-            root.parameterModified({"name":"tile size", "value":value})
+            root.parameterModified({"name":"tile size", "value":value.toFixed(viewDecimals)})
         }
     }
 

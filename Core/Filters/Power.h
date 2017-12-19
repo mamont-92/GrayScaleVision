@@ -10,7 +10,7 @@ public:
     Power();
     void update();
     RealParameter power;
-    DECLARE_READABLE_NAME("power")
+    DECLARE_READABLE_NAME("Power")
 };
 REGISTER_FILTER(Power, 1, 1)
 

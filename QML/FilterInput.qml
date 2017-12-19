@@ -45,7 +45,6 @@ Item {
             background.isHighLight = true
         }
         onDropped: {
-            //console.log (drag.source.number, drag.source.parentNumber);
             root.connected(drag.source.parentNumber, drag.source.number)
         }
         onExited: {

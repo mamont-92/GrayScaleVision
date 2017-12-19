@@ -5,9 +5,9 @@ import QtQuick.Controls 2.2
 
 Item {
     id: root
-    property real minValue: 0
-    property real maxValue: 100
-    property real value: 0
+    property double minValue: 0
+    property double maxValue: 100
+    property double value: 0
     property int buttonWidth: 30
 
     signal valueModified()

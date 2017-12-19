@@ -7,8 +7,6 @@
         <file>QML/types/FilterTypeObject.qml</file>
         <file>QML/types/qmldir</file>
         <file>QML/types/ConnectorTypeObject.qml</file>
-        <file>QML/utils/RealParameter.qml</file>
-        <file>QML/utils/TrackBar.qml</file>
         <file>QML/FilterPanel.qml</file>
         <file>QML/FilterManagerVisual.qml</file>
         <file>QML/FilterManagerVisualLogic.js</file>
@@ -20,6 +18,9 @@
         <file>QML/filters/SourceImage.qml</file>
         <file>QML/FilterWidgetManager.qml</file>
         <file>QML/filters/FilterWidget.qml</file>
-        <file>QML/utils/IntEdit.qml</file>
+        <file>QML/filters/Power.qml</file>
+        <file>QML/utils/NumEdit.qml</file>
+        <file>QML/utils/TrackBar.qml</file>
+        <file>QML/utils/NumParameter.qml</file>
     </qresource>
 </RCC>

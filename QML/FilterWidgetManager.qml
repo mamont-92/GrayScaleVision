@@ -15,9 +15,10 @@ Item {
     function updateWidgets(){
         if(filterInfo != null){
             var filterName = filterInfo["name"];
-            root.widgets[filterName].params = filterInfo["params"];
             root.filterNumber = filterInfo["number"];
             root.filterName = filterName;
+            root.widgets[filterName].params = filterInfo["params"];
+
         }
     }
 
@@ -37,6 +38,10 @@ Item {
                root.widgets = {}
             root.widgets[name] = addWeightedWidget
         }
+
+        onParameterModified: {
+            root.parameterModified(filterNumber, parameter)
+        }
     }
 
     BoundByPercent{
@@ -49,6 +54,9 @@ Item {
             if(root.widgets == null)
                root.widgets = {}
             root.widgets[name] = boundByPercentWidget
+        }
+        onParameterModified: {
+            root.parameterModified(filterNumber, parameter)
         }
     }
 
@@ -99,4 +107,23 @@ Item {
             root.parameterModified(filterNumber, parameter)
         }
     }
+
+    Power{
+        id: powerImageWidget
+        visible: root.filterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = powerImageWidget
+        }
+
+        onParameterModified: {
+            root.parameterModified(filterNumber, parameter)
+        }
+    }
+
+
 }

@@ -5,7 +5,6 @@ FilterManagerBackendGate::FilterManagerBackendGate(QObject *parent) : QObject(pa
 {
     m_filterManager = GlobalContext::instance().filterManager();
     connect(m_filterManager, &FilterManagerBackend::imageRastered, [this] (int number) {
-        qDebug() << "update image";
         emit imageRastered(number);
     });
 }

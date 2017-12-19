@@ -18,7 +18,6 @@ function genNewId(){
 }
 
 function createNewFilter(type, x, y){
-    console.log(type, x,y)
     if(filterCreationTemplate.hasOwnProperty(type)){
         var newId = genNewId();
         var filterTemplate = filterCreationTemplate[type];
@@ -40,7 +39,6 @@ function createNewFilter(type, x, y){
 }
 
 function removeFilter(num){ // TO DO: replace cycle for index in model
-    console.log("remove filter", num);
     for(var i = 0; i < repeaterModel.count; i++){
         if(repeaterModel.get(i).number == num){
             repeaterModel.remove(i,1);

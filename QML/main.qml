@@ -115,7 +115,7 @@ Window {
             id: filterWidgetManager
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 100
+            height: 150
             anchors.bottom: parent.bottom
             anchors.margins: 10
             onParameterModified: {
