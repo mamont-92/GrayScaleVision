@@ -10,7 +10,10 @@ ImageDataSpatial::ImageDataSpatial(quint16 _width, quint16 _height):
     m_height(_height)
 {
     m_allocatedPixels = m_width * m_height;
-    m_data = new float[m_allocatedPixels];
+    if(m_allocatedPixels)
+        m_data = new float[m_allocatedPixels];
+    else
+        m_data = NULL;
     if(!m_data)
         m_allocatedPixels = 0;
 }
@@ -28,6 +31,37 @@ QSize ImageDataSpatial::size() const
 {
     return QSize(m_width, m_height);
 }
+
+void ImageDataSpatial::resize(QSize _size)
+{
+    m_width = _size.width();
+    m_height = _size.height();
+    qint64 newAllocPixels = _size.width() * _size.height();
+    if((newAllocPixels > m_allocatedPixels) || ((1.5 * newAllocPixels) < m_allocatedPixels)){
+        if(m_data) delete [] m_data;
+        m_allocatedPixels = newAllocPixels;
+        if(m_allocatedPixels)
+            m_data = new float[m_allocatedPixels];
+        else
+            m_data = NULL;
+        if(!m_data)
+            m_allocatedPixels = 0;
+    }
+    else
+        m_allocatedPixels = newAllocPixels;
+}
+
+void ImageDataSpatial::setWithCopyData(const float * _data, QSize _size)
+{
+    resize(_size);
+    memcpy(m_data, _data, sizeof(float)* qMin((qint64)_size.width() * _size.height(), (qint64)m_allocatedPixels));
+}
+
+void ImageDataSpatial::setEmpty()
+{
+    resize(QSize(0,0));
+}
+
 quint16 ImageDataSpatial::width() const
 {
     return m_width;

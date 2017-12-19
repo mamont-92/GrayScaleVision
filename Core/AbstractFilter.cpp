@@ -23,23 +23,12 @@ void AbstractFilter::registerOutSlot(QString name, int number)
     m_outNames.insert(name, number);
     if(m_outSlots.size() <= number)
         m_outSlots.resize(number+1);
+    m_outSlots[number] = ImageDataSpatialPtr::create(0,0);
 }
 
 void AbstractFilter::registerParameter(QString name, AbstractParameter * parameter)
 {
     m_params.insert(name, parameter); // warning: no memory managment there, need delete objects in source
-}
-
-void AbstractFilter::setOutSlot(QString name, ImageDataSpatialPtr data)
-{
-    int ind = m_outNames.value(name, -1);
-    setOutSlot(ind, data);
-}
-
-void AbstractFilter::setOutSlot(int number, ImageDataSpatialPtr data)
-{
-    if( (number >= 0) && (number < m_outSlots.size()) )
-         m_outSlots[number] = data;
 }
 
 void AbstractFilter::setInSlot(QString name, ImageDataSpatialPtr data)
@@ -58,13 +47,6 @@ void AbstractFilter::clearInSlot(int number)
 {
     if( (number >= 0) && (number < m_inSlots.size()) )
         m_inSlots[number].clear();
-}
-
-void AbstractFilter::clearOutSlots()
-{
-    for(int i=0; i < m_outSlots.size(); ++i){
-        m_outSlots[i].reset();
-    }
 }
 
 void AbstractFilter::setParameter(QString name, QVariant value)

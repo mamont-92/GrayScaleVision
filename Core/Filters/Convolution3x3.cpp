@@ -15,62 +15,60 @@ Convolution3x3::Convolution3x3() : AbstractFilter(),
 
 void Convolution3x3::update()
 {
-    clearOutSlots();
+    auto inDataPtr = inSlotLock("src");
+    auto outDataPtr = outSlot("res");
 
-    ImageDataSpatialPtr inputDataPtr = inSlotLock("src");
-    if(inputDataPtr.isNull())
+    if(inDataPtr.isNull() || inDataPtr->isEmpty()){
+        outDataPtr->setEmpty();
         return;
+    }
 
-    if(inputDataPtr->isEmpty())
-        return;
+    outDataPtr->resize(inDataPtr->size());
 
-    float * inData = inputDataPtr->data();
-
-    ImageDataSpatialPtr resultDataPtr = ImageDataSpatialPtr::create(inputDataPtr->width(), inputDataPtr->height());
-    float * outData = resultDataPtr->data();
+    float * inRawData = inDataPtr->data();
+    float * outRawData = outDataPtr->data();
 
     float minVal, maxVal;
-    inputDataPtr->calcMinMax(minVal, maxVal);
+    inDataPtr->calcMinMax(minVal, maxVal);
 
-    int width = inputDataPtr->width(), height = inputDataPtr->height();
+    int width = inDataPtr->width(), height = inDataPtr->height();
     int beginInd = 0, endInd = width;
     #pragma omp parallel for
     for(int i = beginInd; i < endInd; ++i){ //copy first row
-        outData[i] = inData[i];
+        outRawData[i] = inRawData[i];
     }
 
     beginInd = (height-1)*width, endInd = height*width;
     #pragma omp parallel for
     for(int i = beginInd; i < endInd; ++i){ //copy last row
-        outData[i] = inData[i];
+        outRawData[i] = inRawData[i];
     }
 
     beginInd = 0, endInd = height*width; int delta = width - 1;
     #pragma omp parallel for
-    for(int i = beginInd; i < endInd; i+=width){ //copy first and last row, together because of cash miss in any case
-        outData[i] = inData[i];
-        outData[i+delta] = inData[i+delta];
+    for(int i = beginInd; i < endInd; i+=width){ //copy first and last row, together because of cache miss in any case
+        outRawData[i] = inRawData[i];
+        outRawData[i+delta] = inRawData[i+delta];
     }
 
-    const float * matData = matrix.matValue().data();
+    const float * matRawData = matrix.matValue().data();
     #pragma omp parallel for
     for(int i = 1; i < (height -1); ++i){
         for(int j = 1; j < (width -1); ++j){
-            double localSum = inData[(i-1)*width+j-1] * matData[0*3+0];
-            localSum+= inData[(i-1)*width+j] * matData[0*3+1];
-            localSum+= inData[(i-1)*width+j+1] * matData[0*3+2];
+            double localSum = inRawData[(i-1)*width+j-1] * matRawData[0*3+0];
+            localSum+= inRawData[(i-1)*width+j] * matRawData[0*3+1];
+            localSum+= inRawData[(i-1)*width+j+1] * matRawData[0*3+2];
 
-            localSum+= inData[i*width+j-1] * matData[1*3+0];
-            localSum+= inData[i*width+j] * matData[1*3+1];
-            localSum+= inData[i*width+j+1] * matData[1*3+2];
+            localSum+= inRawData[i*width+j-1] * matRawData[1*3+0];
+            localSum+= inRawData[i*width+j] * matRawData[1*3+1];
+            localSum+= inRawData[i*width+j+1] * matRawData[1*3+2];
 
-            localSum+= inData[(i+1)*width+j-1] * matData[2*3+0];
-            localSum+= inData[(i+1)*width+j] * matData[2*3+1];
-            localSum+= inData[(i+1)*width+j+1] * matData[2*3+2];
+            localSum+= inRawData[(i+1)*width+j-1] * matRawData[2*3+0];
+            localSum+= inRawData[(i+1)*width+j] * matRawData[2*3+1];
+            localSum+= inRawData[(i+1)*width+j+1] * matRawData[2*3+2];
 
-            outData[i*width+j] = qBound(minVal, (float)localSum, maxVal);
+            outRawData[i*width+j] = qBound(minVal, (float)localSum, maxVal);
         }
     }
 
-    setOutSlot("res", resultDataPtr);
 }

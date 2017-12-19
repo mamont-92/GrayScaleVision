@@ -1,5 +1,6 @@
 #include "SourceImage.h"
 #include "core/ImageData/ImageDataLoader.h"
+#include <QDebug>
 
 SourceImage::SourceImage() : AbstractFilter()
 {
@@ -11,8 +12,11 @@ SourceImage::SourceImage() : AbstractFilter()
 void SourceImage::update()
 {
     if(m_oldPath != path.value().toString()){
-        clearOutSlots();
         m_oldPath = path.value().toString();
-        setOutSlot("res", ImageDataLoader::loadFromFile(m_oldPath));
+        auto newImg = ImageDataLoader::loadFromFile(m_oldPath);
+        if(newImg.isNull() || newImg->isEmpty())
+            outSlot("res")->setEmpty();
+        else
+            outSlot("res")->setWithCopyData(newImg->data(), newImg->size());
     }
 }

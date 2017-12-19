@@ -1,4 +1,5 @@
 #include "Inversion.h"
+#include <QDebug>
 
 Inversion::Inversion() : AbstractFilter()
 {
@@ -8,28 +9,30 @@ Inversion::Inversion() : AbstractFilter()
 
 void Inversion::update()
 {
-    clearOutSlots();
+    auto inDataPtr = inSlotLock("src");
+    auto outDataPtr = outSlot("res");
 
-    ImageDataSpatialPtr inputDataPtr = inSlotLock("src");
-    if(inputDataPtr.isNull())
+    qDebug() << "ololo22";
+
+    if(inDataPtr.isNull() || inDataPtr->isEmpty()){
+        outDataPtr->setEmpty();
         return;
+    }
 
-    if(inputDataPtr->isEmpty())
-        return;
+    outDataPtr->resize(inDataPtr->size());
 
-    float * inData = inputDataPtr->data();
+    qDebug() << "ololo3333333";
 
-    ImageDataSpatialPtr resultDataPtr = ImageDataSpatialPtr::create(inputDataPtr->width(), inputDataPtr->height());
-    float * outData = resultDataPtr->data();
+    float * inRawData = inDataPtr->data();
+    float * outRawData = outDataPtr->data();
 
     float minVal, maxVal;
-    inputDataPtr->calcMinMax(minVal, maxVal);
-    int maxInd = inputDataPtr->pixelCount();
+    inDataPtr->calcMinMax(minVal, maxVal);
+
+    int maxInd = qMin(inDataPtr->pixelCount(), outDataPtr->pixelCount());
 
     #pragma omp parallel for
     for(int i = 0; i < maxInd; ++i){
-        outData[i] = maxVal - inData[i];
+        outRawData[i] = maxVal - inRawData[i];
     }
-
-    setOutSlot("res", resultDataPtr);
 }

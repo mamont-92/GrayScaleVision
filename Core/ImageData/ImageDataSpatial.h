@@ -29,6 +29,10 @@ public:
     bool isEmpty() const;
     quint64 pixelCount() const;
 
+    void resize(QSize _size);
+    void setWithCopyData(const float * _data, QSize _size);
+    void setEmpty();
+
     float at(ushort column, ushort row) const;
     float at(QPoint _point) const;
     void setPixel(ushort column, ushort row, float value);

@@ -19,7 +19,6 @@ public:
     void setInSlot(int number, ImageDataSpatialPtr data);
 
     void clearInSlot(int number);
-    void clearOutSlots();
 
     void setParameter(QString name, QVariant value);
 
@@ -39,8 +38,6 @@ protected:
     void registerInSlot(QString name, int number);
     void registerOutSlot(QString name, int number);
     void registerParameter(QString name, AbstractParameter * parameter);
-    void setOutSlot(QString name, ImageDataSpatialPtr data);
-    void setOutSlot(int number, ImageDataSpatialPtr data);
 private:
     QHash<QString, int> m_outNames;
     QHash<QString, int> m_inNames;

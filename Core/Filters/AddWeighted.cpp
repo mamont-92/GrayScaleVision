@@ -18,25 +18,20 @@ AddWeighted::AddWeighted() : AbstractFilter(),
 
 void AddWeighted::update()
 {
-    clearOutSlots();
+    auto inDataPtr1 = inSlotLock("src1");
+    auto inDataPtr2 = inSlotLock("src2");
+    auto outDataPtr = outSlot("res");
 
-    ImageDataSpatialPtr src1DataPtr = inSlotLock("src1");
-    ImageDataSpatialPtr src2DataPtr = inSlotLock("src2");
-
-    if(src1DataPtr.isNull() || src2DataPtr.isNull())
+    if(inDataPtr1.isNull() || inDataPtr2.isNull() || inDataPtr1->isEmpty()|| inDataPtr2->isEmpty()){
+        outDataPtr->setEmpty();
         return;
+    }
 
-    if(src1DataPtr->isEmpty() || src2DataPtr->isEmpty())
-        return;
-
-    cv::Mat src1Mat(src1DataPtr->height(), src1DataPtr->width(), CV_32FC1, src1DataPtr->data());
-    cv::Mat src2Mat(src2DataPtr->height(), src2DataPtr->width(), CV_32FC1, src2DataPtr->data());
+    cv::Mat src1Mat(inDataPtr1->height(), inDataPtr1->width(), CV_32FC1, inDataPtr1->data());
+    cv::Mat src2Mat(inDataPtr2->height(), inDataPtr2->width(), CV_32FC1, inDataPtr2->data());
     cv::Mat outMat;
 
     cv::addWeighted(src1Mat, alpha.valueReal(), src2Mat, beta.valueReal(),gamma.valueReal(), outMat);
 
-    ImageDataSpatialPtr resultDataPtr = ImageDataSpatialPtr::create(outMat.cols, outMat.rows);
-    memcpy(reinterpret_cast<uchar*>(resultDataPtr->data()), outMat.data, sizeof(float)*outMat.cols*outMat.rows);
-
-    setOutSlot("res", resultDataPtr);
+    outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
 }
