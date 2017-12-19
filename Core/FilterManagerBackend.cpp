@@ -154,17 +154,6 @@ void FilterManagerBackend::updateAllFilters()
                     m_images.insert(curFilter, img);
                     m_imageMutex.unlock();
                     emit imageRastered(curFilter);
-
-                    /*QList<Connection> outConnections = m_outConnections.values(curFilter);
-                    QListIterator<Connection> outConIter(outConnections);
-                    while(outConIter.hasNext() ){
-                        Connection outCon = outConIter.next();
-                        AbstractFilter * targetPtr = m_filters.value(outCon.targetFilter, NULL);
-                        if(targetPtr){
-                            targetPtr->setInSlot((qint8)outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
-                        }
-                    }*/
-
                 }
                 mainFilterIterator.remove();
                 updatedFilters.insert(curFilter);
