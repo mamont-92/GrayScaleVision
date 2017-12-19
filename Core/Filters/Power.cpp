@@ -14,7 +14,7 @@ void Power::update()
 {
     clearOutSlots();
 
-    ImageDataSpatialPtr inputDataPtr = inSlot("src");
+    ImageDataSpatialPtr inputDataPtr = inSlotLock("src");
     if(inputDataPtr.isNull())
         return;
 

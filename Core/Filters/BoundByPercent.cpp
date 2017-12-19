@@ -16,7 +16,7 @@ void BoundByPercent::update()
     float minRatio = minPercent.valueReal()*0.01;
     float maxRatio = maxPercent.valueReal()*0.01;
 
-    ImageDataSpatialPtr inputDataPtr = inSlot("scr");
+    ImageDataSpatialPtr inputDataPtr = inSlotLock("scr");
     if(inputDataPtr.isNull())
         return;
 
