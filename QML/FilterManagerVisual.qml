@@ -1,6 +1,6 @@
-import QtQuick 2.6
+import QtQuick 2.9
 import QtQuick.Window 2.2
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.2
 import QtQml 2.2
 
 import "FilterManagerVisualLogic.js" as FilterManagerLogic
@@ -110,18 +110,38 @@ Item {
                   implicitWidth: 100
                   implicitHeight: 100
                   color: "#f0f0ff"
-                  border.color: "#353637"
+                  border.color: "#3f3f3f"
               }
         Instantiator {
             model: ListModel {
                 id: filterCreationContexMenuModel
             }
             MenuItem {
-                text: model.text
-                onTriggered: {
-                    var num = FilterManagerLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
-                    //root.filterAdded(num, model.text);
-                    FilterManagerLogic.updateCanvas();
+                id: menuItem
+                highlighted: highlighted
+                background: Item {
+                    implicitWidth: 200
+                    implicitHeight: 40
+
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.margins: 1
+                        color: menuItem.highlighted ? "#a0a0af" : "transparent"
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onContainsMouseChanged: menuItem.highlighted = containsMouse
+                            onClicked: {
+                                var num = FilterManagerLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
+                                FilterManagerLogic.updateCanvas();
+                                contextMenu.close();
+                            }
+                        }
+                    }
+                }
+                contentItem : Text{
+                    text: model.text
+                    color: highlighted ? "#f0f0ff" : "#3f3f3f"
                 }
             }
             onObjectAdded: contextMenu.insertItem(index, object)
