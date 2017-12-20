@@ -142,4 +142,20 @@ Item {
         }
     }
 
+    BilateralBlur{
+        id: bilateralBlurImageWidget
+        visible: root.filterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = bilateralBlurImageWidget
+        }
+
+        onParameterModified: {
+            root.parameterModified(filterNumber, parameter)
+        }
+    }
 }

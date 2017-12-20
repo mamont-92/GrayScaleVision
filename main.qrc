@@ -23,5 +23,6 @@
         <file>QML/utils/TrackBar.qml</file>
         <file>QML/utils/NumParameter.qml</file>
         <file>QML/filters/Laplacian.qml</file>
+        <file>QML/filters/BilateralBlur.qml</file>
     </qresource>
 </RCC>
