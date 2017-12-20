@@ -1,6 +1,5 @@
 #include "FilterManagerBackend.h"
 #include "FilterCreator.h"
-#include <QDebug>
 #include <QMap>
 #include <QSet>
 #include <QList>
@@ -21,6 +20,7 @@ void FilterManagerBackend::addFilter(int num, QString type)
 void FilterManagerBackend::removeFilter(int num) // TO DO :  add removing filter connections
 {
     removeAllConnections(num);
+    updateAllConnectionsForFilters();
     AbstractFilter * ptr  = m_filters.value(num, NULL);
     m_filters.remove(num);
     if(ptr)
@@ -61,6 +61,7 @@ void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int f
     m_outConnections.insertMulti(filterOut, Connection(filterIn, connectorIn, connectorOut));
     m_inConnections.insertMulti(filterIn,Connection(filterOut,connectorOut, connectorIn));
 
+    updateAllConnectionsForFilters();
     updateAllFilters();
 }
 
@@ -152,25 +153,24 @@ void FilterManagerBackend::updateAllFilters()
                     m_images.insert(curFilter, img);
                     m_imageMutex.unlock();
                     emit imageRastered(curFilter);
-
-                    QList<Connection> outConnections = m_outConnections.values(curFilter);
-                    QListIterator<Connection> outConIter(outConnections);
-                    while(outConIter.hasNext() ){
-                        Connection outCon = outConIter.next();
-                        AbstractFilter * targetPtr = m_filters.value(outCon.targetFilter, NULL);
-                        if(targetPtr){
-
-
-                            targetPtr->setInSlot((qint8)outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
-                            //targetPtr->setInSlot(outCon.targetSlot, filterPtr->outSlot(outCon.currentSlot));
-                        }
-                    }
-
                 }
                 mainFilterIterator.remove();
                 updatedFilters.insert(curFilter);
             }
         }
+    }
+}
+
+void FilterManagerBackend::updateAllConnectionsForFilters()
+{
+    QHashIterator<int, Connection> outConIter(m_outConnections);
+    while(outConIter.hasNext()){
+        outConIter.next();
+        auto outFilterPtr = m_filters.value(outConIter.key(), NULL);
+        auto inFilterPtr = m_filters.value(outConIter.value().targetFilter, NULL);
+
+        if(outFilterPtr && inFilterPtr)
+            inFilterPtr->setInSlot(outConIter.value().targetSlot, outFilterPtr->outSlot(outConIter.value().currentSlot));
     }
 }
 
