@@ -1,6 +1,5 @@
 #include "FilterManagerBackend.h"
 #include "FilterCreator.h"
-#include <QDebug>
 #include <QMap>
 #include <QSet>
 #include <QList>

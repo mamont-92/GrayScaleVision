@@ -125,5 +125,21 @@ Item {
         }
     }
 
+    Laplacian{
+        id: laplacianImageWidget
+        visible: root.filterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = laplacianImageWidget
+        }
+
+        onParameterModified: {
+            root.parameterModified(filterNumber, parameter)
+        }
+    }
 
 }

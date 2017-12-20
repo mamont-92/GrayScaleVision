@@ -1,5 +1,4 @@
 #include "ImageDataLoader.h"
-#include <QDebug>
 #include "opencv2/opencv.hpp"
 
 using namespace cv;

@@ -12,16 +12,12 @@ void Inversion::update()
     auto inDataPtr = inSlotLock("src");
     auto outDataPtr = outSlot("res");
 
-    qDebug() << "ololo22";
-
     if(inDataPtr.isNull() || inDataPtr->isEmpty()){
         outDataPtr->setEmpty();
         return;
     }
 
     outDataPtr->resize(inDataPtr->size());
-
-    qDebug() << "ololo3333333";
 
     float * inRawData = inDataPtr->data();
     float * outRawData = outDataPtr->data();

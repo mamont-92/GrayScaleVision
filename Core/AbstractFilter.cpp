@@ -1,5 +1,4 @@
 #include "AbstractFilter.h"
-#include <QDebug>
 
 AbstractFilter::AbstractFilter()
 {

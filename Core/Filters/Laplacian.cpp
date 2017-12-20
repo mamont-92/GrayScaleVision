@@ -2,10 +2,11 @@
 #include "opencv2/opencv.hpp"
 
 Laplacian::Laplacian() : AbstractFilter(),
-    kernelSize(3, 1, 7, IntegerParameter::OnlyOdd)
+    kernelSize(3, 1, 15, IntegerParameter::OnlyOdd)
 {
     registerInSlot("src", 0);
     registerOutSlot("res", 0);
+    registerParameter("kernel size", &kernelSize);
 }
 
 void Laplacian::update()
