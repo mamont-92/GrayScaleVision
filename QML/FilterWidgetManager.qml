@@ -1,6 +1,6 @@
 import QtQuick 2.10
 
-import "filters"
+import "FilterWidgets"
 
 Item {
     id: root

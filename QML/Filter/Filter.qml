@@ -1,5 +1,5 @@
 import QtQuick 2.10
-import "types"
+import "../types"
 
 Item {
     id: root

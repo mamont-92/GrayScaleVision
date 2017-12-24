@@ -11,9 +11,6 @@ FilterWidget {
         anchors.verticalCenter: parent.verticalCenter
 
         text: qsTr("Image inversion")
-        font.family: "Poor Richard"
-        font.italic: true
-        font.pointSize: 10
-        style: Text.Raised
+        font.pointSize: 8
     }
 }

@@ -7,8 +7,8 @@ import grayscalevision.core 1.0
 ApplicationWindow {
     id: root
     visible: true
-    width: 800
-    height: 600
+    width: 1074
+    height: 768
     property real minRightPanelRatio: 0.25
     property real maxRightPanelRatio: 0.95
     property real rightPanelRatio: 0.75
@@ -134,8 +134,6 @@ ApplicationWindow {
 
             text: "filter params"
         }
-
-
 
         FilterWidgetManager{
             id: filterWidgetManager

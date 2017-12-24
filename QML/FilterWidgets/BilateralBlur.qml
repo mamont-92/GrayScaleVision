@@ -8,15 +8,15 @@ FilterWidget {
 
     function updateParams(){
         if(params != null){
-            if(params.hasOwnProperty("sigma intensity")){
-                var sigmaIntensity = params["sigma intensity"];
+            if(params.hasOwnProperty(sigmaIntensityParameter.paramName)){
+                var sigmaIntensity = params[sigmaIntensityParameter.paramName];
                 sigmaIntensityParameter.minValue = sigmaIntensity["min"];
                 sigmaIntensityParameter.maxValue = sigmaIntensity["max"];
                 sigmaIntensityParameter.value = sigmaIntensity["value"];
             }
 
-            if(params.hasOwnProperty("sigma space")){
-                var sigmaSpace = params["sigma space"];
+            if(params.hasOwnProperty(sigmaSpaceParameter.paramName)){
+                var sigmaSpace = params[sigmaSpaceParameter.paramName];
                 sigmaSpaceParameter.minValue = sigmaSpace["min"];
                 sigmaSpaceParameter.maxValue = sigmaSpace["max"];
                 sigmaSpaceParameter.value = sigmaSpace["value"];
@@ -28,8 +28,6 @@ FilterWidget {
         updateParams();
     }
 
-
-
     Column{
         anchors.fill: parent
         spacing: 5
@@ -40,33 +38,32 @@ FilterWidget {
             anchors.horizontalCenter: parent.horizontalCenter
 
             text: qsTr("Bilateral blur filter")
-            font.family: "Poor Richard"
-            font.italic: true
-            font.pointSize: 10
-            style: Text.Raised
+            font.pointSize: 8
         }
 
         NumParameter{
             id: sigmaIntensityParameter
+            property string paramName: "sigma intensity"
             viewDecimals: 0
 
             anchors.left: parent.left
             anchors.right: parent.right
 
             onValueModified: {
-                root.parameterModified({"name":"sigma intensity", "value":value})
+                root.parameterModified({"name": paramName, "value":value})
             }
         }
 
         NumParameter{
             id: sigmaSpaceParameter
+            property string paramName: "sigma space"
             viewDecimals: 0
 
             anchors.left: parent.left
             anchors.right: parent.right
 
             onValueModified: {
-                root.parameterModified({"name":"sigma space", "value":value})
+                root.parameterModified({"name":paramName, "value":value})
             }
         }
     }

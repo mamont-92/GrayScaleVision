@@ -3,6 +3,7 @@ import QtQuick.Window 2.3
 import QtQuick.Controls 2.3
 import QtQml 2.3
 
+import "Filter"
 import "FilterManagerVisualLogic.js" as FilterManagerLogic
 
 Item {
@@ -27,11 +28,6 @@ Item {
         FilterManagerLogic.filterCreationTemplate = filterCreationTemplate;
         FilterManagerLogic.fillContexMenuModel(filterCreationContexMenuModel);
     }
-
-    /*DropArea {  //useless now
-        anchors.fill: parent
-        onDropped: { console.log("red-dropped") } //useless now
-    }*/
 
     function filterByNumber(num){
         for(var i = 0; i < filters.count; i++){
@@ -106,43 +102,18 @@ Item {
     Menu {
         id: contextMenu
         visible: false
-        background: Rectangle {
-                  implicitWidth: 100
-                  implicitHeight: 100
-                  color: "#f0f0ff"
-                  border.color: "#3f3f3f"
-              }
         Instantiator {
             model: ListModel {
                 id: filterCreationContexMenuModel
             }
             MenuItem {
-                id: menuItem
-                highlighted: highlighted
-                background: Item {
-                    implicitWidth: 200
-                    implicitHeight: 40
-
-                    Rectangle {
-                        anchors.fill: parent
-                        anchors.margins: 1
-                        color: menuItem.highlighted ? "#a0a0af" : "transparent"
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onContainsMouseChanged: menuItem.highlighted = containsMouse
-                            onClicked: {
-                                var num = FilterManagerLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
-                                FilterManagerLogic.updateCanvas();
-                                contextMenu.close();
-                            }
-                        }
-                    }
+                id: menuItem      
+                onTriggered: {
+                    var num = FilterManagerLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
+                    FilterManagerLogic.updateCanvas();
+                    contextMenu.close();
                 }
-                contentItem : Text{
-                    text: model.text
-                    color: highlighted ? "#f0f0ff" : "#3f3f3f"
-                }
+                text: model.text
             }
             onObjectAdded: contextMenu.insertItem(index, object)
             onObjectRemoved: contextMenu.removeItem(object)
