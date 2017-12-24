@@ -3,6 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Window 2.3
 import "utils"
 import grayscalevision.core 1.0
+import grayscalevision.fileIO.json 1.0
 
 ApplicationWindow {
     id: root
@@ -88,7 +89,7 @@ ApplicationWindow {
 
         color: "grey"
         y: 0
-        width: 5
+        width: 3
         height: parent.height
 
         Binding on x {
@@ -139,9 +140,9 @@ ApplicationWindow {
             id: filterWidgetManager
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 150
+            height: 200
             anchors.bottom: parent.bottom
-            anchors.margins: 10
+            anchors.margins: 5
             onParameterModified: {
                 filterManagerBackend.setParameterValueForFilter(filterNumber, parameter["name"], parameter["value"])
             }
@@ -156,6 +157,14 @@ ApplicationWindow {
             anchors.margins: 10
         }
 
+    }
+
+    JsonFileIO{
+        id: fileIO
+        Component.onCompleted: {
+            var obj = {"lol": "da", "prop2": {"dag" : "kruto"} };
+            writeJSONToFile("D:/Work/TEST/2.txt", obj);
+        }
     }
 
     Component.onCompleted: {

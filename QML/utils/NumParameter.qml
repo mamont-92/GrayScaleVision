@@ -23,6 +23,7 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
+        anchors.leftMargin: 5
 
         property alias rvalue: root.value
 

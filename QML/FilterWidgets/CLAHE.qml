@@ -44,29 +44,29 @@ FilterWidget{
             font.pointSize: 8
         }
 
-    NumParameter{
-        id: clipCountParameter
-        property string paramName: "clip count"
-        viewDecimals: 0
-        anchors.left: parent.left
-        anchors.right: parent.right
+        NumParameter{
+            id: clipCountParameter
+            property string paramName: "clip count"
+            viewDecimals: 0
+            anchors.left: parent.left
+            anchors.right: parent.right
 
-        onValueModified: {
-            root.parameterModified({"name":paramName, "value":value.toFixed(viewDecimals)})
+            onValueModified: {
+                root.parameterModified({"name":paramName, "value":value.toFixed(viewDecimals)})
+            }
         }
-    }
 
-    NumParameter{
-        id: tileSizeParameter
-        property string paramName: "tile size"
-        viewDecimals: 0
-        anchors.left: parent.left
-        anchors.right: parent.right
+        NumParameter{
+            id: tileSizeParameter
+            property string paramName: "tile size"
+            viewDecimals: 0
+            anchors.left: parent.left
+            anchors.right: parent.right
 
-        onValueModified: {
-            root.parameterModified({"name":paramName, "value":value.toFixed(viewDecimals)})
+            onValueModified: {
+                root.parameterModified({"name":paramName, "value":value.toFixed(viewDecimals)})
+            }
         }
-    }
 
     }
 
