@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.10
 
 Item { // TO DO: replace in filter qml image by this object
     id: root

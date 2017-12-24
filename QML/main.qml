@@ -1,11 +1,10 @@
-import QtQuick 2.6
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.0
-import QtQml 2.2
+import QtQuick 2.10
+import QtQuick.Controls 2.3
+import QtQuick.Window 2.3
 import "utils"
 import grayscalevision.core 1.0
 
-Window {
+ApplicationWindow {
     id: root
     visible: true
     width: 800
@@ -13,6 +12,33 @@ Window {
     property real minRightPanelRatio: 0.25
     property real maxRightPanelRatio: 0.95
     property real rightPanelRatio: 0.75
+
+    menuBar:  MenuBar {
+           Menu {
+               title: "&File"
+
+               MenuItem {
+                   text: "&Open"
+               }
+               MenuItem {
+                   text: "&Save As..."
+               }
+               MenuItem {
+                   text: "&Quit"
+               }
+           }
+           Menu {
+               title: "&Help"
+
+               MenuItem {
+                   text: "&About"
+               }
+               MenuItem {
+                   text: "&Show help"
+               }
+           }
+    }
+
 
     Binding on rightPanelRatio {
         when: borderMouseArea.pressed
@@ -134,6 +160,10 @@ Window {
 
     }
 
+    Component.onCompleted: {
+            x = Screen.width / 2 - width / 2
+            y = Screen.height / 2 - height / 2
+    }
 
 
 }
