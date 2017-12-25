@@ -20,6 +20,7 @@ QVariant JsonFileIO::readJSONFromFile(QString fileName)
     }
     return QVariant();
 }
+
 bool JsonFileIO::writeJSONToFile(QString fileName, QVariant obj)
 {
     auto doc = QJsonDocument::fromVariant(obj.toMap());

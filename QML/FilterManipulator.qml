@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQml 2.3
 
 import "Filter"
-import "FilterManagerVisualLogic.js" as FilterManagerLogic
+import "FilterManipulatorLogic.js" as FilterManipulatorLogic
 
 Item {
     id: root
@@ -22,11 +22,11 @@ Item {
     }
 
     Component.onCompleted: {
-        FilterManagerLogic.repeaterModel = filtersModel;
-        FilterManagerLogic.canvas = mainCanvas;
-        FilterManagerLogic.filterManager = root;
-        FilterManagerLogic.filterCreationTemplate = filterCreationTemplate;
-        FilterManagerLogic.fillContexMenuModel(filterCreationContexMenuModel);
+        FilterManipulatorLogic.repeaterModel = filtersModel;
+        FilterManipulatorLogic.canvas = mainCanvas;
+        FilterManipulatorLogic.FilterManipulator = root;
+        FilterManipulatorLogic.filterCreationTemplate = filterCreationTemplate;
+        FilterManipulatorLogic.fillContexMenuModel(filterCreationContexMenuModel);
     }
 
     function filterByNumber(num){
@@ -43,6 +43,28 @@ Item {
         if(filter != null)
             return filter.name;
         return "";
+    }
+
+    function allFilters(){
+        var result = []
+        for(var i = 0; i < filtersModel.count; i++){
+            var f = filtersModel.get(i);
+            result.push({ "number" : f.number,
+                          "x" : f.x,
+                          "y" : f.y,
+                          "name" : f.name
+                        });
+        }
+        return result;
+    }
+
+    function allConnections(){
+        var result = []
+        for(var i = 0; i < FilterManipulatorLogic.connections.length; i++){
+            var c = FilterManipulatorLogic.connections[i];
+            result.push(c);
+        }
+        return result;
     }
 
     Canvas {
@@ -65,8 +87,8 @@ Item {
             ctx.reset();
             ctx.strokeStyle = Qt.rgba(.4,.6,.8);
 
-            for(var i=0; i < FilterManagerLogic.connections.length; i++){
-                var connection = FilterManagerLogic.connections[i];
+            for(var i=0; i < FilterManipulatorLogic.connections.length; i++){
+                var connection = FilterManipulatorLogic.connections[i];
 
                 var inputFilter = filterByNumber(connection.inputFilter);
                 var outputFilter = filterByNumber(connection.outputFilter);
@@ -107,10 +129,10 @@ Item {
                 id: filterCreationContexMenuModel
             }
             MenuItem {
-                id: menuItem      
+                id: menuItem
                 onTriggered: {
-                    var num = FilterManagerLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
-                    FilterManagerLogic.updateCanvas();
+                    var num = FilterManipulatorLogic.createNewFilter(model.text, contextMenu.x, contextMenu.y);
+                    FilterManipulatorLogic.updateCanvas();
                     contextMenu.close();
                 }
                 text: model.text
@@ -141,22 +163,22 @@ Item {
                 id: filteContexMenu
                 visible: false
                 background: Rectangle {
-                          implicitWidth: 80
-                          implicitHeight: 30
-                          color: "#f0f0ff"
-                          border.color: "#353637"
-                      }
+                    implicitWidth: 80
+                    implicitHeight: 30
+                    color: "#f0f0ff"
+                    border.color: "#353637"
+                }
                 MenuItem {
                     text: "Remove"
                     onTriggered: {
-                        FilterManagerLogic.removeFilter(filter.number);
-                        FilterManagerLogic.updateCanvas();
+                        FilterManipulatorLogic.removeFilter(filter.number);
+                        FilterManipulatorLogic.updateCanvas();
                     }
                 }
             }
 
             onPositionChangedByDrag: {
-                var ind = FilterManagerLogic.indexInModel(number);
+                var ind = FilterManipulatorLogic.indexInModel(number);
                 if(ind != null){
                     filtersModel.setProperty(ind, "x", filter.x);
                     filtersModel.setProperty(ind, "y", filter.y);
@@ -164,8 +186,8 @@ Item {
                 }
             }
             onConnected: {
-                FilterManagerLogic.createNewConnection(outputFilterNumber, outputConnectorNumber, number,inputConnectorNumber);
-                FilterManagerLogic.updateCanvas();
+                FilterManipulatorLogic.createNewConnection(outputFilterNumber, outputConnectorNumber, number,inputConnectorNumber);
+                FilterManipulatorLogic.updateCanvas();
             }
             onMenuRequest: {
                 filteContexMenu.x = xpos;

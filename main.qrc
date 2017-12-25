@@ -5,8 +5,6 @@
         <file>QML/types/qmldir</file>
         <file>QML/types/ConnectorTypeObject.qml</file>
         <file>QML/FilterPanel.qml</file>
-        <file>QML/FilterManagerVisual.qml</file>
-        <file>QML/FilterManagerVisualLogic.js</file>
         <file>QML/ImageViewer.qml</file>
         <file>QML/FilterWidgetManager.qml</file>
         <file>QML/utils/NumEdit.qml</file>
@@ -24,5 +22,8 @@
         <file>QML/FilterWidgets/Laplacian.qml</file>
         <file>QML/FilterWidgets/Power.qml</file>
         <file>QML/FilterWidgets/SourceImage.qml</file>
+        <file>QML/FilterManipulator.qml</file>
+        <file>QML/FilterManipulatorLogic.js</file>
+        <file>QML/FIlterViewer.qml</file>
     </qresource>
 </RCC>

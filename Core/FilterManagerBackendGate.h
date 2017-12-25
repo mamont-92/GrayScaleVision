@@ -19,7 +19,7 @@ public:
     Q_INVOKABLE void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
     Q_INVOKABLE void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
 
-    Q_INVOKABLE QVariant filterCreationTemplate();
+    Q_INVOKABLE QVariant availableFilters();
     Q_INVOKABLE QVariant filterParamsInfo(int filterNumber);
 
 signals:
