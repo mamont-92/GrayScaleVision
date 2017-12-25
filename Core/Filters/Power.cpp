@@ -12,27 +12,22 @@ Power::Power() : AbstractFilter(),
 
 void Power::update()
 {
-    clearOutSlots();
+    auto inDataPtr = inSlotLock("src");
+    auto outDataPtr = outSlot("res");
 
-    ImageDataSpatialPtr inputDataPtr = inSlotLock("src");
-    if(inputDataPtr.isNull())
+    if(inDataPtr.isNull() || inDataPtr->isEmpty()){
+        outDataPtr->setEmpty();
         return;
-
-    if(inputDataPtr->isEmpty())
-        return;
-
-    ImageDataSpatialPtr resultDataPtr = ImageDataSpatialPtr::create(inputDataPtr->width(), inputDataPtr->height());
+    }
 
     float minVal, maxVal;
-    inputDataPtr->calcMinMax(minVal, maxVal);
+    inDataPtr->calcMinMax(minVal, maxVal);
     float delta = qMax(maxVal - minVal, (float)0.00001);
 
-    cv::Mat outMat,  inMat(inputDataPtr->height(), inputDataPtr->width(), CV_32FC1, inputDataPtr->data());
+    cv::Mat outMat,  inMat(inDataPtr->height(), inDataPtr->width(), CV_32FC1, inDataPtr->data());
     inMat.convertTo(outMat, -1, 1.f/delta, (-1.0)*minVal/delta);
     cv::pow(outMat, power.valueReal(), outMat);
     outMat.convertTo(outMat, -1, delta, minVal);
 
-    memcpy(reinterpret_cast<uchar*>(resultDataPtr->data()), outMat.data, sizeof(float)*outMat.cols*outMat.rows);
-
-    setOutSlot("res", resultDataPtr);
+    outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
 }

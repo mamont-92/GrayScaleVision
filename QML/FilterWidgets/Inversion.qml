@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.10
 
 FilterWidget {
     id: root
@@ -11,9 +11,6 @@ FilterWidget {
         anchors.verticalCenter: parent.verticalCenter
 
         text: qsTr("Image inversion")
-        font.family: "Poor Richard"
-        font.italic: true
-        font.pointSize: 10
-        style: Text.Raised
+        font.pointSize: 8
     }
 }

@@ -31,7 +31,7 @@ public:
     void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
     void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
 
-    QVariant filterCreationTemplate();
+    QVariant availableFilters();
     QVariant filterParamsInfo(int filterNumber);
 
     void updateAllFilters();
@@ -41,6 +41,8 @@ signals:
 private:
     void removeAllConnections(int filterNumber);
     void removeConnectionsForFilterInSlot(int filterNumber, int slot);
+    void updateAllConnectionsForFilters();
+
     QMutex m_imageMutex;
     QMultiHash<int, Connection> m_outConnections, m_inConnections;
     QHash<int, AbstractFilter * > m_filters;

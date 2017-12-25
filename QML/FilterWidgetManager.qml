@@ -1,6 +1,6 @@
-import QtQuick 2.0
+import QtQuick 2.10
 
-import "filters"
+import "FilterWidgets"
 
 Item {
     id: root
@@ -125,5 +125,37 @@ Item {
         }
     }
 
+    Laplacian{
+        id: laplacianImageWidget
+        visible: root.filterName == name
+        anchors.fill: parent
+        anchors.margins: 1
 
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = laplacianImageWidget
+        }
+
+        onParameterModified: {
+            root.parameterModified(filterNumber, parameter)
+        }
+    }
+
+    BilateralBlur{
+        id: bilateralBlurImageWidget
+        visible: root.filterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = bilateralBlurImageWidget
+        }
+
+        onParameterModified: {
+            root.parameterModified(filterNumber, parameter)
+        }
+    }
 }
