@@ -35,11 +35,23 @@ ApplicationWindow {
 
             MenuItem {
                 text: "&About"
+                onTriggered: {
+                    aboutDialog.open()
+                }
             }
             MenuItem {
                 text: "&Show help"
             }
         }
+    }
+
+    AboutDialog{
+        id: aboutDialog
+        leftMargin: (parent.width - width)/2
+        rightMargin: (parent.width - width)/2
+        topMargin: (parent.height - height)/2
+        bottomMargin: (parent.height - height)/2
+
     }
 
 
