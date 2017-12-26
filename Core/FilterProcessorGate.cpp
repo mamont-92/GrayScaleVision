@@ -53,3 +53,9 @@ QVariant FilterProcessorGate::availableRasterModes()
         return m_filterProcessor->availableRasterModes();
     return QVariant();
 }
+
+void FilterProcessorGate::setRasterMode(QString mode)
+{
+    if(m_filterProcessor)
+        return m_filterProcessor->setRasterMode(mode);
+}

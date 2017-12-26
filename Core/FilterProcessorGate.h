@@ -22,6 +22,7 @@ public:
     Q_INVOKABLE QVariant availableFilters();
     Q_INVOKABLE QVariant filterParamsInfo(int filterNumber);
     Q_INVOKABLE QVariant availableRasterModes();
+    Q_INVOKABLE void setRasterMode(QString mode);
 
 
 signals:

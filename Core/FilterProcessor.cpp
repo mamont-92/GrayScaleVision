@@ -153,17 +153,22 @@ void FilterProcessor::updateAllFilters()
                 if(filterPtr){
                     filterPtr->update();
 
-                    QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0));
-                    m_imageMutex.lock();
-                    m_images.insert(curFilter, img);
-                    m_imageMutex.unlock();
-                    emit imageRastered(curFilter);
+                    QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0), m_rasterMode);
+                    setImageForFilter(curFilter, img);
                 }
                 mainFilterIterator.remove();
                 updatedFilters.insert(curFilter);
             }
         }
     }
+}
+
+inline void FilterProcessor::setImageForFilter(int filterNumber, QImage img)
+{
+    m_imageMutex.lock();
+    m_images.insert(filterNumber, img);
+    m_imageMutex.unlock();
+    emit imageRastered(filterNumber);
 }
 
 void FilterProcessor::updateAllConnectionsForFilters()
@@ -183,4 +188,23 @@ QImage FilterProcessor::images(int filterNumber)
 {
     QMutexLocker locker(&m_imageMutex);
     return m_images.value(filterNumber, QImage());
+}
+
+void FilterProcessor::setRasterMode(QString mode)
+{
+    m_rasterMode = mode;
+    rasterAllImages();
+}
+
+void FilterProcessor::rasterAllImages()
+{
+    QHashIterator<int, AbstractFilter*> iter(m_filters);
+    while(iter.hasNext()){
+        iter.next();
+        auto filterPtr = iter.value();
+        if(filterPtr){
+            QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0));
+            setImageForFilter(iter.key(), img);
+        }
+    }
 }
