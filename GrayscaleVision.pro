@@ -86,3 +86,6 @@ FORMS    +=
 
 RESOURCES += \
     main.qrc
+
+DISTFILES += \
+    README.md
