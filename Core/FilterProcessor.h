@@ -33,6 +33,7 @@ public:
 
     QVariant availableFilters();
     QVariant filterParamsInfo(int filterNumber);
+    QVariant availableRasterModes();
 
     void updateAllFilters();
     QImage images(int filterNumber);

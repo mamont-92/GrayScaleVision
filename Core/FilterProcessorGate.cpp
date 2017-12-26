@@ -46,3 +46,10 @@ QVariant FilterProcessorGate::filterParamsInfo(int filterNumber)
         return m_filterProcessor->filterParamsInfo(filterNumber);
     return QVariant();
 }
+
+QVariant FilterProcessorGate::availableRasterModes()
+{
+    if(m_filterProcessor)
+        return m_filterProcessor->availableRasterModes();
+    return QVariant();
+}

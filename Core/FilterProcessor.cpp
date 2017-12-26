@@ -121,6 +121,11 @@ QVariant FilterProcessor::filterParamsInfo(int filterNumber)
     return QVariant();
 }
 
+QVariant FilterProcessor::availableRasterModes()
+{
+    return QVariant::fromValue(ImageDataRasterizer::availableRasterModes());
+}
+
 void FilterProcessor::updateAllFilters()
 {
     m_imageMutex.lock();
