@@ -9,23 +9,46 @@ Item {
     property real rightPanelRatio: 0.75
 
 
+    function filters(){
+        return filterManipulator.allFilters();
+    }
+
+    function connections(){
+        return filterManipulator.allConnections();
+    }
+
+    function filterParams(number){
+        return filterProcessor.filterParamsInfo(number);
+    }
+
+    function createFilter(name, x, y){
+        return filterManipulator.createFilter(name, x, y);
+    }
+
+    function connectFilters(filterOut, slotOut, filterIn, slotIn){
+        filterManipulator.connectFilters(filterOut, slotOut, filterIn, slotIn);
+    }
+
+    function setParamValueForFilter(filterNumber, paramName, paramValue){
+        filterProcessor.setParameterValueForFilter(filterNumber, paramName, paramValue);
+    }
+
     function getState(){
         var curState = {
             "filters" : [], "connections" : [],
-            "selected filter" : imageViewer.filterNumber
         };
-        var filters = filterManipulator.allFilters();
+        var filtersArr = filters();
 
-        for(var i = 0; i < filters.length; ++i){
-            var f = filters[i];
-            var params = filterProcessor.filterParamsInfo(f.number);
-            filters[i]["params"] = {}
+        for(var i = 0; i < filtersArr.length; ++i){
+            var f = filtersArr[i];
+            var params = filterParams(f.number);
+            filtersArr[i]["params"] = {}
             for(var propertyName in params) {
-                 filters[i]["params"][propertyName] = params[propertyName]["value"];
+                 filtersArr[i]["params"][propertyName] = params[propertyName]["value"];
             }
         }
-        curState["filters"] = filters;
-        curState["connections"] = filterManipulator.allConnections();
+        curState["filters"] = filtersArr;
+        curState["connections"] = connections();
         return curState;
     }
 
@@ -35,19 +58,20 @@ Item {
             var filters = state["filters"];
             for(var i = 0; i < filters.length; ++i){
                 var f = filters[i];
-                var newInd = filterManipulator.createFilter(f.name, f.x, f.y);
+                var newInd = createFilter(f.name, f.x, f.y);
                 indMap[f.number] = newInd;
                 if(f.hasOwnProperty("params")){
                     var params = f.params;
                     for(var propertyName in params) {
-                        filterProcessor.setParameterValueForFilter(newInd, propertyName, params[propertyName])
+                        if(params[propertyName] != null)
+                            setParamValueForFilter(newInd, propertyName, params[propertyName])
                     }
                 }
             }
             var connections = state["connections"];
             for(i = 0; i < connections.length; ++i){
                 var c = connections[i];
-                filterManipulator.connectFilters(indMap[c.outputFilter], c.outputConnector, indMap[c.inputFilter], c.inputConnector);
+                connectFilters(indMap[c.outputFilter], c.outputConnector, indMap[c.inputFilter], c.inputConnector);
             }
 
         }

@@ -18,13 +18,13 @@ ApplicationWindow {
             title: "&File"
 
             MenuItem {
-                text: "&Open"
+                text: "&Import"
                 onTriggered: {
                     openDialog.open();
                 }
             }
             MenuItem {
-                text: "&Save As..."
+                text: "&Export"
                 onTriggered: {
                     saveDialog.open();
                 }
@@ -63,7 +63,7 @@ ApplicationWindow {
     FileDialog {
         id: openDialog
         fileMode: FileDialog.OpenFile
-        nameFilters: ["Text files (*.txt)"]
+        nameFilters: ["Text json files (*.json)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: {
             var path = file.toString();
@@ -76,7 +76,7 @@ ApplicationWindow {
     FileDialog {
         id: saveDialog
         fileMode: FileDialog.SaveFile
-        nameFilters: ["Text files (*.txt)"]
+        nameFilters: ["Text json files (*.json)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted:  {
             var path = file.toString();
