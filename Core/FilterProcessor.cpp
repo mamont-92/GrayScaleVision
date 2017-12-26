@@ -1,4 +1,4 @@
-#include "FilterManagerBackend.h"
+#include "FilterProcessor.h"
 #include "FilterCreator.h"
 #include <QMap>
 #include <QSet>
@@ -6,18 +6,18 @@
 #include "ImageData/ImageDataRasterizer.h"
 #include <QMutexLocker>
 
-FilterManagerBackend::FilterManagerBackend(QObject *parent) :QObject(parent)
+FilterProcessor::FilterProcessor(QObject *parent) :QObject(parent)
 {
 }
 
-void FilterManagerBackend::addFilter(int num, QString type)
+void FilterProcessor::addFilter(int num, QString type)
 {
     AbstractFilter * ptr = FilterCreator::create(type);
     m_filters.insert(num, ptr);
     updateAllFilters();
 }
 
-void FilterManagerBackend::removeFilter(int num) // TO DO :  add removing filter connections
+void FilterProcessor::removeFilter(int num) // TO DO :  add removing filter connections
 {
     removeAllConnections(num);
     updateAllConnectionsForFilters();
@@ -28,7 +28,7 @@ void FilterManagerBackend::removeFilter(int num) // TO DO :  add removing filter
     updateAllFilters();
 }
 
-void FilterManagerBackend::removeAllConnections(int filterNumber)
+void FilterProcessor::removeAllConnections(int filterNumber)
 {
     m_outConnections.remove(filterNumber);
     m_inConnections.remove(filterNumber);
@@ -54,7 +54,7 @@ void FilterManagerBackend::removeAllConnections(int filterNumber)
     }
 }
 
-void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn)
+void FilterProcessor::connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn)
 {
     //TO DO: add removing conection for "filterIn" at slot "connectorIn"
     removeConnectionsForFilterInSlot(filterIn, connectorIn);
@@ -65,7 +65,7 @@ void FilterManagerBackend::connectFilters(int filterOut, int connectorOut, int f
     updateAllFilters();
 }
 
-void FilterManagerBackend::removeConnectionsForFilterInSlot(int filterNumber, int slot)
+void FilterProcessor::removeConnectionsForFilterInSlot(int filterNumber, int slot)
 {
     AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
     if(filterPtr)
@@ -89,7 +89,7 @@ void FilterManagerBackend::removeConnectionsForFilterInSlot(int filterNumber, in
     }
 }
 
-void FilterManagerBackend::setParameterValueForFilter(int filterNumber, QString paramName, QVariant value)
+void FilterProcessor::setParameterValueForFilter(int filterNumber, QString paramName, QVariant value)
 {
     AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
     if(filterPtr)
@@ -97,7 +97,7 @@ void FilterManagerBackend::setParameterValueForFilter(int filterNumber, QString 
     updateAllFilters();
 }
 
-QVariant FilterManagerBackend::availableFilters()
+QVariant FilterProcessor::availableFilters()
 {
     QVariantMap resultMap;
 
@@ -113,7 +113,7 @@ QVariant FilterManagerBackend::availableFilters()
     return QVariant::fromValue(resultMap);
 }
 
-QVariant FilterManagerBackend::filterParamsInfo(int filterNumber)
+QVariant FilterProcessor::filterParamsInfo(int filterNumber)
 {
     AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
     if(filterPtr)
@@ -121,7 +121,7 @@ QVariant FilterManagerBackend::filterParamsInfo(int filterNumber)
     return QVariant();
 }
 
-void FilterManagerBackend::updateAllFilters()
+void FilterProcessor::updateAllFilters()
 {
     m_imageMutex.lock();
     m_images.clear();
@@ -161,7 +161,7 @@ void FilterManagerBackend::updateAllFilters()
     }
 }
 
-void FilterManagerBackend::updateAllConnectionsForFilters()
+void FilterProcessor::updateAllConnectionsForFilters()
 {
     QHashIterator<int, Connection> outConIter(m_outConnections);
     while(outConIter.hasNext()){
@@ -174,7 +174,7 @@ void FilterManagerBackend::updateAllConnectionsForFilters()
     }
 }
 
-QImage FilterManagerBackend::images(int filterNumber)
+QImage FilterProcessor::images(int filterNumber)
 {
     QMutexLocker locker(&m_imageMutex);
     return m_images.value(filterNumber, QImage());

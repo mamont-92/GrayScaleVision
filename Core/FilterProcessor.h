@@ -1,5 +1,5 @@
-#ifndef FilterManagerBackend_H
-#define FilterManagerBackend_H
+#ifndef FilterProcessor_H
+#define FilterProcessor_H
 
 #include <QObject>
 #include <QtCore>
@@ -21,10 +21,10 @@ struct Connection
         targetFilter(_targetFilter), targetSlot(_targetSlot), currentSlot(_currentSlot) {}
 };
 
-class FilterManagerBackend : public QObject {
+class FilterProcessor : public QObject {
     Q_OBJECT
 public:
-    FilterManagerBackend(QObject *parent=Q_NULLPTR);
+    FilterProcessor(QObject *parent=Q_NULLPTR);
 
     void addFilter(int num, QString type);
     void removeFilter(int num);
@@ -49,4 +49,4 @@ private:
     QHash<int, QImage> m_images;
 };
 
-#endif // FilterManagerBackend_H
+#endif // FilterProcessor_H
