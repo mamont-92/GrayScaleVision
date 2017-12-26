@@ -3,7 +3,7 @@ var repeaterModel;
 var connections = [];
 var repeaterToModelIndex= [];
 var canvas;
-var filterManager;
+var FilterManipulator;
 
 var filterCreationTemplate = {
     'blend': {inConnectors: 2, outConnectors: 1},
@@ -28,8 +28,8 @@ function createNewFilter(type, x, y){
                                      x:x, y:y,
                                      inputCount: filterTemplate.inConnectors,
                                      outputCount: filterTemplate.outConnectors});
-            if(filterManager != null){
-                filterManager.filterAdded(newId, type);
+            if(FilterManipulator != null){
+                FilterManipulator.filterAdded(newId, type);
             }
         }      
 
@@ -45,8 +45,8 @@ function removeFilter(num){ // TO DO: replace cycle for index in model
         }
     }
     removeAllConnectionsWithFilter(num);
-    if(filterManager != null){
-        filterManager.filterRemove(num);
+    if(FilterManipulator != null){
+        FilterManipulator.filterRemove(num);
     }
 }
 
@@ -99,8 +99,8 @@ function createNewConnection(outputFilter, outputConnector, inputFilter, inputCo
                         outputConnector: outputConnector,
                         inputFilter: inputFilter,
                         inputConnector: inputConnector});
-    if(filterManager != null){
-        filterManager.connectionAdded(outputFilter, outputConnector, inputFilter,inputConnector);
+    if(FilterManipulator != null){
+        FilterManipulator.connectionAdded(outputFilter, outputConnector, inputFilter,inputConnector);
     }
 }
 

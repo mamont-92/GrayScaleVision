@@ -33,10 +33,10 @@ void FilterManagerBackendGate::setParameterValueForFilter(int filterNumber, QStr
         m_filterManager->setParameterValueForFilter(filterNumber, paramName, value);
 }
 
-QVariant FilterManagerBackendGate::filterCreationTemplate()
+QVariant FilterManagerBackendGate::availableFilters()
 {
     if(m_filterManager)
-        return m_filterManager->filterCreationTemplate();
+        return m_filterManager->availableFilters();
     return QVariant();
 }
 

@@ -1,5 +1,5 @@
-import QtQuick 2.0
-import "types"
+import QtQuick 2.10
+import "../types"
 
 Item {
     id: root

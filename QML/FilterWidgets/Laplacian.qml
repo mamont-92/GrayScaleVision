@@ -1,5 +1,5 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.2
+import QtQuick 2.10
+import QtQuick.Controls 2.3
 import "../utils"
 
 FilterWidget {
@@ -8,12 +8,11 @@ FilterWidget {
 
     function updateParams(){
         if(params != null){
-            if(params.hasOwnProperty("kernel size")){
-                var kernelSize = params["kernel size"];
+            if(params.hasOwnProperty(kernelSizeParameter.paramName)){
+                var kernelSize = params[kernelSizeParameter.paramName];
                 kernelSizeParameter.minValue = kernelSize["min"];
                 kernelSizeParameter.maxValue = kernelSize["max"];
                 kernelSizeParameter.value = kernelSize["value"];
-
             }
         }
     }
@@ -22,32 +21,26 @@ FilterWidget {
         updateParams();
     }
 
-
-
     Column{
         anchors.fill: parent
         spacing: 5
 
         Text{
             id: text
-
             anchors.horizontalCenter: parent.horizontalCenter
-
             text: qsTr("Laplacian filter")
-            font.family: "Poor Richard"
-            font.italic: true
-            font.pointSize: 10
-            style: Text.Raised
+            font.pointSize: 8
         }
 
     NumParameter{
         id: kernelSizeParameter
+        property string paramName: "kernel size"
         viewDecimals: 0
         anchors.left: parent.left
         anchors.right: parent.right
 
         onValueModified: {
-            root.parameterModified({"name":"kernel size", "value":value})
+            root.parameterModified({"name":paramName, "value":value})
         }
     }
     }

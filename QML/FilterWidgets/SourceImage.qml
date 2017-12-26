@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.10
 import QtQuick.Dialogs 1.2
 
 FilterWidget {
@@ -12,9 +12,7 @@ FilterWidget {
         anchors.top: parent.top
 
         text: qsTr("set image from source")
-        font.family: "Poor Richard"
-        font.pointSize: 10
-        style: Text.Raised
+        font.pointSize: 8
     }
 
     Rectangle{
@@ -33,9 +31,7 @@ FilterWidget {
             anchors.verticalCenter: parent.verticalCenter
 
             text: qsTr("Open file...")
-            font.family: "Poor Richard"
-            font.pointSize: 10
-            style: Text.Raised
+            font.pointSize: 8
         }
 
         MouseArea{
@@ -52,11 +48,8 @@ FilterWidget {
         folder: shortcuts.home
         nameFilters: ["TIFF image files (*.tiff *.tif)"]
         onAccepted: {
-            console.log("You chose: " + openDialog.fileUrls);
-            //var pathValue = openDialog.fileUrls;
             var path = openDialog.fileUrl.toString();
             path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
-
             root.parameterModified({name: "path" , value: path});
         }
         onRejected: {

@@ -52,7 +52,8 @@ SOURCES += main.cpp \
     Core/Filters/Convolution3x3.cpp \
     Core/Filters/BilateralBlur.cpp \
     Core/Params/RealParameter.cpp \
-    Core/Filters/Laplacian.cpp
+    Core/Filters/Laplacian.cpp \
+    FileIO/JsonFileIO.cpp
 
 HEADERS  += \
     Core/FilterManagerBackend.h \
@@ -78,9 +79,13 @@ HEADERS  += \
     Core/Filters/Convolution3x3.h \
     Core/Filters/BilateralBlur.h \
     Core/Params/RealParameter.h \
-    Core/Filters/Laplacian.h
+    Core/Filters/Laplacian.h \
+    FileIO/JsonFileIO.h
 
 FORMS    +=
 
 RESOURCES += \
     main.qrc
+
+DISTFILES += \
+    README.md

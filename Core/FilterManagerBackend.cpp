@@ -97,7 +97,7 @@ void FilterManagerBackend::setParameterValueForFilter(int filterNumber, QString 
     updateAllFilters();
 }
 
-QVariant FilterManagerBackend::filterCreationTemplate()
+QVariant FilterManagerBackend::availableFilters()
 {
     QVariantMap resultMap;
 

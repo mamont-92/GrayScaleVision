@@ -31,7 +31,7 @@ public:
     void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
     void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
 
-    QVariant filterCreationTemplate();
+    QVariant availableFilters();
     QVariant filterParamsInfo(int filterNumber);
 
     void updateAllFilters();

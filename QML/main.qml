@@ -1,139 +1,104 @@
-import QtQuick 2.6
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.0
-import QtQml 2.2
-import "utils"
-import grayscalevision.core 1.0
+import QtQuick 2.10
+import QtQuick.Controls 2.3
+import QtQuick.Window 2.3
+import grayscalevision.fileIO.json 1.0
 
-Window {
+import Qt.labs.platform 1.0
+
+
+
+ApplicationWindow {
     id: root
     visible: true
-    width: 800
-    height: 600
-    property real minRightPanelRatio: 0.25
-    property real maxRightPanelRatio: 0.95
-    property real rightPanelRatio: 0.75
+    width: 1074
+    height: 768
 
-    Binding on rightPanelRatio {
-        when: borderMouseArea.pressed
-        value: borderRect.x / root.width
-    }
+    MenuBar {
+        Menu {
+            title: "&File"
 
-    FilterManagerBackend {
-        id: filterManagerBackend
-        onImageRastered: {
-            filterManagerVisual.updateFilterImage(number);
-            imageViewer.reloadImage();
-        }
-    }
-
-
-    FilterManagerVisual{
-        id: filterManagerVisual
-        anchors.fill: parent
-        onConnectionAdded: {
-            filterManagerBackend.connectFilters(outputFilterNumber, outputConnectorNumber, inputFilterNumber, inputConnectorNumber);
-        }
-        onFilterAdded: {
-            filterManagerBackend.addFilter(number, type);
-        }
-        onFilterRemove: {
-            filterManagerBackend.removeFilter(number);
-        }
-        onFilerSelected: {
-            imageViewer.filterNumber = number;
-
-            filterWidgetManager.filterInfo = {
-                            "number": number,
-                            "name" : filterManagerVisual.filterName(number),
-                            "params" : filterManagerBackend.filterParamsInfo(number)
-            };
-        }
-
-        filterCreationTemplate: filterManagerBackend.filterCreationTemplate()
-    }
-
-
-    Rectangle{
-        id: borderRect
-
-        property int minX : root.width * root.minRightPanelRatio;
-        property int maxX : root.width * root.maxRightPanelRatio;
-
-        color: "grey"
-        y: 0
-        width: 5
-        height: parent.height
-
-        Binding on x {
-            when: !borderMouseArea.pressed
-            value: rightPanelRatio*root.width
-        }
-
-        MouseArea{
-            id: borderMouseArea
-            drag.target: borderRect
-            onReleased: borderRect.Drag.drop()
-            drag.axis: Drag.XAxis
-
-            cursorShape: Qt.SizeHorCursor;
-
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top : parent.top
-            anchors.bottom: parent.bottom
-        }
-
-        onXChanged: {
-            if(x < minX)
-                x = minX;
-            if(x > maxX)
-                x = maxX;
-        }
-
-    }
-
-    FilterPanel{
-        id: filterPanel
-        anchors.bottom: parent.bottom
-        anchors.top: parent.top
-        anchors.left: borderRect.right
-        anchors.right: parent.right
-
-        Text {
-            id: filterPanelTextText
-
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-
-            text: "filter params"
-        }
-
-
-
-        FilterWidgetManager{
-            id: filterWidgetManager
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: 150
-            anchors.bottom: parent.bottom
-            anchors.margins: 10
-            onParameterModified: {
-                filterManagerBackend.setParameterValueForFilter(filterNumber, parameter["name"], parameter["value"])
+            MenuItem {
+                text: "&Import"
+                onTriggered: {
+                    openDialog.open();
+                }
+            }
+            MenuItem {
+                text: "&Export"
+                onTriggered: {
+                    saveDialog.open();
+                }
+            }
+            MenuItem {
+                text: "&Quit"
+                onTriggered: {
+                    root.close();
+                }
             }
         }
+        Menu {
+            title: "&Help"
 
-        ImageViewer{
-            id: imageViewer
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: filterPanelTextText.bottom
-            anchors.bottom: filterWidgetManager.top
-            anchors.margins: 10
+            MenuItem {
+                text: "&About"
+                onTriggered: {
+                    aboutDialog.open()
+                }
+            }
+            MenuItem {
+                text: "&Show help"
+            }
         }
-
     }
 
+    AboutDialog{
+        id: aboutDialog
+        leftMargin: (parent.width - width)/2
+        rightMargin: (parent.width - width)/2
+        topMargin: (parent.height - height)/2
+        bottomMargin: (parent.height - height)/2
+    }
+
+
+    FileDialog {
+        id: openDialog
+        fileMode: FileDialog.OpenFile
+        nameFilters: ["Text json files (*.json)"]
+        folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+        onAccepted: {
+            var path = file.toString();
+            path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
+            console.log(file)
+            filterViewer.setState(fileIO.readJSONFromFile(path));
+        }
+    }
+
+    FileDialog {
+        id: saveDialog
+        fileMode: FileDialog.SaveFile
+        nameFilters: ["Text json files (*.json)"]
+        folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+        onAccepted:  {
+            var path = file.toString();
+            path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
+            console.log(file)
+            fileIO.writeJSONToFile(path, filterViewer.getState());
+        }
+    }
+
+    FIlterViewer{
+        id: filterViewer
+        anchors.fill: parent
+    }
+
+    JsonFileIO{
+        id: fileIO
+    }
+
+    Component.onCompleted: {
+        x = Screen.width / 2 - width / 2
+        y = Screen.height / 2 - height / 2
+    }
 
 
 }

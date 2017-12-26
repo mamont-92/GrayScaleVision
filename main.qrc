@@ -1,28 +1,32 @@
 <RCC>
     <qresource prefix="/">
-        <file>QML/Filter.qml</file>
-        <file>QML/FilterInput.qml</file>
-        <file>QML/FilterOutput.qml</file>
         <file>QML/main.qml</file>
         <file>QML/types/FilterTypeObject.qml</file>
         <file>QML/types/qmldir</file>
         <file>QML/types/ConnectorTypeObject.qml</file>
         <file>QML/FilterPanel.qml</file>
-        <file>QML/FilterManagerVisual.qml</file>
-        <file>QML/FilterManagerVisualLogic.js</file>
         <file>QML/ImageViewer.qml</file>
-        <file>QML/filters/Inversion.qml</file>
-        <file>QML/filters/AddWeighted.qml</file>
-        <file>QML/filters/BoundByPercent.qml</file>
-        <file>QML/filters/CLAHE.qml</file>
-        <file>QML/filters/SourceImage.qml</file>
         <file>QML/FilterWidgetManager.qml</file>
-        <file>QML/filters/FilterWidget.qml</file>
-        <file>QML/filters/Power.qml</file>
         <file>QML/utils/NumEdit.qml</file>
         <file>QML/utils/TrackBar.qml</file>
         <file>QML/utils/NumParameter.qml</file>
-        <file>QML/filters/Laplacian.qml</file>
-        <file>QML/filters/BilateralBlur.qml</file>
+        <file>QML/Filter/Filter.qml</file>
+        <file>QML/Filter/FilterInput.qml</file>
+        <file>QML/Filter/FilterOutput.qml</file>
+        <file>QML/FilterWidgets/AddWeighted.qml</file>
+        <file>QML/FilterWidgets/BilateralBlur.qml</file>
+        <file>QML/FilterWidgets/BoundByPercent.qml</file>
+        <file>QML/FilterWidgets/CLAHE.qml</file>
+        <file>QML/FilterWidgets/FilterWidget.qml</file>
+        <file>QML/FilterWidgets/Inversion.qml</file>
+        <file>QML/FilterWidgets/Laplacian.qml</file>
+        <file>QML/FilterWidgets/Power.qml</file>
+        <file>QML/FilterWidgets/SourceImage.qml</file>
+        <file>QML/FilterManipulator.qml</file>
+        <file>QML/FilterManipulatorLogic.js</file>
+        <file>QML/FIlterViewer.qml</file>
+        <file>QML/AboutDialog.qml</file>
+        <file>QML/AboutDialogForm.ui.qml</file>
+        <file>QML/media/aboutIco.png</file>
     </qresource>
 </RCC>
