@@ -25,5 +25,8 @@
         <file>QML/FilterManipulator.qml</file>
         <file>QML/FilterManipulatorLogic.js</file>
         <file>QML/FIlterViewer.qml</file>
+        <file>QML/AboutDialog.qml</file>
+        <file>QML/AboutDialogForm.ui.qml</file>
+        <file>QML/media/aboutIco.png</file>
     </qresource>
 </RCC>

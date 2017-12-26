@@ -18,16 +18,22 @@ ApplicationWindow {
             title: "&File"
 
             MenuItem {
-                text: "&Open"
+                text: "&Import"
+                onTriggered: {
+                    openDialog.open();
+                }
             }
             MenuItem {
-                text: "&Save As..."
+                text: "&Export"
                 onTriggered: {
                     saveDialog.open();
                 }
             }
             MenuItem {
                 text: "&Quit"
+                onTriggered: {
+                    root.close();
+                }
             }
         }
         Menu {
@@ -35,6 +41,9 @@ ApplicationWindow {
 
             MenuItem {
                 text: "&About"
+                onTriggered: {
+                    aboutDialog.open()
+                }
             }
             MenuItem {
                 text: "&Show help"
@@ -42,21 +51,32 @@ ApplicationWindow {
         }
     }
 
+    AboutDialog{
+        id: aboutDialog
+        leftMargin: (parent.width - width)/2
+        rightMargin: (parent.width - width)/2
+        topMargin: (parent.height - height)/2
+        bottomMargin: (parent.height - height)/2
+    }
+
 
     FileDialog {
         id: openDialog
         fileMode: FileDialog.OpenFile
-        nameFilters: ["Text files (*.txt)"]
+        nameFilters: ["Text json files (*.json)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: {
-
+            var path = file.toString();
+            path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
+            console.log(file)
+            filterViewer.setState(fileIO.readJSONFromFile(path));
         }
     }
 
     FileDialog {
         id: saveDialog
         fileMode: FileDialog.SaveFile
-        nameFilters: ["Text files (*.txt)"]
+        nameFilters: ["Text json files (*.json)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted:  {
             var path = file.toString();
