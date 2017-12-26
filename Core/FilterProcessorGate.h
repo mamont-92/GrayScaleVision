@@ -25,7 +25,7 @@ public:
 signals:
     void imageRastered(int number);
 private:
-    FilterProcessor * m_filterManager;
+    FilterProcessor * m_filterProcessor;
 };
 
 #endif // FilterProcessorGATE_H
