@@ -203,7 +203,7 @@ void FilterProcessor::rasterAllImages()
         iter.next();
         auto filterPtr = iter.value();
         if(filterPtr){
-            QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0));
+            QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0), m_rasterMode);
             setImageForFilter(iter.key(), img);
         }
     }
