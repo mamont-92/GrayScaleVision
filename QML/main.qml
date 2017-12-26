@@ -28,6 +28,9 @@ ApplicationWindow {
             }
             MenuItem {
                 text: "&Quit"
+                onTriggered: {
+                    root.close();
+                }
             }
         }
         Menu {
@@ -51,7 +54,6 @@ ApplicationWindow {
         rightMargin: (parent.width - width)/2
         topMargin: (parent.height - height)/2
         bottomMargin: (parent.height - height)/2
-
     }
 
 
