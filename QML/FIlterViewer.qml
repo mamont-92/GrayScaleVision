@@ -29,6 +29,30 @@ Item {
         return curState;
     }
 
+    function setState(state){
+        var indMap = [];
+        if(state.hasOwnProperty("filters") && state.hasOwnProperty("connections")){
+            var filters = state["filters"];
+            for(var i = 0; i < filters.length; ++i){
+                var f = filters[i];
+                var newInd = filterManipulator.createFilter(f.name, f.x, f.y);
+                indMap[f.number] = newInd;
+                if(f.hasOwnProperty("params")){
+                    var params = f.params;
+                    for(var propertyName in params) {
+                        filterProcessor.setParameterValueForFilter(newInd, propertyName, params[propertyName])
+                    }
+                }
+            }
+            var connections = state["connections"];
+            for(i = 0; i < connections.length; ++i){
+                var c = connections[i];
+                filterManipulator.connectFilters(indMap[c.outputFilter], c.outputConnector, indMap[c.inputFilter], c.inputConnector);
+            }
+
+        }
+    }
+
     FilterManipulator{
         id: filterManipulator
         anchors.fill: parent

@@ -67,6 +67,17 @@ Item {
         return result;
     }
 
+    function createFilter(name, x, y){
+        var num = FilterManipulatorLogic.createNewFilter(name, x, y);
+        FilterManipulatorLogic.updateCanvas();
+        return num;
+    }
+
+    function connectFilters(outFilter, outSlot, inFilter, inSlot){
+        FilterManipulatorLogic.createNewConnection(outFilter, outSlot, inFilter, inSlot);
+        FilterManipulatorLogic.updateCanvas();
+    }
+
     Canvas {
         id: mainCanvas
         anchors.fill: parent

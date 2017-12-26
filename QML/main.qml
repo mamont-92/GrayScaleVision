@@ -19,6 +19,9 @@ ApplicationWindow {
 
             MenuItem {
                 text: "&Open"
+                onTriggered: {
+                    openDialog.open();
+                }
             }
             MenuItem {
                 text: "&Save As..."
@@ -63,7 +66,10 @@ ApplicationWindow {
         nameFilters: ["Text files (*.txt)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: {
-
+            var path = file.toString();
+            path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
+            console.log(file)
+            filterViewer.setState(fileIO.readJSONFromFile(path));
         }
     }
 
