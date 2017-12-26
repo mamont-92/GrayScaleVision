@@ -1,18 +1,18 @@
-#ifndef FILTERMANAGERBACKENDGATE_H
-#define FILTERMANAGERBACKENDGATE_H
+#ifndef FilterProcessorGATE_H
+#define FilterProcessorGATE_H
 
 
 #include <QObject>
 #include <QString>
 #include <QVariant>
-class FilterManagerBackend;
+class FilterProcessor;
 
-class FilterManagerBackendGate : public QObject
+class FilterProcessorGate : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit FilterManagerBackendGate(QObject *parent = nullptr);
+    explicit FilterProcessorGate(QObject *parent = nullptr);
 
     Q_INVOKABLE void addFilter(int num, QString type);
     Q_INVOKABLE void removeFilter(int num);
@@ -21,11 +21,14 @@ public:
 
     Q_INVOKABLE QVariant availableFilters();
     Q_INVOKABLE QVariant filterParamsInfo(int filterNumber);
+    Q_INVOKABLE QVariant availableRasterModes();
+    Q_INVOKABLE void setRasterMode(QString mode);
+
 
 signals:
     void imageRastered(int number);
 private:
-    FilterManagerBackend * m_filterManager;
+    FilterProcessor * m_filterProcessor;
 };
 
-#endif // FILTERMANAGERBACKENDGATE_H
+#endif // FilterProcessorGATE_H

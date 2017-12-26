@@ -1,5 +1,5 @@
-#ifndef FilterManagerBackend_H
-#define FilterManagerBackend_H
+#ifndef FilterProcessor_H
+#define FilterProcessor_H
 
 #include <QObject>
 #include <QtCore>
@@ -21,18 +21,21 @@ struct Connection
         targetFilter(_targetFilter), targetSlot(_targetSlot), currentSlot(_currentSlot) {}
 };
 
-class FilterManagerBackend : public QObject {
+class FilterProcessor : public QObject {
     Q_OBJECT
 public:
-    FilterManagerBackend(QObject *parent=Q_NULLPTR);
+    FilterProcessor(QObject *parent=Q_NULLPTR);
 
     void addFilter(int num, QString type);
     void removeFilter(int num);
     void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
     void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
 
+    void setRasterMode(QString mode);
+
     QVariant availableFilters();
     QVariant filterParamsInfo(int filterNumber);
+    QVariant availableRasterModes();
 
     void updateAllFilters();
     QImage images(int filterNumber);
@@ -42,11 +45,14 @@ private:
     void removeAllConnections(int filterNumber);
     void removeConnectionsForFilterInSlot(int filterNumber, int slot);
     void updateAllConnectionsForFilters();
+    void rasterAllImages();
+    void setImageForFilter(int filterNumber, QImage img);
 
     QMutex m_imageMutex;
     QMultiHash<int, Connection> m_outConnections, m_inConnections;
     QHash<int, AbstractFilter * > m_filters;
     QHash<int, QImage> m_images;
+    QString m_rasterMode;
 };
 
-#endif // FilterManagerBackend_H
+#endif // FilterProcessor_H

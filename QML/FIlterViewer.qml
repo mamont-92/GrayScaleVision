@@ -1,4 +1,5 @@
 import QtQuick 2.10
+import QtQuick.Controls 2.3
 import "utils"
 import grayscalevision.core 1.0
 
@@ -44,7 +45,7 @@ Item {
             var params = filterParams(f.number);
             filtersArr[i]["params"] = {}
             for(var propertyName in params) {
-                 filtersArr[i]["params"][propertyName] = params[propertyName]["value"];
+                filtersArr[i]["params"][propertyName] = params[propertyName]["value"];
             }
         }
         curState["filters"] = filtersArr;
@@ -176,6 +177,36 @@ Item {
             anchors.top: filterPanelTextText.bottom
             anchors.bottom: filterWidgetManager.top
             anchors.margins: 10
+        }
+
+        Rectangle{
+            id: rasterModeSelector
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: imageViewer.bottom
+            height: comboBox.height+5
+            border.width: 1
+            border.color: "black"
+
+            Text{
+                id: rasterModeText
+                text: "Raster mode: "
+                font.pointSize: 10
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            ComboBox{
+                id: comboBox
+                anchors.left: rasterModeText.right
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                model: filterProcessor.availableRasterModes()
+                height: 30
+                currentIndex: model.indexOf("Grayscale")
+                onCurrentTextChanged: {
+                    filterProcessor.setRasterMode(currentText);
+                }
+            }
+
         }
 
     }

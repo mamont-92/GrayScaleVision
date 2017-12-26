@@ -30,7 +30,6 @@ include(OpenMP.pri)
 
 
 SOURCES += main.cpp \
-    Core/FilterManagerBackend.cpp \
     Core/FilterCreator.cpp \
     Core/AbstractFilter.cpp \
     Core/Filters/AddWeighted.cpp \
@@ -40,7 +39,6 @@ SOURCES += main.cpp \
     Core/ImageData/ImageDataLoader.cpp \
     Core/ImageData/ImageDataRasterizer.cpp \
     Core/RasterImageProvider.cpp \
-    Core/FilterManagerBackendGate.cpp \
     Core/GlobalContext.cpp \
     Core/Filters/CLAHE.cpp \
     Core/Filters/BoundByPercent.cpp \
@@ -53,10 +51,11 @@ SOURCES += main.cpp \
     Core/Filters/BilateralBlur.cpp \
     Core/Params/RealParameter.cpp \
     Core/Filters/Laplacian.cpp \
-    FileIO/JsonFileIO.cpp
+    FileIO/JsonFileIO.cpp \
+    Core/FilterProcessor.cpp \
+    Core/FilterProcessorGate.cpp
 
 HEADERS  += \
-    Core/FilterManagerBackend.h \
     Core/FilterCreator.h \
     Core/AbstractFilter.h \
     Core/Filters/AddWeighted.h \
@@ -67,7 +66,6 @@ HEADERS  += \
     Core/ImageData/ImageDataLoader.h \
     Core/ImageData/ImageDataRasterizer.h \
     Core/RasterImageProvider.h \
-    Core/FilterManagerBackendGate.h \
     Core/GlobalContext.h \
     Core/Filters/CLAHE.h \
     Core/Filters/BoundByPercent.h \
@@ -80,9 +78,14 @@ HEADERS  += \
     Core/Filters/BilateralBlur.h \
     Core/Params/RealParameter.h \
     Core/Filters/Laplacian.h \
-    FileIO/JsonFileIO.h
+    FileIO/JsonFileIO.h \
+    Core/FilterProcessorGate.h \
+    Core/FilterProcessor.h
 
 FORMS    +=
 
 RESOURCES += \
     main.qrc
+
+DISTFILES += \
+    README.md
