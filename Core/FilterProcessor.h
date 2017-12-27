@@ -8,6 +8,7 @@
 #include <QVariant>
 #include <QImage>
 #include <QMutex>
+#include <QSet>
 
 #include "AbstractFilter.h"
 
@@ -45,8 +46,10 @@ private:
     void removeAllConnections(int filterNumber);
     void removeConnectionsForFilterInSlot(int filterNumber, int slot);
     void updateAllConnectionsForFilters();
+    void updateFromFilter(int number);
     void rasterAllImages();
     void setImageForFilter(int filterNumber, QImage img);
+    void updateFilterSet(QSet<int> filterSet);
 
     QMutex m_imageMutex;
     QMultiHash<int, Connection> m_outConnections, m_inConnections;
