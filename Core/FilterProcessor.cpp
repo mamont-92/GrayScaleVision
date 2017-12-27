@@ -63,7 +63,7 @@ void FilterProcessor::connectFilters(int filterOut, int connectorOut, int filter
     m_inConnections.insertMulti(filterIn,Connection(filterOut,connectorOut, connectorIn));
 
     updateAllConnectionsForFilters();
-    updateAllFilters();
+    updateFromFilter(filterIn);
 }
 
 void FilterProcessor::removeConnectionsForFilterInSlot(int filterNumber, int slot)
@@ -95,7 +95,6 @@ void FilterProcessor::setParameterValueForFilter(int filterNumber, QString param
     if(filterPtr)
         filterPtr->setParameter(paramName, value);
     updateFromFilter(filterNumber);
-    //updateAllFilters();
 }
 
 QVariant FilterProcessor::availableFilters()
