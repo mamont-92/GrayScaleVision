@@ -54,7 +54,8 @@ SOURCES += main.cpp \
     FileIO/JsonFileIO.cpp \
     Core/FilterProcessor.cpp \
     Core/FilterProcessorGate.cpp \
-    Core/Comands.cpp
+    Core/Commands.cpp \
+    Core/CommandCallBackAcceptor.cpp
 
 HEADERS  += \
     Core/FilterCreator.h \
@@ -82,7 +83,8 @@ HEADERS  += \
     FileIO/JsonFileIO.h \
     Core/FilterProcessorGate.h \
     Core/FilterProcessor.h \
-    Core/Comands.h
+    Core/Commands.h \
+    Core/CommandCallBackAcceptor.h
 
 FORMS    +=
 

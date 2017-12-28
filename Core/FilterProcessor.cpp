@@ -8,11 +8,45 @@
 #include <QStack>
 #include <QtConcurrent>
 #include <QFuture>
+#include "Commands.h"
+#include "CommandCallBackAcceptor.h"
 
+using namespace FilterProcessorComands;
 
 FilterProcessor::FilterProcessor(QObject *parent) :QObject(parent)
 {
+    FilterProcessorComands::AddFilterCallBack addFilterFunc = [this] (const AddFilter & command) {
+        this->addFilter(command.filterNumber(), command.name());
+    };
+    FilterProcessorComands::RemoveFilterCallBack removeFilterFunc = [this] (const RemoveFilter & command) {
+        this->removeFilter(command.filterNumber());
+    };
+    FilterProcessorComands::ConnectFiltersCallBack connectFiltersFunc = [this] (const ConnectFilters & command) {
+        this->connectFilters(command.filterOut(), command.connectorOut(), command.filterIn(), command.connectorIn());
+    };
+    FilterProcessorComands::SetParameterForFilterCallBack setParameterForFilterFunc = [this] (const SetParameterForFilter & command) {
+        this->setParameterValueForFilter(command.filterNumber(), command.paramName(), command.value());
+    };
+    FilterProcessorComands::SetRasterModeCallBack setRasterModeFunc = [this] (const SetRasterMode & command) {
+        this->setRasterMode(command.mode());
+    };
+    m_commandAcceptor = new CommandCallBackAcceptor(addFilterFunc, removeFilterFunc, connectFiltersFunc,                                            setParameterForFilterFunc, setRasterModeFunc);
 }
+
+FilterProcessor::~FilterProcessor()
+{
+    delete m_commandAcceptor;
+}
+
+void FilterProcessor::execute(FilterProcessorComands::ICommand * command)
+{
+    if(command){
+        command->accept(m_commandAcceptor);
+        delete command;
+    }
+}
+
+
 
 void FilterProcessor::addFilter(int num, QString type)
 {

@@ -1,5 +1,5 @@
-#ifndef COMANDS_H
-#define COMANDS_H
+#ifndef COMMANDS_H
+#define COMMANDS_H
 
 #include <QString>
 #include <QVariant>
@@ -20,25 +20,25 @@ public:
 class AddFilter : public ICommand
 {
 public:
-    AddFilter(const int & _id, const QString & _name);
+    AddFilter(const int & _filterNumber, const QString & _name);
     void accept(ICommandAcceptor * _visitor);
 
-    int id() const;
+    int filterNumber() const;
     QString name() const;
 private:
-    int m_id;
+    int m_filterNumber;
     QString m_name;
 };
 
 class RemoveFilter : public ICommand
 {
 public:
-    RemoveFilter(const int & _id);
+    RemoveFilter(const int & _filterNumber);
     void accept(ICommandAcceptor * _visitor);
 
-    int id() const;
+    int filterNumber() const;
 private:
-    int m_id;
+    int m_filterNumber;
 };
 
 
@@ -97,4 +97,4 @@ public:
 
 }
 
-#endif // COMANDS_H
+#endif // COMMANDS_H

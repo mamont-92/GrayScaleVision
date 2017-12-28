@@ -30,16 +30,18 @@ struct FilterParams{
         filterNumber(_filterNumber), parameter(_parameter) {}
 };
 
+namespace FilterProcessorComands{
+    class ICommand;
+    class CommandCallBackAcceptor;
+}
+
 class FilterProcessor : public QObject {
     Q_OBJECT
 public:
     FilterProcessor(QObject *parent=Q_NULLPTR);
+    ~FilterProcessor();
 
-    void addFilter(int num, QString type);
-    void removeFilter(int num);
-    void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
-    void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
-    void setRasterMode(QString mode);
+    void execute(FilterProcessorComands::ICommand * command);
 
     QVariant availableFilters();
     QVariant availableRasterModes();
@@ -49,6 +51,12 @@ signals:
     void imageRastered(int number);
     void paramsChanged(const FilterParams & params);
 private:
+    void addFilter(int num, QString type);
+    void removeFilter(int num);
+    void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
+    void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
+    void setRasterMode(QString mode);
+
     void updateAllFilters();
     void removeAllConnections(int filterNumber);
     void removeConnectionsForFilterInSlot(int filterNumber, int slot);
@@ -65,6 +73,7 @@ private:
     QString m_rasterMode;
     QHash<QString, QVariant> m_nonAplliedParams;
     QFutureWatcher<void> m_updateWatcher;
+    FilterProcessorComands::CommandCallBackAcceptor * m_commandAcceptor;
 };
 
 #endif // FilterProcessor_H
