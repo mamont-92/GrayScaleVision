@@ -119,14 +119,6 @@ QVariant FilterProcessor::availableFilters()
     return QVariant::fromValue(resultMap);
 }
 
-/*QVariant FilterProcessor::filterParamsInfo(int filterNumber)
-{
-    AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
-    if(filterPtr)
-        return filterPtr->allParametersInfo();
-    return QVariant();
-}*/
-
 QVariant FilterProcessor::availableRasterModes()
 {
     return QVariant::fromValue(ImageDataRasterizer::availableRasterModes());

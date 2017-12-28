@@ -39,19 +39,17 @@ public:
     void removeFilter(int num);
     void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
     void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
-
     void setRasterMode(QString mode);
 
     QVariant availableFilters();
-    //QVariant filterParamsInfo(int filterNumber);
     QVariant availableRasterModes();
 
-    void updateAllFilters();
     QImage images(int filterNumber);
 signals:
     void imageRastered(int number);
     void paramsChanged(const FilterParams & params);
 private:
+    void updateAllFilters();
     void removeAllConnections(int filterNumber);
     void removeConnectionsForFilterInSlot(int filterNumber, int slot);
     void updateAllConnectionsForFilters();

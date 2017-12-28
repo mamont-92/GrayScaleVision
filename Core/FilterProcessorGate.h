@@ -18,11 +18,11 @@ public:
     Q_INVOKABLE void removeFilter(int num);
     Q_INVOKABLE void connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn);
     Q_INVOKABLE void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
+    Q_INVOKABLE void setRasterMode(QString mode);
 
     Q_INVOKABLE QVariant availableFilters();
-    //Q_INVOKABLE QVariant filterParamsInfo(int filterNumber);
     Q_INVOKABLE QVariant availableRasterModes();
-    Q_INVOKABLE void setRasterMode(QString mode);
+
 
 
 signals:
