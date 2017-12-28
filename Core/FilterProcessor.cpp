@@ -30,7 +30,7 @@ FilterProcessor::FilterProcessor(QObject *parent) :QObject(parent)
     FilterProcessorComands::SetRasterModeCallBack setRasterModeFunc = [this] (const SetRasterMode & command) {
         this->setRasterMode(command.mode());
     };
-    m_commandAcceptor = new CommandCallBackAcceptor(addFilterFunc, removeFilterFunc, connectFiltersFunc,                                            setParameterForFilterFunc, setRasterModeFunc);
+    m_commandAcceptor = new CommandCallBackAcceptor(addFilterFunc, removeFilterFunc, connectFiltersFunc, setParameterForFilterFunc, setRasterModeFunc);
 }
 
 FilterProcessor::~FilterProcessor()
@@ -41,7 +41,9 @@ FilterProcessor::~FilterProcessor()
 void FilterProcessor::execute(FilterProcessorComands::ICommand * command)
 {
     if(command){
+        m_needUpdatingFilters.clear();
         command->accept(m_commandAcceptor);
+        updateNonActualFilters();
         delete command;
     }
 }
@@ -53,20 +55,22 @@ void FilterProcessor::addFilter(int num, QString type)
     AbstractFilter * ptr = FilterCreator::create(type);
     if(ptr){
         m_filters.insert(num, ptr);
-        updateAllFilters();
+        m_needUpdatingFilters.insert(num);
+        //updateAllFilters();
         emit paramsChanged(FilterParams(num, ptr->allParametersInfo()));
     }
 }
 
 void FilterProcessor::removeFilter(int num) // TO DO :  add removing filter connections
 {
+    m_needUpdatingFilters = m_needUpdatingFilters.unite(allDependentNodes(num));
     removeAllConnections(num);
     updateAllConnectionsForFilters();
     AbstractFilter * ptr  = m_filters.value(num, NULL);
     m_filters.remove(num);
     if(ptr)
         delete ptr;
-    updateAllFilters();
+    //updateAllFilters();
 }
 
 void FilterProcessor::removeAllConnections(int filterNumber)
@@ -97,13 +101,17 @@ void FilterProcessor::removeAllConnections(int filterNumber)
 
 void FilterProcessor::connectFilters(int filterOut, int connectorOut, int filterIn, int connectorIn)
 {
-    //TO DO: add removing conection for "filterIn" at slot "connectorIn"
+    QSet<int> beforeReconnecting = allDependentNodes(filterIn);
+
     removeConnectionsForFilterInSlot(filterIn, connectorIn);
+
+    QSet<int> afterReconnecting = allDependentNodes(filterIn);
+    m_needUpdatingFilters = m_needUpdatingFilters.unite(beforeReconnecting.unite(afterReconnecting));
+
     m_outConnections.insertMulti(filterOut, Connection(filterIn, connectorIn, connectorOut));
     m_inConnections.insertMulti(filterIn,Connection(filterOut,connectorOut, connectorIn));
 
-    updateAllConnectionsForFilters();
-    updateFromFilter(filterIn);
+    updateAllConnectionsForFilters(); // need replace all for concrete target filters
 }
 
 void FilterProcessor::removeConnectionsForFilterInSlot(int filterNumber, int slot)
@@ -134,7 +142,8 @@ void FilterProcessor::setParameterValueForFilter(int filterNumber, QString param
     AbstractFilter * filterPtr = m_filters.value(filterNumber, NULL);
     if(filterPtr)
         filterPtr->setParameter(paramName, value);
-    updateFromFilter(filterNumber);
+    m_needUpdatingFilters = m_needUpdatingFilters.unite(allDependentNodes(filterNumber));
+    //updateFromFilter(filterNumber);
 }
 
 QVariant FilterProcessor::availableFilters()
@@ -158,32 +167,37 @@ QVariant FilterProcessor::availableRasterModes()
     return QVariant::fromValue(ImageDataRasterizer::availableRasterModes());
 }
 
-void FilterProcessor::updateAllFilters() // need add lopp detection
+void FilterProcessor::updateNonActualFilters() // need add lopp detection
 {
-    QSet<int> needUpdateFilters = QSet<int>::fromList(m_filters.keys());
-    updateFilterSet(needUpdateFilters);
+    updateFilterSet(m_needUpdatingFilters);
 }
 
-void FilterProcessor::updateFromFilter(int number)
+QSet<int> FilterProcessor::allDependentNodes(int startNode)
 {
-    QSet<int> needUpdateFilters;
+    QSet<int> dpendentNodes;
     QStack<int> nextFilters;
-    nextFilters.push(number);
+    nextFilters.push(startNode);
     while(nextFilters.count()){
         int currFilter = nextFilters.pop();
-        needUpdateFilters.insert(currFilter);
+        dpendentNodes.insert(currFilter);
         auto connectionList = m_outConnections.values(currFilter);
         QListIterator<Connection> iter(connectionList);
         while (iter.hasNext()) {
             auto connection = iter.next();
             int nextFilterNumber = connection.targetFilter;
-            if(!needUpdateFilters.contains(nextFilterNumber)){
+            if(!dpendentNodes.contains(nextFilterNumber)){
                 nextFilters.push(nextFilterNumber);
             }
         }
     }
-    updateFilterSet(needUpdateFilters);
+    return  dpendentNodes;
 }
+
+/*void FilterProcessor::updateFromFilter(int number)
+{
+
+    updateFilterSet(allDependentNodes(number));
+}*/
 
 void FilterProcessor::updateFilterSet(QSet<int> filterSet)
 {

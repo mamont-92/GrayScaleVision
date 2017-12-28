@@ -57,14 +57,16 @@ private:
     void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
     void setRasterMode(QString mode);
 
-    void updateAllFilters();
+    void updateNonActualFilters();
     void removeAllConnections(int filterNumber);
     void removeConnectionsForFilterInSlot(int filterNumber, int slot);
     void updateAllConnectionsForFilters();
-    void updateFromFilter(int number);
+    //void updateFromFilter(int number);
     void rasterAllImages();
     void setImageForFilter(int filterNumber, QImage img);
     void updateFilterSet(QSet<int> filterSet);
+
+    QSet<int> allDependentNodes(int startNode);
 
     QMutex m_imageMutex;
     QMultiHash<int, Connection> m_outConnections, m_inConnections;
@@ -74,6 +76,7 @@ private:
     QHash<QString, QVariant> m_nonAplliedParams;
     QFutureWatcher<void> m_updateWatcher;
     FilterProcessorComands::CommandCallBackAcceptor * m_commandAcceptor;
+    QSet<int> m_needUpdatingFilters;
 };
 
 #endif // FilterProcessor_H
