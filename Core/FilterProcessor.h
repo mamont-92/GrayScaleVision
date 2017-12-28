@@ -62,7 +62,7 @@ private:
     void removeConnectionsForFilterInSlot(int filterNumber, int slot);
     void updateAllConnectionsForFilters();
     //void updateFromFilter(int number);
-    void rasterAllImages();
+    void rasterNonActualImages();
     void setImageForFilter(int filterNumber, QImage img);
     void updateFilterSet(QSet<int> filterSet);
 
@@ -77,6 +77,8 @@ private:
     QFutureWatcher<void> m_updateWatcher;
     FilterProcessorComands::CommandCallBackAcceptor * m_commandAcceptor;
     QSet<int> m_needUpdatingFilters;
+    QSet<int> m_needRastingFilters;
+    //bool m_needRastingFilters;
 };
 
 #endif // FilterProcessor_H

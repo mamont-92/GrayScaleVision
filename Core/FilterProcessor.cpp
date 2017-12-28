@@ -42,8 +42,10 @@ void FilterProcessor::execute(FilterProcessorComands::ICommand * command)
 {
     if(command){
         m_needUpdatingFilters.clear();
+        m_needRastingFilters.clear();
         command->accept(m_commandAcceptor);
         updateNonActualFilters();
+        rasterNonActualImages();
         delete command;
     }
 }
@@ -239,6 +241,7 @@ void FilterProcessor::updateFilterSet(QSet<int> filterSet)
 
 inline void FilterProcessor::setImageForFilter(int filterNumber, QImage img)
 {
+    m_needRastingFilters.remove(filterNumber);
     m_imageMutex.lock();
     m_images.insert(filterNumber, img);
     m_imageMutex.unlock();
@@ -267,18 +270,18 @@ QImage FilterProcessor::images(int filterNumber)
 void FilterProcessor::setRasterMode(QString mode)
 {
     m_rasterMode = mode;
-    rasterAllImages();
+    m_needRastingFilters = QSet<int>::fromList(m_filters.keys());
 }
 
-void FilterProcessor::rasterAllImages()
+void FilterProcessor::rasterNonActualImages()
 {
-    QHashIterator<int, AbstractFilter*> iter(m_filters);
+    QSetIterator<int> iter(m_needRastingFilters);
     while(iter.hasNext()){
-        iter.next();
-        auto filterPtr = iter.value();
+        int filterNum = iter.next();
+        auto filterPtr = m_filters.value(filterNum, NULL);
         if(filterPtr){
             QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0), m_rasterMode);
-            setImageForFilter(iter.key(), img);
+            setImageForFilter(filterNum, img);
         }
     }
 }
