@@ -7,6 +7,13 @@ FilterProcessorGate::FilterProcessorGate(QObject *parent) : QObject(parent), m_f
     connect(m_filterProcessor, &FilterProcessor::imageRastered, [this] (int number) {
         emit imageRastered(number);
     });
+    connect(m_filterProcessor, &FilterProcessor::paramsChanged, [this] (const FilterParams & params){
+        QVariantMap paramsMap = {
+            {"filterNumber", QVariant::fromValue(params.filterNumber)},
+            {"params", params.parameter},
+        };
+        emit paramsChanged(QVariant::fromValue(paramsMap));
+    });
 }
 
 void FilterProcessorGate::addFilter(int num, QString type)
@@ -40,12 +47,12 @@ QVariant FilterProcessorGate::availableFilters()
     return QVariant();
 }
 
-QVariant FilterProcessorGate::filterParamsInfo(int filterNumber)
+/*QVariant FilterProcessorGate::filterParamsInfo(int filterNumber)
 {
     if(m_filterProcessor)
         return m_filterProcessor->filterParamsInfo(filterNumber);
     return QVariant();
-}
+}*/
 
 QVariant FilterProcessorGate::availableRasterModes()
 {

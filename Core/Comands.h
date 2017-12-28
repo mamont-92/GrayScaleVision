@@ -13,7 +13,7 @@ class ICommand // interface for "command pattern"
 protected:
     ICommand();
 public:
-    virtual ~ICommand();
+    virtual ~ICommand() {}
     virtual void accept(ICommandAcceptor * _visitor) = 0;
 };
 
@@ -86,7 +86,8 @@ private:
 
 class ICommandAcceptor
 {
-    virtual ~ICommandAcceptor();
+public:
+    virtual ~ICommandAcceptor() {}
     virtual void accept(const AddFilter & command) = 0;
     virtual void accept(const RemoveFilter & command) = 0;
     virtual void accept(const ConnectFilters & command) = 0;

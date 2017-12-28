@@ -9,6 +9,7 @@
 #include <QImage>
 #include <QMutex>
 #include <QSet>
+#include <QFutureWatcher>
 
 #include "AbstractFilter.h"
 
@@ -20,6 +21,13 @@ struct Connection
 
     Connection(int _targetFilter, int _targetSlot,int _currentSlot):
         targetFilter(_targetFilter), targetSlot(_targetSlot), currentSlot(_currentSlot) {}
+};
+
+struct FilterParams{
+    int filterNumber;
+    QVariant parameter;
+    FilterParams(const int & _filterNumber= -1, const QVariant & _parameter = QVariant()):
+        filterNumber(_filterNumber), parameter(_parameter) {}
 };
 
 class FilterProcessor : public QObject {
@@ -35,13 +43,14 @@ public:
     void setRasterMode(QString mode);
 
     QVariant availableFilters();
-    QVariant filterParamsInfo(int filterNumber);
+    //QVariant filterParamsInfo(int filterNumber);
     QVariant availableRasterModes();
 
     void updateAllFilters();
     QImage images(int filterNumber);
 signals:
     void imageRastered(int number);
+    void paramsChanged(const FilterParams & params);
 private:
     void removeAllConnections(int filterNumber);
     void removeConnectionsForFilterInSlot(int filterNumber, int slot);
@@ -56,6 +65,8 @@ private:
     QHash<int, AbstractFilter * > m_filters;
     QHash<int, QImage> m_images;
     QString m_rasterMode;
+    QHash<QString, QVariant> m_nonAplliedParams;
+    QFutureWatcher<void> m_updateWatcher;
 };
 
 #endif // FilterProcessor_H

@@ -20,13 +20,14 @@ public:
     Q_INVOKABLE void setParameterValueForFilter(int filterNumber, QString paramName, QVariant value);
 
     Q_INVOKABLE QVariant availableFilters();
-    Q_INVOKABLE QVariant filterParamsInfo(int filterNumber);
+    //Q_INVOKABLE QVariant filterParamsInfo(int filterNumber);
     Q_INVOKABLE QVariant availableRasterModes();
     Q_INVOKABLE void setRasterMode(QString mode);
 
 
 signals:
     void imageRastered(int number);
+    void paramsChanged(QVariant params);
 private:
     FilterProcessor * m_filterProcessor;
 };
