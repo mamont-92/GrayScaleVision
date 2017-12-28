@@ -41,16 +41,26 @@ FilterProcessor::~FilterProcessor()
 void FilterProcessor::execute(FilterProcessorComands::ICommand * command)
 {
     if(command){
-        m_needUpdatingFilters.clear();
-        m_needRastingFilters.clear();
-        command->accept(m_commandAcceptor);
+        m_commandQueue.enqueue(command);
+
+        performAccumulatedCommands();
+
         updateNonActualFilters();
         rasterNonActualImages();
-        delete command;
     }
 }
 
+void FilterProcessor::performAccumulatedCommands()
+{
+    m_needUpdatingFilters.clear();
+    m_needRastingFilters.clear();
 
+    while(m_commandQueue.count()){
+        auto command = m_commandQueue.dequeue();
+        command->accept(m_commandAcceptor);
+        delete command;
+    }
+}
 
 void FilterProcessor::addFilter(int num, QString type)
 {

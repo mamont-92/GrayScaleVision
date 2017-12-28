@@ -10,6 +10,7 @@
 #include <QMutex>
 #include <QSet>
 #include <QFutureWatcher>
+#include <QQueue>
 
 #include "AbstractFilter.h"
 
@@ -65,6 +66,7 @@ private:
     void rasterNonActualImages();
     void setImageForFilter(int filterNumber, QImage img);
     void updateFilterSet(QSet<int> filterSet);
+    void performAccumulatedCommands();
 
     QSet<int> allDependentNodes(int startNode);
 
@@ -78,6 +80,8 @@ private:
     FilterProcessorComands::CommandCallBackAcceptor * m_commandAcceptor;
     QSet<int> m_needUpdatingFilters;
     QSet<int> m_needRastingFilters;
+
+    QQueue<FilterProcessorComands::ICommand*> m_commandQueue;
     //bool m_needRastingFilters;
 };
 
