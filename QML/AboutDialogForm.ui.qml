@@ -69,6 +69,15 @@ Item {
             anchors.leftMargin: 30
             font.pixelSize: 18
         }
+
+        SpinBox {
+            id: spinBox
+            x: 120
+            y: 180
+            wheelEnabled: true
+            stepSize: 0
+            editable: true
+        }
     }
 
     Connections {

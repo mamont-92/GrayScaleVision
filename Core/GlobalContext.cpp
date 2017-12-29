@@ -2,11 +2,11 @@
 
 GlobalContext::GlobalContext()
 {
-    m_filterManager = new FilterManagerBackend;
+    m_filterManager = new FilterProcessor;
     m_imageProvider = new RasterImageProvider;
 }
 
-FilterManagerBackend * GlobalContext::filterManager()
+FilterProcessor * GlobalContext::filterManager()
 {
     return m_filterManager;
 }

@@ -1,4 +1,5 @@
 import QtQuick 2.10
+import QtQuick.Controls 2.3
 import "utils"
 import grayscalevision.core 1.0
 
@@ -44,7 +45,7 @@ Item {
             var params = filterParams(f.number);
             filtersArr[i]["params"] = {}
             for(var propertyName in params) {
-                 filtersArr[i]["params"][propertyName] = params[propertyName]["value"];
+                filtersArr[i]["params"][propertyName] = params[propertyName]["value"];
             }
         }
         curState["filters"] = filtersArr;
@@ -92,11 +93,12 @@ Item {
         onFilerSelected: {
             imageViewer.filterNumber = number;
 
-            filterWidgetManager.filterInfo = {
+            filterWidgetManager.filterNumber = number;
+            /*filterWidgetManager.filterInfo = {
                 "number": number,
                 "name" : filterManipulator.filterName(number),
                 "params" : filterProcessor.filterParamsInfo(number)
-            };
+            };*/
         }
 
         filterCreationTemplate: filterProcessor.availableFilters()
@@ -178,6 +180,36 @@ Item {
             anchors.margins: 10
         }
 
+        Rectangle{
+            id: rasterModeSelector
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: imageViewer.bottom
+            height: comboBox.height+5
+            border.width: 1
+            border.color: "black"
+
+            Text{
+                id: rasterModeText
+                text: "Raster mode: "
+                font.pointSize: 10
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            ComboBox{
+                id: comboBox
+                anchors.left: rasterModeText.right
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                model: filterProcessor.availableRasterModes()
+                height: 30
+                currentIndex: model.indexOf("Grayscale")
+                onCurrentTextChanged: {
+                    filterProcessor.setRasterMode(currentText);
+                }
+            }
+
+        }
+
     }
 
     Binding on rightPanelRatio {
@@ -190,6 +222,15 @@ Item {
         onImageRastered: {
             filterManipulator.updateFilterImage(number);
             imageViewer.reloadImage();
+        }
+        onParamsChanged: {
+            var filterParams = {
+                "filterNumber": params.filterNumber,
+                "filterName" : filterManipulator.filterName(params.filterNumber),
+                "params" : params.params
+            };
+            console.log(filterParams.filterNumber, filterParams.filterName, filterParams.params);
+            filterWidgetManager.setParamsForFilter(filterParams)
         }
     }
 }
