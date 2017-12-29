@@ -31,6 +31,11 @@ FilterProcessor::FilterProcessor(QObject *parent) :QObject(parent)
         this->setRasterMode(command.mode());
     };
     m_commandAcceptor = new CommandCallBackAcceptor(addFilterFunc, removeFilterFunc, connectFiltersFunc, setParameterForFilterFunc, setRasterModeFunc);
+
+    connect(&m_updateWatcher, &QFutureWatcher<void>::finished, [this](){
+        if(m_commandQueue.count())
+            runFilterUpdating();
+    });
 }
 
 FilterProcessor::~FilterProcessor()
@@ -42,11 +47,20 @@ void FilterProcessor::execute(FilterProcessorComands::ICommand * command)
 {
     if(command){
         m_commandQueue.enqueue(command);
+        runFilterUpdating();
+    }
+}
 
+void FilterProcessor::runFilterUpdating()
+{
+    if(!m_updateWatcher.isRunning()){
         performAccumulatedCommands();
+        QFuture<void> updateFuture = QtConcurrent::run([this] () {
 
-        updateNonActualFilters();
-        rasterNonActualImages();
+            updateNonActualFilters();
+            rasterNonActualImages();
+        });
+        m_updateWatcher.setFuture(updateFuture);
     }
 }
 
@@ -213,7 +227,7 @@ QSet<int> FilterProcessor::allDependentNodes(int startNode)
 
 void FilterProcessor::updateFilterSet(QSet<int> filterSet)
 {
-    //QFuture<void> updateFuture = QtConcurrent::run([this, filterSet] () {
+    //
 
         QSet<int> updatedFilters = QSet<int>::fromList(m_filters.keys()).subtract(filterSet);
         QList<int> nonUpdatedFilters = QList<int>::fromSet(filterSet);
@@ -246,7 +260,7 @@ void FilterProcessor::updateFilterSet(QSet<int> filterSet)
         }
     //});
 
-    //m_updateWatcher.setFuture(updateFuture);
+    //
 }
 
 inline void FilterProcessor::setImageForFilter(int filterNumber, QImage img)

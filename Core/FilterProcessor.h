@@ -67,6 +67,7 @@ private:
     void setImageForFilter(int filterNumber, QImage img);
     void updateFilterSet(QSet<int> filterSet);
     void performAccumulatedCommands();
+    void runFilterUpdating();
 
     QSet<int> allDependentNodes(int startNode);
 
