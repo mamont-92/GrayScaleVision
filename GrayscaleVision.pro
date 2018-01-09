@@ -55,7 +55,9 @@ SOURCES += main.cpp \
     Core/FilterProcessor.cpp \
     Core/FilterProcessorGate.cpp \
     Core/Commands.cpp \
-    Core/CommandCallBackAcceptor.cpp
+    Core/CommandCallBackAcceptor.cpp \
+    Core/ImageData/ImageDataFrequency.cpp \
+    Core/ImageData/ImageDataConvertor.cpp
 
 HEADERS  += \
     Core/FilterCreator.h \
@@ -84,7 +86,9 @@ HEADERS  += \
     Core/FilterProcessorGate.h \
     Core/FilterProcessor.h \
     Core/Commands.h \
-    Core/CommandCallBackAcceptor.h
+    Core/CommandCallBackAcceptor.h \
+    Core/ImageData/ImageDataFrequency.h \
+    Core/ImageData/ImageDataConvertor.h
 
 FORMS    +=
 
