@@ -14,11 +14,12 @@ class ImageDataFrequency;
 
 typedef QSharedPointer<ImageDataFrequency> ImageDataFrequencyPtr;
 typedef QWeakPointer<ImageDataFrequency> ImageDataFrequencyWeakPtr;
+typedef std::complex<float>  complexFloat;
 
 class  ImageDataFrequency
 {
 public:
-    typedef std::complex<float>  complexFloat;
+
 
     ImageDataFrequency(quint16 _width = 0, quint16 _height = 0);
     ~ImageDataFrequency();

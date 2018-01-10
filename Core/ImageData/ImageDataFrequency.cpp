@@ -71,12 +71,12 @@ quint16 ImageDataFrequency::height() const
     return m_height;
 }
 
-ImageDataFrequency::complexFloat* ImageDataFrequency::data()
+complexFloat* ImageDataFrequency::data()
 {
     return m_data;
 }
 
-const ImageDataFrequency::complexFloat* ImageDataFrequency::data() const
+const complexFloat* ImageDataFrequency::data() const
 {
     return m_data;
 }
@@ -132,12 +132,12 @@ void ImageDataFrequency::setPixel(QPoint _point, complexFloat value)
     }
 }
 
-ImageDataFrequency::complexFloat ImageDataFrequency::at(ushort column, ushort row) const
+complexFloat ImageDataFrequency::at(ushort column, ushort row) const
 {
     return at(QPoint(column, row));
 }
 
-ImageDataFrequency::complexFloat ImageDataFrequency::at(QPoint _point) const
+complexFloat ImageDataFrequency::at(QPoint _point) const
 {
     return rect().contains(_point) ? m_data[_point.y()*m_width+_point.x()] : 0;
 }
