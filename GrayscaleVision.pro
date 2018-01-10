@@ -58,7 +58,8 @@ SOURCES += main.cpp \
     Core/CommandCallBackAcceptor.cpp \
     Core/ImageData/ImageDataFrequency.cpp \
     Core/ImageData/ImageDataConvertor.cpp \
-    Core/Filters/Frequency/MultByConstInRad.cpp
+    Core/Filters/Frequency/MultByConstInRad.cpp \
+    Core/Filters/Frequency/MultByInterpolatedValueInRad.cpp
 
 HEADERS  += \
     Core/FilterCreator.h \
@@ -90,7 +91,8 @@ HEADERS  += \
     Core/CommandCallBackAcceptor.h \
     Core/ImageData/ImageDataFrequency.h \
     Core/ImageData/ImageDataConvertor.h \
-    Core/Filters/Frequency/MultByConstInRad.h
+    Core/Filters/Frequency/MultByConstInRad.h \
+    Core/Filters/Frequency/MultByInterpolatedValueInRad.h
 
 FORMS    +=
 
