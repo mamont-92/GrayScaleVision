@@ -57,7 +57,8 @@ SOURCES += main.cpp \
     Core/Commands.cpp \
     Core/CommandCallBackAcceptor.cpp \
     Core/ImageData/ImageDataFrequency.cpp \
-    Core/ImageData/ImageDataConvertor.cpp
+    Core/ImageData/ImageDataConvertor.cpp \
+    Core/Filters/Frequency/Circle.cpp
 
 HEADERS  += \
     Core/FilterCreator.h \
@@ -88,7 +89,8 @@ HEADERS  += \
     Core/Commands.h \
     Core/CommandCallBackAcceptor.h \
     Core/ImageData/ImageDataFrequency.h \
-    Core/ImageData/ImageDataConvertor.h
+    Core/ImageData/ImageDataConvertor.h \
+    Core/Filters/Frequency/Circle.h
 
 FORMS    +=
 
