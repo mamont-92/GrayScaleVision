@@ -10,8 +10,8 @@ class ImageDataSpatialPtr;*/
 class ImageDataConvertor
 {
 public:
-    static ImageDataSpatialPtr convertToSpatialData(ImageDataFrequencyPtr dataPtr);
-    static ImageDataFrequencyPtr convertToFrequencyData(ImageDataSpatialPtr dataPtr);
+    static ImageDataSpatialPtr convertToSpatialData(ImageDataFrequencyPtr frequencyDataPtr);
+    static ImageDataFrequencyPtr convertToFrequencyData(ImageDataSpatialPtr spatialDataPtr);
 };
 
 #endif // IMAGEDATACONVERTOR_H
