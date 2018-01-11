@@ -10,6 +10,7 @@
 #include "Filters/Convolution3x3.h"
 #include "Filters/BilateralBlur.h"
 #include "Filters/Laplacian.h"
-#include "Filters/Frequency/MultByConstInRad.h".h"
+#include "Filters/Frequency/MultByConstInRad.h"
+#include "Filters/Frequency/MultByInterpolatedValueInRad.h"
 
 #endif // BASEFILTERS_H

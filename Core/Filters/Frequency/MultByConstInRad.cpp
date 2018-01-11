@@ -3,8 +3,8 @@
 #include "Core/ImageData/ImageDataConvertor.h"
 
 MultByConstInRad::MultByConstInRad() : AbstractFilter(),
-    multiplier(0.9f, 0.0f, 1.0f),
-    radius(1, 0, 65535)
+    multiplier(0.7f, 0.0f, 1.0f),
+    radius(90, 0, 65535)
 {
     registerInSlot("src", 0);
     registerOutSlot("res", 0);
