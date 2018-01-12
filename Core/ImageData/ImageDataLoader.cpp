@@ -3,10 +3,10 @@
 
 using namespace cv;
 
-ImageDataSpatialPtr ImageDataLoader::loadFromFile(QString fileName){
+ImageDataSpatial ImageDataLoader::loadFromFile(QString fileName){
     Mat floatImg, scrImage = imread(fileName.toStdString(), CV_LOAD_IMAGE_ANYDEPTH );
     scrImage.convertTo(floatImg, CV_32FC1);
-    ImageDataSpatialPtr imgDataPtr = ImageDataSpatialPtr::create(floatImg.cols, floatImg.rows);
-    memcpy(reinterpret_cast<uchar*>(imgDataPtr->data()), floatImg.data, sizeof(float)*floatImg.cols*floatImg.rows);
-    return imgDataPtr;
+    ImageDataSpatial imgData(floatImg.cols, floatImg.rows);
+    memcpy(imgData.data(), floatImg.data, sizeof(float)*qMin((qint32)floatImg.cols*floatImg.rows, (qint32)imgData.pixelCount()));
+    return imgData;
 }

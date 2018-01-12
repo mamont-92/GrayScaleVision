@@ -14,22 +14,28 @@ MultByConstInRad::MultByConstInRad() : AbstractFilter(),
 
 void MultByConstInRad::update()
 {
-    auto inDataPtr = inSlotLock("src");
-    auto outDataPtr = outSlot("res");
+    auto inSlotPtr1 = inSlotLock("src");
+    auto outSlotPtr = outSlot("res");
+    auto outDataPtr = outSlotPtr->asFrequencyData();
 
-    if(inDataPtr.isNull() || inDataPtr->isEmpty()){
+    if(inSlotPtr1.isNull()){
         outDataPtr->setEmpty();
         return;
     }
 
-    auto freqDataPtr = ImageDataConvertor::convertToFrequencyData(inDataPtr);
+    auto inDataPtr = inSlotPtr1->asFrequencyData();
+
+    if(inDataPtr->isEmpty()){
+        outDataPtr->setEmpty();
+        return;
+    }
 
     float mult = multiplier.valueReal();
 
-    complexFloat * compData = freqDataPtr->data();
+    complexFloat * compData = inDataPtr->data();
 
-    int _width = freqDataPtr->width();
-    int _height = freqDataPtr->height();
+    int _width = inDataPtr->width();
+    int _height = inDataPtr->height();
 
     quint64 imageRadSqr = radius.valueInt();
     imageRadSqr *= imageRadSqr;
@@ -49,9 +55,6 @@ void MultByConstInRad::update()
         }
     }
 
-
-    auto tempSpatial = ImageDataConvertor::convertToSpatialData(freqDataPtr);
-
-    outDataPtr->setWithCopyData(tempSpatial->data(), tempSpatial->size());
+    outSlotPtr->setFrequencyChanged();
 }
 

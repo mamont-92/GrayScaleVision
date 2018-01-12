@@ -1,6 +1,7 @@
 #include "ImageDataConvertor.h"
 
 #include <opencv2/opencv.hpp>
+#include <QDebug>
 
 using namespace cv;
 
@@ -23,20 +24,21 @@ void swapMatQuadtrants(Mat & mat){
     tmp_2.copyTo(q2_2);
 }
 
-ImageDataSpatialPtr ImageDataConvertor::convertToSpatialData(ImageDataFrequencyPtr frequencyDataPtr)
+ImageDataSpatial ImageDataConvertor::convertToSpatialData(const ImageDataFrequency & frequencyData)
 {
-    if((frequencyDataPtr.isNull()) || (frequencyDataPtr->isEmpty()))
-        return ImageDataSpatialPtr();
+    if(frequencyData.isEmpty())
+        return ImageDataSpatial();
 
-    const std::complex<float> * scrComplexData = frequencyDataPtr->data();
+    const std::complex<float> * scrComplexData = frequencyData.data();
 
-    qint32 scrWidth = frequencyDataPtr->width();
-    qint32 scrHeight = frequencyDataPtr->height();
-    qint32 scrDataSize = frequencyDataPtr->pixelCount();
+    qint32 scrWidth = frequencyData.width();
+    qint32 scrHeight = frequencyData.height();
+    qint32 scrDataSize = frequencyData.pixelCount();
 
     float * realComplexData = new float[scrDataSize];
     float * imagComplexData = new float[scrDataSize];
 
+    #pragma omp parallel for
     for(qint32 i = 0; i < scrDataSize; ++i){
         realComplexData[i] = scrComplexData[i].real();
         imagComplexData[i] = scrComplexData[i].imag();
@@ -58,32 +60,36 @@ ImageDataSpatialPtr ImageDataConvertor::convertToSpatialData(ImageDataFrequencyP
 
     qint32 resultWidth =  inverseTransform.cols;
     qint32 resultHeight = inverseTransform.rows;
-    ImageDataSpatialPtr resultDataPtr = ImageDataSpatialPtr::create(resultWidth, resultHeight);
-    qint32 resultDataSize = resultDataPtr->pixelCount();
+    ImageDataSpatial resultImgData(resultWidth, resultHeight);
+    qint32 resultDataSize = resultImgData.pixelCount();
 
-    float * ptr = reinterpret_cast<float*>(inverseTransform.data);
-    float * resultPtrData = resultDataPtr->data();
+    float * floatCVData = reinterpret_cast<float*>(inverseTransform.data);
+    float * resultData = resultImgData.data();
+
+    #pragma omp parallel for
     for(qint32 i = 0; i < resultDataSize; ++i){
-        resultPtrData[i] = ptr[i] / (float)resultDataSize;
+        resultData[i] = floatCVData[i] / (float)resultDataSize;
     }
 
     delete [] realComplexData;
     delete [] imagComplexData;
 
-    return resultDataPtr;
+    return resultImgData;
 }
 
-ImageDataFrequencyPtr ImageDataConvertor::convertToFrequencyData(ImageDataSpatialPtr spatialDataPtr)
+ImageDataFrequency ImageDataConvertor::convertToFrequencyData(const ImageDataSpatial & spatialData)
 {
-    if((spatialDataPtr.isNull()) || (spatialDataPtr->isEmpty()))
-        return ImageDataFrequencyPtr();
+    if(spatialData.isEmpty())
+        return ImageDataFrequency();
 
-    qint32 scrWidth = spatialDataPtr->width();
-    qint32 scrHeight = spatialDataPtr->height();
-    qint32 scrDataSize = spatialDataPtr->pixelCount();
+    qDebug() << "beging converting";
+
+    qint32 scrWidth = spatialData.width();
+    qint32 scrHeight = spatialData.height();
+    qint32 scrDataSize = spatialData.pixelCount();
 
     float * scrData = new float [scrDataSize];
-    memcpy(scrData, spatialDataPtr->data(), scrDataSize*sizeof(float));
+    memcpy(scrData, spatialData.data(), scrDataSize*sizeof(float));
 
     Mat I(scrHeight, scrWidth, CV_32F, scrData);
     Mat planes[] = {Mat_<float>(I), Mat::zeros(I.size(), CV_32F)};
@@ -98,18 +104,19 @@ ImageDataFrequencyPtr ImageDataConvertor::convertToFrequencyData(ImageDataSpatia
 
     qint32 resultWidth =  planes[0].cols;
     qint32 resultHeight = planes[0].rows;
-    ImageDataFrequencyPtr resultDataPtr = ImageDataFrequencyPtr::create(resultWidth, resultHeight);
-    qint32 maxInd = spatialDataPtr->pixelCount();
+    ImageDataFrequency resultImgData(resultWidth, resultHeight);
+    qint32 maxInd = spatialData.pixelCount();
 
-    std::complex<float> * resultComplexData = resultDataPtr->data();
+    std::complex<float> * resultComplexData = resultImgData.data();
     float * realComplexData = reinterpret_cast<float*>(planes[0].data);
     float * imagComplexData = reinterpret_cast<float*>(planes[1].data);
 
+    #pragma omp parallel for
     for(qint32 i = 0; i < maxInd; ++i){
         resultComplexData[i] = std::complex<float>(realComplexData[i], imagComplexData[i]);
     }
 
     delete [] scrData;
 
-    return resultDataPtr;
+    return resultImgData;
 }

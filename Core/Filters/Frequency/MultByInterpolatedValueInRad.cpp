@@ -1,4 +1,5 @@
 #include "MultByInterpolatedValueInRad.h"
+#include <QDebug>
 
 #include "Core/ImageData/ImageDataConvertor.h"
 
@@ -16,23 +17,32 @@ MultByInterpolatedValueInRad::MultByInterpolatedValueInRad() : AbstractFilter(),
 
 void MultByInterpolatedValueInRad::update()
 {
-    auto inDataPtr = inSlotLock("src");
-    auto outDataPtr = outSlot("res");
+    auto inSlotPtr1 = inSlotLock("src");
+    auto outSlotPtr = outSlot("res");
+    auto outDataPtr = outSlotPtr->asFrequencyData();
 
-    if(inDataPtr.isNull() || inDataPtr->isEmpty()){
+    if(inSlotPtr1.isNull()){
+        qDebug() << "slot null";
         outDataPtr->setEmpty();
         return;
     }
 
-    auto freqDataPtr = ImageDataConvertor::convertToFrequencyData(inDataPtr);
+    auto inDataPtr = inSlotPtr1->asFrequencyData();
+
+    if(inDataPtr->isEmpty()){
+        qDebug() << "slot empty";
+        outDataPtr->setEmpty();
+        return;
+    }
+
 
     float val1 = value1.valueReal();
     float val2 = value2.valueReal();
 
-    complexFloat * compData = freqDataPtr->data();
+    complexFloat * compData = outDataPtr->data();
 
-    int _width = freqDataPtr->width();
-    int _height = freqDataPtr->height();
+    int _width = outDataPtr->width();
+    int _height = outDataPtr->height();
 
     float imageRad = radius.valueInt();
 
@@ -53,8 +63,6 @@ void MultByInterpolatedValueInRad::update()
         }
     }
 
-    auto tempSpatial = ImageDataConvertor::convertToSpatialData(freqDataPtr);
-
-    outDataPtr->setWithCopyData(tempSpatial->data(), tempSpatial->size());
+    outSlotPtr->setFrequencyChanged();
 }
 

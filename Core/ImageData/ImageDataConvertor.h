@@ -1,8 +1,6 @@
 #ifndef IMAGEDATACONVERTOR_H
 #define IMAGEDATACONVERTOR_H
 
-/*class ImageDataFrequencyPtr;
-class ImageDataSpatialPtr;*/
 
 #include "ImageDataFrequency.h"
 #include "ImageDataSpatial.h"
@@ -10,8 +8,8 @@ class ImageDataSpatialPtr;*/
 class ImageDataConvertor
 {
 public:
-    static ImageDataSpatialPtr convertToSpatialData(ImageDataFrequencyPtr frequencyDataPtr);
-    static ImageDataFrequencyPtr convertToFrequencyData(ImageDataSpatialPtr spatialDataPtr);
+    static ImageDataSpatial convertToSpatialData(const ImageDataFrequency & frequencyDataPtr);
+    static ImageDataFrequency convertToFrequencyData(const ImageDataSpatial & spatialDataPtr);
 };
 
 #endif // IMAGEDATACONVERTOR_H

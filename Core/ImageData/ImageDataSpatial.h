@@ -8,11 +8,6 @@
 
 //TO DO: add unsafe methods: at, setPixel,
 
-class ImageDataSpatial;
-
-typedef QSharedPointer<ImageDataSpatial> ImageDataSpatialPtr;
-typedef QWeakPointer<ImageDataSpatial> ImageDataSpatialWeakPtr;
-
 class  ImageDataSpatial
 {
 public:

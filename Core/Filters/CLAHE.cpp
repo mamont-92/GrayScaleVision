@@ -13,10 +13,18 @@ CLAHE::CLAHE() : AbstractFilter(),
 
 void CLAHE::update()
 {
-    auto inDataPtr = inSlotLock("src");
-    auto outDataPtr = outSlot("res");
+    auto inSlotPtr1 = inSlotLock("src");
+    auto outSlotPtr = outSlot("res");
+    auto outDataPtr = outSlotPtr->asSpatialData();
 
-    if(inDataPtr.isNull() || inDataPtr->isEmpty()){
+    if(inSlotPtr1.isNull()){
+        outDataPtr->setEmpty();
+        return;
+    }
+
+    auto inDataPtr = inSlotPtr1->asSpatialData();
+
+    if(inDataPtr->isEmpty()){
         outDataPtr->setEmpty();
         return;
     }
@@ -39,4 +47,6 @@ void CLAHE::update()
     outMat.convertTo(outMat, CV_32FC1, 1.f/delta*maxUShortVal, 0);
 
     outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
+
+    outSlotPtr->setSpatialChanged();
 }

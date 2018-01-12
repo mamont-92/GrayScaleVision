@@ -10,10 +10,6 @@
 
 //TO DO: add unsafe methods: at, setPixel,
 
-class ImageDataFrequency;
-
-typedef QSharedPointer<ImageDataFrequency> ImageDataFrequencyPtr;
-typedef QWeakPointer<ImageDataFrequency> ImageDataFrequencyWeakPtr;
 typedef std::complex<float>  complexFloat;
 
 class  ImageDataFrequency

@@ -2,7 +2,8 @@
 #define ABSTRACTFILTER_H
 
 #include "FilterCreator.h"
-#include "ImageData/ImageDataSpatial.h"
+//#include "ImageData/ImageDataSpatial.h"
+#include "Slot.h"
 #include "AbstractParameter.h"
 #include <QVector>
 #include <QHash>
@@ -15,8 +16,8 @@ public:
 
     virtual void update() = 0;
 
-    void setInSlot(QString name, ImageDataSpatialPtr data);
-    void setInSlot(int number, ImageDataSpatialPtr data);
+    void setInSlot(QString name, SlotPtr data);
+    void setInSlot(int number, SlotPtr data);
 
     void clearInSlot(int number);
 
@@ -27,13 +28,13 @@ public:
 
     QVariant allParametersInfo() const;
 
-    ImageDataSpatialPtr outSlot(QString name);
-    ImageDataSpatialPtr outSlot(int number);
+    SlotPtr outSlot(QString name);
+    SlotPtr outSlot(int number);
 protected:
-    ImageDataSpatialWeakPtr inSlot(QString name);
-    ImageDataSpatialWeakPtr inSlot(int number);
-    ImageDataSpatialPtr inSlotLock(QString name);
-    ImageDataSpatialPtr inSlotLock(int number);
+    SlotWeakPtr inSlot(QString name);
+    SlotWeakPtr inSlot(int number);
+    SlotPtr inSlotLock(QString name);
+    SlotPtr inSlotLock(int number);
 
     void registerInSlot(QString name, int number);
     void registerOutSlot(QString name, int number);
@@ -41,8 +42,8 @@ protected:
 private:
     QHash<QString, int> m_outNames;
     QHash<QString, int> m_inNames;
-    QVector<ImageDataSpatialPtr> m_outSlots;
-    QVector<ImageDataSpatialWeakPtr> m_inSlots;
+    QVector<SlotPtr> m_outSlots;
+    QVector<SlotWeakPtr> m_inSlots;
     QHash<QString, AbstractParameter* > m_params;
 };
 

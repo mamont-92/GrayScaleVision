@@ -14,9 +14,15 @@ void SourceImage::update()
     if(m_oldPath != path.value().toString()){
         m_oldPath = path.value().toString();
         auto newImg = ImageDataLoader::loadFromFile(m_oldPath);
-        if(newImg.isNull() || newImg->isEmpty())
-            outSlot("res")->setEmpty();
+
+        auto outSlotPtr = outSlot("res");
+        auto outDataPtr = outSlotPtr->asSpatialData();
+
+        if(newImg.isEmpty())
+            outDataPtr->setEmpty();
         else
-            outSlot("res")->setWithCopyData(newImg->data(), newImg->size());
+            outDataPtr->setWithCopyData(newImg.data(), newImg.size());
+
+        outSlotPtr->setSpatialChanged();
     }
 }

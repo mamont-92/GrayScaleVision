@@ -250,8 +250,11 @@ void FilterProcessor::updateFilterSet(QSet<int> filterSet)
                     if(filterPtr){
                         filterPtr->update();
 
-                        QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0), m_rasterMode);
-                        setImageForFilter(curFilter, img);
+                        auto filterOutSlotPtr = filterPtr->outSlot((qint8)0);
+                        if(!filterOutSlotPtr.isNull()){
+                            QImage img = ImageDataRasterizer::ImageDataToQImage(*(filterOutSlotPtr->asSpatialData()), m_rasterMode);
+                            setImageForFilter(curFilter, img);
+                        }
                     }
                     mainFilterIterator.remove();
                     updatedFilters.insert(curFilter);
@@ -304,8 +307,11 @@ void FilterProcessor::rasterNonActualImages()
         int filterNum = iter.next();
         auto filterPtr = m_filters.value(filterNum, NULL);
         if(filterPtr){
-            QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0), m_rasterMode);
-            setImageForFilter(filterNum, img);
+            auto filterOutSlotPtr = filterPtr->outSlot((qint8)0);
+            if(!filterOutSlotPtr.isNull()){
+                QImage img = ImageDataRasterizer::ImageDataToQImage(*(filterOutSlotPtr->asSpatialData()), m_rasterMode);
+                setImageForFilter(filterNum, img);
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ void AbstractFilter::registerOutSlot(QString name, int number)
     m_outNames.insert(name, number);
     if(m_outSlots.size() <= number)
         m_outSlots.resize(number+1);
-    m_outSlots[number] = ImageDataSpatialPtr::create(0,0);
+    m_outSlots[number] = SlotPtr::create();
 }
 
 void AbstractFilter::registerParameter(QString name, AbstractParameter * parameter)
@@ -30,16 +30,16 @@ void AbstractFilter::registerParameter(QString name, AbstractParameter * paramet
     m_params.insert(name, parameter); // warning: no memory managment there, need delete objects in source
 }
 
-void AbstractFilter::setInSlot(QString name, ImageDataSpatialPtr data)
+void AbstractFilter::setInSlot(QString name, SlotPtr data)
 {
     int ind = m_inNames.value(name, -1);
     setInSlot(ind, data);
 }
 
-void AbstractFilter::setInSlot(int number, ImageDataSpatialPtr data)
+void AbstractFilter::setInSlot(int number, SlotPtr data)
 {
     if( (number >= 0) && (number < m_inSlots.size()) )
-        m_inSlots[number] = ImageDataSpatialWeakPtr(data);
+        m_inSlots[number] = SlotWeakPtr(data);
 }
 
 void AbstractFilter::clearInSlot(int number)
@@ -84,32 +84,32 @@ QVariant AbstractFilter::allParametersInfo() const
     return QVariant::fromValue(resultMap);
 }
 
-ImageDataSpatialPtr AbstractFilter::outSlot(QString name)
+SlotPtr AbstractFilter::outSlot(QString name)
 {
     return outSlot(m_outNames.value(name, -1));
 }
 
-ImageDataSpatialPtr AbstractFilter::outSlot(int number)
+SlotPtr AbstractFilter::outSlot(int number)
 {
     return  m_outSlots.value(number);
 }
 
-ImageDataSpatialWeakPtr AbstractFilter::inSlot(QString name)
+SlotWeakPtr AbstractFilter::inSlot(QString name)
 {
     return inSlot(m_inNames.value(name, -1));
 }
 
-ImageDataSpatialWeakPtr AbstractFilter::inSlot(int number)
+SlotWeakPtr AbstractFilter::inSlot(int number)
 {
     return m_inSlots.value(number);
 }
 
-ImageDataSpatialPtr AbstractFilter::inSlotLock(QString name)
+SlotPtr AbstractFilter::inSlotLock(QString name)
 {
     return inSlot(name).lock();
 }
 
-ImageDataSpatialPtr AbstractFilter::inSlotLock(int number)
+SlotPtr AbstractFilter::inSlotLock(int number)
 {
     return inSlot(number).lock();
 }

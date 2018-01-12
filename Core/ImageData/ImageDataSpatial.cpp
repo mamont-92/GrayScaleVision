@@ -174,11 +174,10 @@ float ImageDataSpatial::at(ushort column, ushort row) const
 float ImageDataSpatial::at(QPoint _point) const
 {
     return rect().contains(_point) ? m_data[_point.y()*m_width+_point.x()] : 0;
-    }
+}
 
-
-    bool ImageDataSpatial::isEmpty() const
-    {
+bool ImageDataSpatial::isEmpty() const
+{
     return !(m_allocatedPixels > 0);
 }
 

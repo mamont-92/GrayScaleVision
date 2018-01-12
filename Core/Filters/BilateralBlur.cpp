@@ -14,10 +14,18 @@ BilateralBlur::BilateralBlur() : AbstractFilter(),
 
 void BilateralBlur::update()
 {
-    auto inDataPtr = inSlotLock("src");
-    auto outDataPtr = outSlot("res");
+    auto inSlotPtr1 = inSlotLock("src");
+    auto outSlotPtr = outSlot("res");
+    auto outDataPtr = outSlotPtr->asSpatialData();
 
-    if(inDataPtr.isNull() || inDataPtr->isEmpty()){
+    if(inSlotPtr1.isNull()){
+        outDataPtr->setEmpty();
+        return;
+    }
+
+    auto inDataPtr = inSlotPtr1->asSpatialData();
+
+    if(inDataPtr->isEmpty()){
         outDataPtr->setEmpty();
         return;
     }
@@ -25,7 +33,7 @@ void BilateralBlur::update()
     cv::Mat outMat, inMat(inDataPtr->height(), inDataPtr->width(), CV_32FC1, inDataPtr->data());
     cv::bilateralFilter(inMat, outMat, diameter.valueInt(), sigmaIntensity.valueInt(), sigmaSpace.valueInt());
     cv::bilateralFilter(inMat, outMat, -1, sigmaIntensity.valueInt(), sigmaSpace.valueInt());
-    //cv::adaptiveBilateralFilter();
 
     outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
+    outSlotPtr->setSpatialChanged();
 }

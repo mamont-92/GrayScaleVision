@@ -7,7 +7,7 @@
 class ImageDataLoader
 {
 public:
-static ImageDataSpatialPtr loadFromFile(QString fileName);
+static ImageDataSpatial loadFromFile(QString fileName);
 };
 
 #endif // IMAGEDATALOADER_H
