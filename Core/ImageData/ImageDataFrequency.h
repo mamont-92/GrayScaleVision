@@ -22,6 +22,11 @@ public:
 
 
     ImageDataFrequency(quint16 _width = 0, quint16 _height = 0);
+    ImageDataFrequency(const ImageDataFrequency & obj);
+    ImageDataFrequency(ImageDataFrequency && other);
+
+    ImageDataFrequency& operator=(ImageDataFrequency&& other);
+
     ~ImageDataFrequency();
 
     QSize size() const;

@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include "opencv2/opencv.hpp"
+#include <QDebug>
 
 static const float epsilone = 0.000001f;
 
@@ -16,6 +17,39 @@ ImageDataSpatial::ImageDataSpatial(quint16 _width, quint16 _height):
         m_data = NULL;
     if(!m_data)
         m_allocatedPixels = 0;
+}
+
+ImageDataSpatial::ImageDataSpatial(const ImageDataSpatial & obj)
+{
+    qDebug() << "spatial copy constructor";
+    this->setWithCopyData(obj.data(), obj.size());
+}
+
+ImageDataSpatial::ImageDataSpatial(ImageDataSpatial && other):
+    m_width(other.width()),
+    m_height(other.height()),
+    m_data(other.data())
+{
+    qDebug() << "spatial move constructor";
+    other.m_data = NULL;
+    other.m_width = 0;
+    other.m_height = 0;
+}
+
+ImageDataSpatial& ImageDataSpatial::operator=(ImageDataSpatial&& other)
+{
+    if(this != &other){
+        m_width = other.m_width;
+        m_height = other.m_height;
+        if(m_data)
+            delete [] m_data;
+        m_data = other.m_data;
+
+        other.m_data = NULL;
+        other.m_width = 0;
+        other.m_height = 0;
+    }
+    return *this;
 }
 
 ImageDataSpatial::~ImageDataSpatial()
@@ -110,7 +144,7 @@ void ImageDataSpatial::fillInRect(float _value, const QRect _rect){
 
 #pragma omp parallel
     {
-        #pragma omp for
+#pragma omp for
         for(qint32  i = startRow; i <= endRow; ++i){
             qint32 start_ind = i*m_width; //TO DO: need add startCol and increment it in "while" cyle below
             for(qint32 j = startCol; j < endCol; ++j)
@@ -140,30 +174,30 @@ float ImageDataSpatial::at(ushort column, ushort row) const
 float ImageDataSpatial::at(QPoint _point) const
 {
     return rect().contains(_point) ? m_data[_point.y()*m_width+_point.x()] : 0;
-}
+    }
 
 
-bool ImageDataSpatial::isEmpty() const
-{
+    bool ImageDataSpatial::isEmpty() const
+    {
     return !(m_allocatedPixels > 0);
 }
 
 void ImageDataSpatial::boundMinMax(float minValue, float maxValue){
-    #pragma omp parallel for
+#pragma omp parallel for
     for(qint64 i = 0; i < m_allocatedPixels; ++i){
         m_data[i] = qBound(minValue, m_data[i], maxValue);
     }
 }
 
 void ImageDataSpatial::boundMin(float minValue){
-    #pragma omp parallel for
+#pragma omp parallel for
     for(qint64 i = 0; i < m_allocatedPixels; ++i){
         m_data[i] = qMax(minValue, m_data[i]);
     }
 }
 
 void ImageDataSpatial::boundMax(float maxValue){
-    #pragma omp parallel for
+#pragma omp parallel for
     for(qint64 i = 0; i < m_allocatedPixels; ++i){
         m_data[i] = qMin(maxValue, m_data[i]);
 
@@ -171,7 +205,7 @@ void ImageDataSpatial::boundMax(float maxValue){
 }
 
 void ImageDataSpatial::power(float _p) {
-    #pragma omp parallel for
+#pragma omp parallel for
     for(qint64 i = 0; i < m_allocatedPixels; ++i){
         m_data[i] = pow(m_data[i], _p);
     }
