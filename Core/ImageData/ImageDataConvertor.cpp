@@ -1,7 +1,6 @@
 #include "ImageDataConvertor.h"
 
 #include <opencv2/opencv.hpp>
-#include <QDebug>
 
 using namespace cv;
 
@@ -81,8 +80,6 @@ ImageDataFrequency ImageDataConvertor::convertToFrequencyData(const ImageDataSpa
 {
     if(spatialData.isEmpty())
         return ImageDataFrequency();
-
-    qDebug() << "beging converting";
 
     qint32 scrWidth = spatialData.width();
     qint32 scrHeight = spatialData.height();

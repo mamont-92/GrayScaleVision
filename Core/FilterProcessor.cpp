@@ -252,7 +252,7 @@ void FilterProcessor::updateFilterSet(QSet<int> filterSet)
 
                         auto filterOutSlotPtr = filterPtr->outSlot((qint8)0);
                         if(!filterOutSlotPtr.isNull()){
-                            QImage img = ImageDataRasterizer::ImageDataToQImage(*(filterOutSlotPtr->asSpatialData()), m_rasterMode);
+                            QImage img = ImageDataRasterizer::ImageDataToQImage(filterOutSlotPtr->asSpatialData(), m_rasterMode);
                             setImageForFilter(curFilter, img);
                         }
                     }

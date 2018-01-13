@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include "opencv2/opencv.hpp"
-#include <QDebug>
 
 static const float epsilone = 0.000001f;
 
@@ -21,19 +20,19 @@ ImageDataFrequency::ImageDataFrequency(quint16 _width, quint16 _height):
 
 ImageDataFrequency::ImageDataFrequency(const ImageDataFrequency & obj)
 {
-    qDebug() << "freq copy constructor";
     this->setWithCopyData(obj.data(), obj.size());
 }
 
 ImageDataFrequency::ImageDataFrequency(ImageDataFrequency && other):
-    m_width(other.width()),
-    m_height(other.height()),
-    m_data(other.data())
+    m_width(other.m_width),
+    m_height(other.m_height),
+    m_data(other.m_data),
+    m_allocatedPixels(other.m_allocatedPixels)
 {
-    qDebug() << "freq move constructor";
     other.m_data = NULL;
     other.m_width = 0;
     other.m_height = 0;
+    other.m_allocatedPixels = 0;
 }
 
 ImageDataFrequency& ImageDataFrequency::operator=(ImageDataFrequency&& other)
@@ -44,10 +43,12 @@ ImageDataFrequency& ImageDataFrequency::operator=(ImageDataFrequency&& other)
         if(m_data)
             delete [] m_data;
         m_data = other.m_data;
+        m_allocatedPixels = other.m_allocatedPixels;
 
         other.m_data = NULL;
         other.m_width = 0;
         other.m_height = 0;
+        other.m_allocatedPixels = 0;
     }
     return *this;
 }

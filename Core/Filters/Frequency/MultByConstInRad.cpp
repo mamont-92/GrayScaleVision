@@ -30,9 +30,12 @@ void MultByConstInRad::update()
         return;
     }
 
+
+    outDataPtr->resize(inDataPtr->size());
     float mult = multiplier.valueReal();
 
-    complexFloat * compData = inDataPtr->data();
+    complexFloat * inCompData = inDataPtr->data();
+    complexFloat * outCompData = outDataPtr->data();
 
     int _width = inDataPtr->width();
     int _height = inDataPtr->height();
@@ -51,7 +54,8 @@ void MultByConstInRad::update()
         for(int j = 0; j < _width; ++j){
             quint64 xDelta = j - centerX;
             xDelta*=xDelta;
-            compData[columnInd + j] *= ((xDelta+yDelta) > imageRadSqr) ? 1.0 : mult;
+            float scale = ((xDelta+yDelta) > imageRadSqr) ? 1.0 : mult; //
+            outCompData[columnInd + j] = scale * inCompData[columnInd + j];
         }
     }
 

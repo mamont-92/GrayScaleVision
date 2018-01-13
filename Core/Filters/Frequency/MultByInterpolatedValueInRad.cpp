@@ -22,7 +22,6 @@ void MultByInterpolatedValueInRad::update()
     auto outDataPtr = outSlotPtr->asFrequencyData();
 
     if(inSlotPtr1.isNull()){
-        qDebug() << "slot null";
         outDataPtr->setEmpty();
         return;
     }
@@ -30,16 +29,17 @@ void MultByInterpolatedValueInRad::update()
     auto inDataPtr = inSlotPtr1->asFrequencyData();
 
     if(inDataPtr->isEmpty()){
-        qDebug() << "slot empty";
         outDataPtr->setEmpty();
         return;
     }
 
+    outDataPtr->resize(inDataPtr->size());
 
     float val1 = value1.valueReal();
     float val2 = value2.valueReal();
 
-    complexFloat * compData = outDataPtr->data();
+    complexFloat * inCompData = inDataPtr->data();
+    complexFloat * outCompData = outDataPtr->data();
 
     int _width = outDataPtr->width();
     int _height = outDataPtr->height();
@@ -59,7 +59,8 @@ void MultByInterpolatedValueInRad::update()
             xDelta*=xDelta;
             float ratio = sqrt(xDelta+yDelta) / imageRad;
             float mult = val2 * ratio + val1 * (1.0 - ratio);
-            compData[columnInd + j] *= (ratio > 1.0) ? 1.0 : mult;
+            float scale = (ratio > 1.0) ? 1.0 : mult;
+            outCompData[columnInd + j] = scale * inCompData[columnInd + j];
         }
     }
 
