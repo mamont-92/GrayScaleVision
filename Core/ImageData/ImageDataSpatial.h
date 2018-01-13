@@ -8,16 +8,16 @@
 
 //TO DO: add unsafe methods: at, setPixel,
 
-class ImageDataSpatial;
-
-typedef QSharedPointer<ImageDataSpatial> ImageDataSpatialPtr;
-typedef QWeakPointer<ImageDataSpatial> ImageDataSpatialWeakPtr;
-
 class  ImageDataSpatial
 {
 public:
 
     ImageDataSpatial(quint16 _width = 0, quint16 _height = 0);
+    ImageDataSpatial(const ImageDataSpatial & obj);
+    ImageDataSpatial(ImageDataSpatial && other);
+
+    ImageDataSpatial& operator=(ImageDataSpatial&& other);
+
     ~ImageDataSpatial();
 
     QSize size() const;
@@ -47,6 +47,8 @@ public:
 
     void power(float _p); //power
     void calcMinMax(float & minVal, float & maxVal) const;
+
+
 
 //---------end--operators-------------------------------------------------------------------------
 private:

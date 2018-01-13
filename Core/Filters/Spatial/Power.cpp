@@ -12,10 +12,18 @@ Power::Power() : AbstractFilter(),
 
 void Power::update()
 {
-    auto inDataPtr = inSlotLock("src");
-    auto outDataPtr = outSlot("res");
+    auto inSlotPtr1 = inSlotLock("src");
+    auto outSlotPtr = outSlot("res");
+    auto outDataPtr = outSlotPtr->asSpatialData();
 
-    if(inDataPtr.isNull() || inDataPtr->isEmpty()){
+    if(inSlotPtr1.isNull()){
+        outDataPtr->setEmpty();
+        return;
+    }
+
+    auto inDataPtr = inSlotPtr1->asSpatialData();
+
+    if(inDataPtr->isEmpty()){
         outDataPtr->setEmpty();
         return;
     }
@@ -30,4 +38,5 @@ void Power::update()
     outMat.convertTo(outMat, -1, delta, minVal);
 
     outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
+    outSlotPtr->setSpatialChanged();
 }

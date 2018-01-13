@@ -1,29 +1,29 @@
-#include "ImageDataSpatial.h"
+#include "ImageDataFrequency.h"
 
 #include <cmath>
 #include "opencv2/opencv.hpp"
 
 static const float epsilone = 0.000001f;
 
-ImageDataSpatial::ImageDataSpatial(quint16 _width, quint16 _height):
+ImageDataFrequency::ImageDataFrequency(quint16 _width, quint16 _height):
     m_width(_width),
     m_height(_height)
 {
     m_allocatedPixels = m_width * m_height;
     if(m_allocatedPixels)
-        m_data = new float[m_allocatedPixels];
+        m_data = new complexFloat[m_allocatedPixels];
     else
         m_data = NULL;
     if(!m_data)
         m_allocatedPixels = 0;
 }
 
-ImageDataSpatial::ImageDataSpatial(const ImageDataSpatial & obj)
+ImageDataFrequency::ImageDataFrequency(const ImageDataFrequency & obj)
 {
     this->setWithCopyData(obj.data(), obj.size());
 }
 
-ImageDataSpatial::ImageDataSpatial(ImageDataSpatial && other):
+ImageDataFrequency::ImageDataFrequency(ImageDataFrequency && other):
     m_width(other.m_width),
     m_height(other.m_height),
     m_data(other.m_data),
@@ -35,7 +35,7 @@ ImageDataSpatial::ImageDataSpatial(ImageDataSpatial && other):
     other.m_allocatedPixels = 0;
 }
 
-ImageDataSpatial& ImageDataSpatial::operator=(ImageDataSpatial&& other)
+ImageDataFrequency& ImageDataFrequency::operator=(ImageDataFrequency&& other)
 {
     if(this != &other){
         m_width = other.m_width;
@@ -53,7 +53,7 @@ ImageDataSpatial& ImageDataSpatial::operator=(ImageDataSpatial&& other)
     return *this;
 }
 
-ImageDataSpatial::~ImageDataSpatial()
+ImageDataFrequency::~ImageDataFrequency()
 {
     m_width = 0;
     m_height = 0;
@@ -62,12 +62,12 @@ ImageDataSpatial::~ImageDataSpatial()
     m_data = NULL;
 }
 
-QSize ImageDataSpatial::size() const
+QSize ImageDataFrequency::size() const
 {
     return QSize(m_width, m_height);
 }
 
-void ImageDataSpatial::resize(QSize _size)
+void ImageDataFrequency::resize(QSize _size)
 {
     m_width = _size.width();
     m_height = _size.height();
@@ -76,7 +76,7 @@ void ImageDataSpatial::resize(QSize _size)
         if(m_data) delete [] m_data;
         m_allocatedPixels = newAllocPixels;
         if(m_allocatedPixels)
-            m_data = new float[m_allocatedPixels];
+            m_data = new complexFloat[m_allocatedPixels];
         else
             m_data = NULL;
         if(!m_data)
@@ -86,53 +86,53 @@ void ImageDataSpatial::resize(QSize _size)
         m_allocatedPixels = newAllocPixels;
 }
 
-void ImageDataSpatial::setWithCopyData(const float * _data, QSize _size)
+void ImageDataFrequency::setWithCopyData(const complexFloat * _data, QSize _size)
 {
     resize(_size);
-    memcpy(m_data, _data, sizeof(float)* qMin((qint64)_size.width() * _size.height(), (qint64)m_allocatedPixels));
+    memcpy(m_data, _data, sizeof(complexFloat)* qMin((qint64)_size.width() * _size.height(), (qint64)m_allocatedPixels));
 }
 
-void ImageDataSpatial::setEmpty()
+void ImageDataFrequency::setEmpty()
 {
     resize(QSize(0,0));
 }
 
-quint16 ImageDataSpatial::width() const
+quint16 ImageDataFrequency::width() const
 {
     return m_width;
 }
-quint16 ImageDataSpatial::height() const
+quint16 ImageDataFrequency::height() const
 {
     return m_height;
 }
 
-float* ImageDataSpatial::data()
+complexFloat* ImageDataFrequency::data()
 {
     return m_data;
 }
 
-const float* ImageDataSpatial::data() const
+const complexFloat* ImageDataFrequency::data() const
 {
     return m_data;
 }
 
-QRect ImageDataSpatial::rect() const
+QRect ImageDataFrequency::rect() const
 {
     return (m_allocatedPixels > 0) ? QRect(0,0, m_width-1, m_height-1) : QRect(0,0,0,0);
 }
 
-quint64 ImageDataSpatial::pixelCount() const
+quint64 ImageDataFrequency::pixelCount() const
 {
     return m_allocatedPixels;
 }
 
-void ImageDataSpatial::fill(float _value){
+void ImageDataFrequency::fill(complexFloat _value){
     for(qint64 i = 0; i < m_allocatedPixels; ++i){
         m_data[i] = _value;
     }
 }
 
-void ImageDataSpatial::fillInRect(float _value, const QRect _rect){
+void ImageDataFrequency::fillInRect(complexFloat _value, const QRect _rect){
     QRect  resultRect = rect().intersected(_rect);
     qint32 startCol = resultRect.left();
     qint32 endCol = resultRect.right();
@@ -145,7 +145,7 @@ void ImageDataSpatial::fillInRect(float _value, const QRect _rect){
 
 #pragma omp parallel
     {
-#pragma omp for
+        #pragma omp for
         for(qint32  i = startRow; i <= endRow; ++i){
             qint32 start_ind = i*m_width; //TO DO: need add startCol and increment it in "while" cyle below
             for(qint32 j = startCol; j < endCol; ++j)
@@ -155,68 +155,31 @@ void ImageDataSpatial::fillInRect(float _value, const QRect _rect){
 
 }
 
-void ImageDataSpatial::setPixel(ushort column, ushort row, float value)
+void ImageDataFrequency::setPixel(ushort column, ushort row, complexFloat value)
 {
     setPixel(QPoint(column, row), value);
 }
 
-void ImageDataSpatial::setPixel(QPoint _point, float value)
+void ImageDataFrequency::setPixel(QPoint _point, complexFloat value)
 {
     if(rect().contains(_point)){
         m_data[_point.y()*m_width+_point.x()] = value;
     }
 }
 
-float ImageDataSpatial::at(ushort column, ushort row) const
+complexFloat ImageDataFrequency::at(ushort column, ushort row) const
 {
     return at(QPoint(column, row));
 }
 
-float ImageDataSpatial::at(QPoint _point) const
+complexFloat ImageDataFrequency::at(QPoint _point) const
 {
     return rect().contains(_point) ? m_data[_point.y()*m_width+_point.x()] : 0;
 }
 
-bool ImageDataSpatial::isEmpty() const
+
+bool ImageDataFrequency::isEmpty() const
 {
     return !(m_allocatedPixels > 0);
 }
 
-void ImageDataSpatial::boundMinMax(float minValue, float maxValue){
-#pragma omp parallel for
-    for(qint64 i = 0; i < m_allocatedPixels; ++i){
-        m_data[i] = qBound(minValue, m_data[i], maxValue);
-    }
-}
-
-void ImageDataSpatial::boundMin(float minValue){
-#pragma omp parallel for
-    for(qint64 i = 0; i < m_allocatedPixels; ++i){
-        m_data[i] = qMax(minValue, m_data[i]);
-    }
-}
-
-void ImageDataSpatial::boundMax(float maxValue){
-#pragma omp parallel for
-    for(qint64 i = 0; i < m_allocatedPixels; ++i){
-        m_data[i] = qMin(maxValue, m_data[i]);
-
-    }
-}
-
-void ImageDataSpatial::power(float _p) {
-#pragma omp parallel for
-    for(qint64 i = 0; i < m_allocatedPixels; ++i){
-        m_data[i] = pow(m_data[i], _p);
-    }
-}
-
-void ImageDataSpatial::calcMinMax(float & minVal, float & maxVal) const
-{
-    const float* d = data();
-    cv::Mat src(height(), width(), CV_32FC1, (void*)d);
-    double min, max;
-    cv::minMaxIdx(src, &min, &max);
-    minVal = min;
-    maxVal = max;
-}

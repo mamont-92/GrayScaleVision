@@ -12,10 +12,18 @@ BoundByPercent::BoundByPercent() : AbstractFilter(),
 
 void BoundByPercent::update()
 {
-    auto inDataPtr = inSlotLock("src");
-    auto outDataPtr = outSlot("res");
+    auto inSlotPtr1 = inSlotLock("src");
+    auto outSlotPtr = outSlot("res");
+    auto outDataPtr = outSlotPtr->asSpatialData();
 
-    if(inDataPtr.isNull() || inDataPtr->isEmpty()){
+    if(inSlotPtr1.isNull()){
+        outDataPtr->setEmpty();
+        return;
+    }
+
+    auto inDataPtr = inSlotPtr1->asSpatialData();
+
+    if(inDataPtr->isEmpty()){
         outDataPtr->setEmpty();
         return;
     }
@@ -41,5 +49,7 @@ void BoundByPercent::update()
     for(int i = 0; i < maxInd; ++i){
         outRawData[i] = qBound(newMinVal, inRawData[i], newMaxVal);
     }
+
+    outSlotPtr->setSpatialChanged();
 }
 
