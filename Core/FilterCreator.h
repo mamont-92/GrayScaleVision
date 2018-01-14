@@ -1,7 +1,7 @@
 #ifndef FILTERCREATOR_H
 #define FILTERCREATOR_H
 
-//#include "AbstractFilter.h"
+
 #include <QString>
 #include <functional>
 #include <QHash>

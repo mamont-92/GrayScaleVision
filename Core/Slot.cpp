@@ -12,9 +12,7 @@ Slot::Slot():
 ImageDataSpatial * Slot::asSpatialData()
 {
     if(!m_isSpatialActual){
-        qDebug() << "convertion spatial";
         m_spatialData = ImageDataConvertor::convertToSpatialData(m_frequencyData);
-        qDebug() << "end spatial convertion";
         m_isSpatialActual = true;
     }
     return &m_spatialData;
@@ -23,9 +21,7 @@ ImageDataSpatial * Slot::asSpatialData()
 ImageDataFrequency * Slot::asFrequencyData()
 {
     if(!m_isFrequencyActual){
-        qDebug() << "convertion freq";
         m_frequencyData = ImageDataConvertor::convertToFrequencyData(m_spatialData);
-        qDebug() << "end freq convertion";
         m_isFrequencyActual = true;
     }
     return &m_frequencyData;

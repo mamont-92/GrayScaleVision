@@ -1,5 +1,4 @@
 #include "IntegerParameter.h"
-#include <qdebug.h>
 
 IntegerParameter::IntegerParameter(int _value, int _minValue, int _maxValue, ValueType _valueType):
                                     AbstractParameter(), m_value(_value),

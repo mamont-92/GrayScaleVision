@@ -37,16 +37,5 @@ private:
 };
 
 }
-/*class CommandCallBackAcceptor: public ICommand
-{
-public:
-    CommandCallBackAcceptor(FilterProcessor _filterProcessorPtr);
-    void accept(const AddFilter & command);
-    void accept(const RemoveFilter & command);
-    void accept(const ConnectFilters & command);
-    void accept(const SetParameterForFilter & command);
-    void accept(const SetRasterMode & command);
-private:
-    FilterProcessor m_filterProcessorPtr;
-}*/
+
 #endif // COMMANDCALLBACKACCEPTOR_H

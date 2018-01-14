@@ -1,5 +1,4 @@
 #include "RealParameter.h"
-#include <qdebug.h>
 
 RealParameter::RealParameter(float _value, float _minValue, float _maxValue):
                                     AbstractParameter(), m_value(_value),
