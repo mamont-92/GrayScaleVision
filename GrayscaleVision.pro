@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui quickwidgets qml quick
+QT       += core gui quickwidgets qml quick concurrent
 CONFIG   += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -53,7 +53,9 @@ SOURCES += main.cpp \
     Core/Filters/Laplacian.cpp \
     FileIO/JsonFileIO.cpp \
     Core/FilterProcessor.cpp \
-    Core/FilterProcessorGate.cpp
+    Core/FilterProcessorGate.cpp \
+    Core/Commands.cpp \
+    Core/CommandCallBackAcceptor.cpp
 
 HEADERS  += \
     Core/FilterCreator.h \
@@ -80,7 +82,9 @@ HEADERS  += \
     Core/Filters/Laplacian.h \
     FileIO/JsonFileIO.h \
     Core/FilterProcessorGate.h \
-    Core/FilterProcessor.h
+    Core/FilterProcessor.h \
+    Core/Commands.h \
+    Core/CommandCallBackAcceptor.h
 
 FORMS    +=
 

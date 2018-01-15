@@ -6,6 +6,7 @@ Item {
     id: root
 
     property var filterInfo: {}
+    property var filterInfoArray: []
     property var widgets: {}
     property string filterName: ""
     property int  filterNumber: -1
@@ -15,11 +16,21 @@ Item {
     function updateWidgets(){
         if(filterInfo != null){
             var filterName = filterInfo["name"];
-            root.filterNumber = filterInfo["number"];
+            //root.filterNumber = filterInfo["number"];
             root.filterName = filterName;
             root.widgets[filterName].params = filterInfo["params"];
 
         }
+    }
+
+    function setParamsForFilter(filterParams){
+        //if(filterParams.hasOwnProperty("filterNumber") && filterParams.hasOwnProperty("params") && filterParams.hasOwnProperty("filterName"))
+            filterInfoArray[filterParams.filterNumber] = {"name":filterParams.filterName, "params": filterParams.params};
+    }
+
+    onFilterNumberChanged: {
+        /*filterName = filterInfoArray[filterNumber].name;*/
+        filterInfo = filterInfoArray[filterNumber];
     }
 
     onFilterInfoChanged: {

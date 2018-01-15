@@ -93,11 +93,12 @@ Item {
         onFilerSelected: {
             imageViewer.filterNumber = number;
 
-            filterWidgetManager.filterInfo = {
+            filterWidgetManager.filterNumber = number;
+            /*filterWidgetManager.filterInfo = {
                 "number": number,
                 "name" : filterManipulator.filterName(number),
                 "params" : filterProcessor.filterParamsInfo(number)
-            };
+            };*/
         }
 
         filterCreationTemplate: filterProcessor.availableFilters()
@@ -221,6 +222,15 @@ Item {
         onImageRastered: {
             filterManipulator.updateFilterImage(number);
             imageViewer.reloadImage();
+        }
+        onParamsChanged: {
+            var filterParams = {
+                "filterNumber": params.filterNumber,
+                "filterName" : filterManipulator.filterName(params.filterNumber),
+                "params" : params.params
+            };
+            console.log(filterParams.filterNumber, filterParams.filterName, filterParams.params);
+            filterWidgetManager.setParamsForFilter(filterParams)
         }
     }
 }
