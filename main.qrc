@@ -27,8 +27,8 @@
         <file>QML/AboutDialog.qml</file>
         <file>QML/AboutDialogForm.ui.qml</file>
         <file>QML/media/aboutIco.png</file>
-        <file>QML/FilterInfoStorage.js</file>
         <file>QML/FiltersView.qml</file>
         <file>QML/FilterViewer.qml</file>
+        <file>QML/FilterInfoStorage.js</file>
     </qresource>
 </RCC>
