@@ -2,6 +2,7 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import "utils"
 import grayscalevision.core 1.0
+
 import "FilterInfoStorage.js" as FilterParamsInfo
 
 Item {
@@ -9,11 +10,20 @@ Item {
 
     FilterProcessor {
         id: filterProcessor
+
+        onParamsChanged: { // need it if no params have before, another - ignore because of already imported params
+            var oldParams = FilterParamsInfo.filterParam(params.filterNumber);
+            if((oldParams == null) || (oldParams == {}) )
+                FilterParamsInfo.setFilterAllParams(params.filterNumber, params.params);
+        }
     }
+
 
     FilterManipulator{
         id: filterManipulator
+
         anchors.fill: parent
+
         onConnectionAdded: {
             filterProcessor.connectFilters(outputFilterNumber, outputConnectorNumber, inputFilterNumber, inputConnectorNumber);
         }
@@ -21,12 +31,37 @@ Item {
             filterProcessor.addFilter(number, type);
         }
         onFilterRemove: {
+            FilterParamsInfo.removeFilterInfo(number)
             filterProcessor.removeFilter(number);
         }
         onFilerSelected: {
+            filterViewer.currentFilterNum =  number;
         }
 
         filterCreationTemplate: filterProcessor.availableFilters()
+    }
+
+    FilterViewer {
+        id: filterViewer
+        property int currentFilterNum: -1
+        property string currentRasterMode
+
+        anchors.top: root.top
+        anchors.bottom: root.bottom
+        width: 300
+        anchors.right: root.right
+
+        availableRasterModes: filterProcessor.availableRasterModes()
+
+        onCurrentFilterNumChanged: {
+            if(currentFilterNum >= 0)
+                filterInfo = { number: currentFilterNum, name: FilterParamsInfo.filterName(currentFilterNum), params: FilterParamsInfo.filterAllParams(currentFilterNum)};
+        }
+
+        onCurrentRasterModeChanged: {
+            if((currentRasterMode != null) && (currentRasterMode != ""))
+                filterProcessor.setRasterMode(currentRasterMode);
+        }
     }
 
 
