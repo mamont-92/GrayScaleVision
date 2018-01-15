@@ -23,9 +23,20 @@ Item {
         }
     }
 
+    function paramsForFilter(filterNumber){
+        return  filterInfoArray[filterNumber].params;
+    }
+
     function setParamsForFilter(filterParams){
         //if(filterParams.hasOwnProperty("filterNumber") && filterParams.hasOwnProperty("params") && filterParams.hasOwnProperty("filterName"))
             filterInfoArray[filterParams.filterNumber] = {"name":filterParams.filterName, "params": filterParams.params};
+    }
+
+    function saveParameter(filterNumber, parameter){
+        var filter = filterInfoArray[filterNumber];
+        if(filter.hasOwnProperty("params")){
+            filter.params[parameter.name].value = parameter.value;
+        }
     }
 
     onFilterNumberChanged: {
@@ -51,6 +62,7 @@ Item {
         }
 
         onParameterModified: {
+            saveParameter(filterNumber, parameter);
             root.parameterModified(filterNumber, parameter)
         }
     }
@@ -67,6 +79,7 @@ Item {
             root.widgets[name] = boundByPercentWidget
         }
         onParameterModified: {
+            saveParameter(filterNumber, parameter);
             root.parameterModified(filterNumber, parameter)
         }
     }
@@ -78,6 +91,7 @@ Item {
         anchors.margins: 1
 
         onParameterModified: {
+            saveParameter(filterNumber, parameter);
             root.parameterModified(filterNumber, parameter)
         }
 
@@ -115,6 +129,7 @@ Item {
         }
 
         onParameterModified: {
+            saveParameter(filterNumber, parameter);
             root.parameterModified(filterNumber, parameter)
         }
     }
@@ -132,6 +147,7 @@ Item {
         }
 
         onParameterModified: {
+            saveParameter(filterNumber, parameter);
             root.parameterModified(filterNumber, parameter)
         }
     }
@@ -149,6 +165,7 @@ Item {
         }
 
         onParameterModified: {
+            saveParameter(filterNumber, parameter);
             root.parameterModified(filterNumber, parameter)
         }
     }
@@ -166,6 +183,7 @@ Item {
         }
 
         onParameterModified: {
+            saveParameter(filterNumber, parameter);
             root.parameterModified(filterNumber, parameter)
         }
     }

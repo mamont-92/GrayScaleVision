@@ -9,7 +9,6 @@ Item {
     property real maxRightPanelRatio: 0.95
     property real rightPanelRatio: 0.75
 
-
     function filters(){
         return filterManipulator.allFilters();
     }
@@ -19,7 +18,7 @@ Item {
     }
 
     function filterParams(number){
-        return filterProcessor.filterParamsInfo(number);
+        return filterWidgetManager.paramsForFilter(number);
     }
 
     function createFilter(name, x, y){
@@ -94,11 +93,6 @@ Item {
             imageViewer.filterNumber = number;
 
             filterWidgetManager.filterNumber = number;
-            /*filterWidgetManager.filterInfo = {
-                "number": number,
-                "name" : filterManipulator.filterName(number),
-                "params" : filterProcessor.filterParamsInfo(number)
-            };*/
         }
 
         filterCreationTemplate: filterProcessor.availableFilters()
