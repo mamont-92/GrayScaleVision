@@ -24,9 +24,10 @@
         <file>QML/FilterWidgets/SourceImage.qml</file>
         <file>QML/FilterManipulator.qml</file>
         <file>QML/FilterManipulatorLogic.js</file>
-        <file>QML/FIlterViewer.qml</file>
         <file>QML/AboutDialog.qml</file>
         <file>QML/AboutDialogForm.ui.qml</file>
         <file>QML/media/aboutIco.png</file>
+        <file>QML/FilterInfoStorage.js</file>
+        <file>QML/FiltersView.qml</file>
     </qresource>
 </RCC>

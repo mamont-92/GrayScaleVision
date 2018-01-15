@@ -24,7 +24,10 @@ Item {
     }
 
     function paramsForFilter(filterNumber){
-        return  filterInfoArray[filterNumber].params;
+        if(filterInfoArray[filterNumber] = null)
+            return null;
+        else
+            return filterInfoArray[filterNumber].params;
     }
 
     function setParamsForFilter(filterParams){
@@ -33,8 +36,10 @@ Item {
     }
 
     function saveParameter(filterNumber, parameter){
-        var filter = filterInfoArray[filterNumber];
-        if(filter.hasOwnProperty("params")){
+        //if(filterInfoArray[filterNumber] == null);
+            //filterInfoArray[filterNumber]  = {;
+
+        if(filter["params"]){
             filter.params[parameter.name].value = parameter.value;
         }
     }

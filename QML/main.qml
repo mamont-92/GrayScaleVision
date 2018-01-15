@@ -85,7 +85,7 @@ ApplicationWindow {
         }
     }
 
-    FIlterViewer{
+    FiltersView{
         id: filterViewer
         anchors.fill: parent
     }

@@ -2,14 +2,39 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import "utils"
 import grayscalevision.core 1.0
+import "FilterInfoStorage.js" as FilterParamsInfo
 
 Item {
     id: root
-    property real minRightPanelRatio: 0.25
-    property real maxRightPanelRatio: 0.95
-    property real rightPanelRatio: 0.75
 
-    function filters(){
+    FilterProcessor {
+        id: filterProcessor
+    }
+
+    FilterManipulator{
+        id: filterManipulator
+        anchors.fill: parent
+        onConnectionAdded: {
+            filterProcessor.connectFilters(outputFilterNumber, outputConnectorNumber, inputFilterNumber, inputConnectorNumber);
+        }
+        onFilterAdded: {
+            filterProcessor.addFilter(number, type);
+        }
+        onFilterRemove: {
+            filterProcessor.removeFilter(number);
+        }
+        onFilerSelected: {
+        }
+
+        filterCreationTemplate: filterProcessor.availableFilters()
+    }
+
+
+    //property real minRightPanelRatio: 0.25
+    //property real maxRightPanelRatio: 0.95
+    //property real rightPanelRatio: 0.75
+
+    /*function filters(){
         return filterManipulator.allFilters();
     }
 
@@ -30,10 +55,11 @@ Item {
     }
 
     function setParamValueForFilter(filterNumber, paramName, paramValue){
-        filterProcessor.setParameterValueForFilter(filterNumber, paramName, paramValue);
-    }
+        //filterWidgetManager.saveParameter(filterNumber, {name: paramName, value: paramValue});
+        //filterProcessor.setParameterValueForFilter(filterNumber, paramName, paramValue);
+    }*/
 
-    function getState(){
+    /*function getState(){
         var curState = {
             "filters" : [], "connections" : [],
         };
@@ -75,30 +101,11 @@ Item {
             }
 
         }
-    }
+    }*/
 
-    FilterManipulator{
-        id: filterManipulator
-        anchors.fill: parent
-        onConnectionAdded: {
-            filterProcessor.connectFilters(outputFilterNumber, outputConnectorNumber, inputFilterNumber, inputConnectorNumber);
-        }
-        onFilterAdded: {
-            filterProcessor.addFilter(number, type);
-        }
-        onFilterRemove: {
-            filterProcessor.removeFilter(number);
-        }
-        onFilerSelected: {
-            imageViewer.filterNumber = number;
 
-            filterWidgetManager.filterNumber = number;
-        }
 
-        filterCreationTemplate: filterProcessor.availableFilters()
-    }
-
-    Rectangle{
+    /*Rectangle{
         id: leftBorderResizer
 
         property int minX : root.width * root.minRightPanelRatio;
@@ -209,22 +216,22 @@ Item {
     Binding on rightPanelRatio {
         when: borderMouseArea.pressed
         value: leftBorderResizer.x / root.width
-    }
+    }*/
 
-    FilterProcessor {
+    /*FilterProcessor {
         id: filterProcessor
         onImageRastered: {
             filterManipulator.updateFilterImage(number);
             imageViewer.reloadImage();
         }
         onParamsChanged: {
-            var filterParams = {
-                "filterNumber": params.filterNumber,
-                "filterName" : filterManipulator.filterName(params.filterNumber),
-                "params" : params.params
-            };
+
             console.log(filterParams.filterNumber, filterParams.filterName, filterParams.params);
-            filterWidgetManager.setParamsForFilter(filterParams)
+
+            FilterParamsInfo.setFilterAllParams(params.filterNumber, params.params);
         }
-    }
+    }*/
+
+
+
 }
