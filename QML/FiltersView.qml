@@ -8,27 +8,15 @@ import "FilterInfoStorage.js" as FilterParamsInfo
 Item {
     id: root
 
-    FilterProcessor {
-        id: filterProcessor
+    property real minRightPanelRatio: 0.25
+    property real maxRightPanelRatio: 0.95
+    property real rightPanelRatio: 0.75
 
-        onParamsChanged: { // need it if no params have before, another - ignore because of already imported params
-            var oldParams = FilterParamsInfo.filterAllParams(params.filterNumber);
-            for(var propertyName in oldParams) {
-                params.params[propertyName].value = oldParams[propertyName].value;
-            }
-            FilterParamsInfo.setFilterAllParams(params.filterNumber, params.params);
-        }
-
-        onImageRastered: {
-            updateImage(number);
-        }
+    Binding on rightPanelRatio {
+        when: resizerMouseArea.pressed
+        value: leftSideResizer.x / root.width
     }
 
-    function updateImage(filterNumber){
-        filterManipulator.updateFilterImage(filterNumber);
-        if(filterViewer.currentFilterNum == filterNumber)
-            filterViewer.reloadImage();
-    }
 
     FilterManipulator{
         id: filterManipulator
@@ -53,35 +41,113 @@ Item {
         filterCreationTemplate: filterProcessor.availableFilters()
     }
 
-    FilterViewer {
-        id: filterViewer
-        property int currentFilterNum: -1
+    FilterProcessor {
+        id: filterProcessor
 
-
-        anchors.top: root.top
-        anchors.bottom: root.bottom
-        width: 300
-        anchors.right: root.right
-
-        availableRasterModes: filterProcessor.availableRasterModes()
-
-        onCurrentFilterNumChanged: {
-            if(currentFilterNum >= 0)
-                filterInfo = { number: currentFilterNum, name: FilterParamsInfo.filterName(currentFilterNum), params: FilterParamsInfo.filterAllParams(currentFilterNum)};
+        onParamsChanged: { // need it if no params have before, another - ignore because of already imported params
+            var oldParams = FilterParamsInfo.filterAllParams(params.filterNumber);
+            for(var propertyName in oldParams) {
+                params.params[propertyName].value = oldParams[propertyName].value;
+            }
+            FilterParamsInfo.setFilterAllParams(params.filterNumber, params.params);
         }
 
-        onCurrentRasterSchemeChanged: {
-            if((currentRasterScheme != null) && (currentRasterScheme != ""))
-                filterProcessor.setRasterMode(currentRasterScheme);
-        }
-
-        onParameterModified: {
-            var val = FilterParamsInfo.filterParam(currentFilterNum, paramName);
-            filterProcessor.setParameterValueForFilter(currentFilterNum, paramName, val);
+        onImageRastered: {
+            updateImage(number);
         }
     }
 
+    Rectangle{
+        id: leftSideResizer
 
+        property int minX : root.width * root.minRightPanelRatio;
+        property int maxX : root.width * root.maxRightPanelRatio;
+
+        color: "grey"
+        y: 0
+        width: 3
+        height: parent.height
+
+        Binding on x {
+            when: !resizerMouseArea.pressed
+            value: rightPanelRatio*root.width
+        }
+
+        MouseArea{
+            id: resizerMouseArea
+            drag.target: leftSideResizer
+            onReleased: leftSideResizer.Drag.drop()
+            drag.axis: Drag.XAxis
+
+            cursorShape: Qt.SizeHorCursor;
+
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top : parent.top
+            anchors.bottom: parent.bottom
+        }
+
+        onXChanged: {
+            if(x < minX)
+                x = minX;
+            if(x > maxX)
+                x = maxX;
+        }
+    }
+
+    Rectangle{
+        id: rightPanel
+
+        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+        anchors.left: leftSideResizer.right
+        anchors.right: parent.right
+
+        border.color: "grey"
+        border.width: 1
+
+        Text {
+            id: filterPanelTextText
+            anchors.top : parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Filter: " + FilterParamsInfo.filterName(filterViewer.currentFilterNum)
+        }
+
+        FilterViewer {
+            id: filterViewer
+            property int currentFilterNum: -1
+
+            anchors.top: filterPanelTextText.bottom
+            anchors.bottom: parent.bottom
+            anchors.left:  parent.left
+            anchors.right: parent.right
+
+            availableRasterModes: filterProcessor.availableRasterModes()
+
+            onCurrentFilterNumChanged: {
+                if(currentFilterNum >= 0)
+                    filterInfo = { number: currentFilterNum, name: FilterParamsInfo.filterName(currentFilterNum), params: FilterParamsInfo.filterAllParams(currentFilterNum)};
+            }
+
+            onCurrentRasterSchemeChanged: {
+                if((currentRasterScheme != null) && (currentRasterScheme != ""))
+                    filterProcessor.setRasterMode(currentRasterScheme);
+            }
+
+            onParameterModified: {
+                var val = FilterParamsInfo.filterParam(currentFilterNum, paramName);
+                filterProcessor.setParameterValueForFilter(currentFilterNum, paramName, val);
+            }
+        }
+
+    }
+
+
+    function updateImage(filterNumber){
+        filterManipulator.updateFilterImage(filterNumber);
+        if(filterViewer.currentFilterNum == filterNumber)
+            filterViewer.reloadImage();
+    }
 
     function filters(){
         return filterManipulator.allFilters();
@@ -151,142 +217,4 @@ Item {
 
         }
     }
-
-
-
-    //property real minRightPanelRatio: 0.25
-    //property real maxRightPanelRatio: 0.95
-    //property real rightPanelRatio: 0.75
-
-
-
-    /*Rectangle{
-        id: leftBorderResizer
-
-        property int minX : root.width * root.minRightPanelRatio;
-        property int maxX : root.width * root.maxRightPanelRatio;
-
-        color: "grey"
-        y: 0
-        width: 3
-        height: parent.height
-
-        Binding on x {
-            when: !borderMouseArea.pressed
-            value: rightPanelRatio*root.width
-        }
-
-        MouseArea{
-            id: borderMouseArea
-            drag.target: leftBorderResizer
-            onReleased: leftBorderResizer.Drag.drop()
-            drag.axis: Drag.XAxis
-
-            cursorShape: Qt.SizeHorCursor;
-
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top : parent.top
-            anchors.bottom: parent.bottom
-        }
-
-        onXChanged: {
-            if(x < minX)
-                x = minX;
-            if(x > maxX)
-                x = maxX;
-        }
-
-    }
-
-    FilterPanel{
-        id: filterPanel
-        anchors.bottom: parent.bottom
-        anchors.top: parent.top
-        anchors.left: leftBorderResizer.right
-        anchors.right: parent.right
-
-        Text {
-            id: filterPanelTextText
-
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-
-            text: "filter params"
-        }
-
-        FilterWidgetManager{
-            id: filterWidgetManager
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: 200
-            anchors.bottom: parent.bottom
-            anchors.margins: 5
-            onParameterModified: {
-                filterProcessor.setParameterValueForFilter(filterNumber, parameter["name"], parameter["value"])
-            }
-        }
-
-        ImageViewer{
-            id: imageViewer
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: filterPanelTextText.bottom
-            anchors.bottom: filterWidgetManager.top
-            anchors.margins: 10
-        }
-
-        Rectangle{
-            id: rasterModeSelector
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: imageViewer.bottom
-            height: comboBox.height+5
-            border.width: 1
-            border.color: "black"
-
-            Text{
-                id: rasterModeText
-                text: "Raster mode: "
-                font.pointSize: 10
-                anchors.verticalCenter: parent.verticalCenter
-            }
-            ComboBox{
-                id: comboBox
-                anchors.left: rasterModeText.right
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                model: filterProcessor.availableRasterModes()
-                height: 30
-                currentIndex: model.indexOf("Grayscale")
-                onCurrentTextChanged: {
-                    filterProcessor.setRasterMode(currentText);
-                }
-            }
-
-        }
-
-    }
-
-    Binding on rightPanelRatio {
-        when: borderMouseArea.pressed
-        value: leftBorderResizer.x / root.width
-    }*/
-
-    /*FilterProcessor {
-        id: filterProcessor
-        onImageRastered: {
-            filterManipulator.updateFilterImage(number);
-            imageViewer.reloadImage();
-        }
-        onParamsChanged: {
-
-            console.log(filterParams.filterNumber, filterParams.filterName, filterParams.params);
-
-            FilterParamsInfo.setFilterAllParams(params.filterNumber, params.params);
-        }
-    }*/
-
-
-
 }
