@@ -73,7 +73,15 @@ Item {
         SpinBox {
             id: spinBox
             x: 120
-            y: 180
+            y: 186
+            width: 125
+            height: 34
+            font.weight: Font.Bold
+            bottomPadding: 11
+            topPadding: 23
+            padding: 17
+            leftPadding: 43
+            font.pointSize: 8
             wheelEnabled: true
             stepSize: 0
             editable: true

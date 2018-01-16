@@ -13,17 +13,23 @@ Item {
     height: 30
     width: 300
 
-    NumEdit{
+    SpinBox {
         id:  spinBox
-        minValue: root.minValue
-        maxValue: root.maxValue
+        from: root.minValue
+        to: root.maxValue
 
-        decimals: root.viewDecimals
+        validator: DoubleValidator{
+            bottom: spinBox.from
+            top: spinBox.to
+            decimals: root.viewDecimals
+        }
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        anchors.leftMargin: 5
+        anchors.leftMargin: 2
+        width: 120
+        editable: true
 
         property alias rvalue: root.value
 
@@ -33,8 +39,10 @@ Item {
 
         onValueModified: {
             rvalue = value;
+            focus = false;
             root.valueModified();
         }
+
     }
 
     TrackBar {

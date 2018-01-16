@@ -1,28 +1,24 @@
-import QtQuick 2.0
+import QtQuick 2.10
+import QtQuick.Controls 2.3
 
 Item {
     id: root
+
+    property string currentRasterScheme
+    readonly property  string defaultRasterShceme: "Grayscale"
     property var availableRasterModes
     property var filterInfo
 
     signal parameterModified(string paramName)
+    signal rasterSchemeModified(string rasterMode)
 
     function reloadImage(){
         imageViewer.reloadImage();
     }
 
-    ImageViewer{
-        id: imageViewer
-
-        height: 500
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-
-    }
-
     FilterWidgetManager{
         id: widgetManager
+
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -32,6 +28,32 @@ Item {
             root.parameterModified(paramName)
         }
 
+    }
+
+    ComboBox {
+        id: comboBoxRasterMode
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: widgetManager.top
+        height: 30
+
+        model :availableRasterModes
+        currentIndex: model.indexOf(defaultRasterShceme)
+
+        onCurrentTextChanged: {
+            currentRasterScheme = currentText;
+            root.rasterSchemeModified(currentText)
+        }
+    }
+
+    ImageViewer{
+        id: imageViewer
+
+        anchors.top: parent.top
+        anchors.bottom: comboBoxRasterMode.top
+        anchors.left: parent.left
+        anchors.right: parent.right
     }
 
     onFilterInfoChanged: {

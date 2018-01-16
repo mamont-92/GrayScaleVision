@@ -54,7 +54,7 @@ Item {
     FilterViewer {
         id: filterViewer
         property int currentFilterNum: -1
-        property string currentRasterMode
+
 
         anchors.top: root.top
         anchors.bottom: root.bottom
@@ -68,9 +68,9 @@ Item {
                 filterInfo = { number: currentFilterNum, name: FilterParamsInfo.filterName(currentFilterNum), params: FilterParamsInfo.filterAllParams(currentFilterNum)};
         }
 
-        onCurrentRasterModeChanged: {
-            if((currentRasterMode != null) && (currentRasterMode != ""))
-                filterProcessor.setRasterMode(currentRasterMode);
+        onCurrentRasterSchemeChanged: {
+            if((currentRasterScheme != null) && (currentRasterScheme != ""))
+                filterProcessor.setRasterMode(currentRasterScheme);
         }
 
         onParameterModified: {
