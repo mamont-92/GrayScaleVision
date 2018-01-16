@@ -7,7 +7,7 @@ Item {
     property string currentRasterScheme
     readonly property  string defaultRasterShceme: "Grayscale"
     property var availableRasterModes
-    property var filterInfo
+    property var filterInfo: {}
 
     signal parameterModified(string paramName)
     signal rasterSchemeModified(string rasterMode)
@@ -27,7 +27,6 @@ Item {
         onParameterModified: {
             root.parameterModified(paramName)
         }
-
     }
 
     ComboBox {
@@ -59,18 +58,16 @@ Item {
     }
 
     onFilterInfoChanged: {
-        if(filterInfo.hasOwnProperty("number")){
-            imageViewer.filterNumber = filterInfo.number;
-        }
-        if(filterInfo.hasOwnProperty("name")){
-            widgetManager.currentFilterName = filterInfo.name;
-            if(filterInfo.hasOwnProperty("params")){
-                widgetManager.initFilterParams(filterInfo.params)
+        if(filterInfo != null){
+            if(filterInfo.hasOwnProperty("number")){
+                imageViewer.filterNumber = filterInfo.number;
+            }
+            if(filterInfo.hasOwnProperty("name")){
+                widgetManager.currentFilterName = filterInfo.name;
+                if(filterInfo.hasOwnProperty("params")){
+                    widgetManager.initFilterParams(filterInfo.params)
+                }
             }
         }
-    }
-
-    Component.onCompleted: {
-        filterInfo = {}
     }
 }
