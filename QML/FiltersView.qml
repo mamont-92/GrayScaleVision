@@ -12,10 +12,10 @@ Item {
         id: filterProcessor
 
         onParamsChanged: { // need it if no params have before, another - ignore because of already imported params
-            /*var oldParams = FilterParamsInfo.filterAllParams(params.filterNumber);
+            var oldParams = FilterParamsInfo.filterAllParams(params.filterNumber);
             for(var propertyName in oldParams) {
                 params.params[propertyName].value = oldParams[propertyName].value;
-            }*/
+            }
             FilterParamsInfo.setFilterAllParams(params.filterNumber, params.params);
         }
 
