@@ -37,31 +37,37 @@ FilterWidget {
             id: text
             anchors.horizontalCenter: parent.horizontalCenter
 
-            text: qsTr("bound image by new min and max values")
+            text: qsTr("bound image intensity")
             font.pointSize: 8
         }
 
-    NumParameter{
-        id: startParameter
-        property string paramName: "start"
-        anchors.left: parent.left
-        anchors.right: parent.right
+        NumParameter{
+            id: startParameter
+            property string paramName: "start"
+            viewDecimals: 2
 
-        onValueModified: {
-            root.parameterModified({"name":paramName, "value":value})
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+
+            onValueModified: {
+                root.parameterModified({"name":paramName, "value":value})
+            }
         }
-    }
 
-    NumParameter{
-        id: endParameter
-        property string paramName: "end"
-        anchors.left: parent.left
-        anchors.right: parent.right
+        NumParameter{
+            id: endParameter
+            property string paramName: "end"
+            viewDecimals: 2
 
-        onValueModified: {
-            root.parameterModified({"name":paramName, "value":value})
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+
+            onValueModified: {
+                root.parameterModified({"name":paramName, "value":value})
+            }
         }
-    }
 
     }
 }

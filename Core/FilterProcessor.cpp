@@ -228,6 +228,7 @@ void FilterProcessor::updateFilterSet(QSet<int> filterSet)
             int curFilter = mainFilterIterator.next();
             bool isCompleteNode = true;
 
+
             QList<Connection> inConnections = m_inConnections.values(curFilter);
             QListIterator<Connection> inConIter(inConnections);
             while(inConIter.hasNext() && isCompleteNode){
@@ -239,19 +240,18 @@ void FilterProcessor::updateFilterSet(QSet<int> filterSet)
                 AbstractFilter * filterPtr = m_filters.value(curFilter, NULL);
                 if(filterPtr){
                     filterPtr->update();
-
                     auto filterOutSlotPtr = filterPtr->outSlot((qint8)0);
                     if(!filterOutSlotPtr.isNull()){
                         QImage img = ImageDataRasterizer::ImageDataToQImage(filterOutSlotPtr->asSpatialData(), m_rasterMode);
                         setImageForFilter(curFilter, img);
                     }
+
                 }
                 mainFilterIterator.remove();
                 updatedFilters.insert(curFilter);
             }
         }
     }
-
 }
 
 inline void FilterProcessor::setImageForFilter(int filterNumber, QImage img)

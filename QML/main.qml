@@ -59,6 +59,11 @@ ApplicationWindow {
         bottomMargin: (parent.height - height)/2
     }
 
+    function extractPathFromURL(url){
+        var path = url.toString();
+        path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
+        return path;
+    }
 
     FileDialog {
         id: openDialog
@@ -66,10 +71,7 @@ ApplicationWindow {
         nameFilters: ["Text json files (*.json)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: {
-            var path = file.toString();
-            path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
-            console.log(file)
-            filterViewer.setState(fileIO.readJSONFromFile(path));
+            filterViewer.setState(fileIO.readJSONFromFile( extractPathFromURL(file) ) );
         }
     }
 
@@ -79,14 +81,11 @@ ApplicationWindow {
         nameFilters: ["Text json files (*.json)"]
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted:  {
-            var path = file.toString();
-            path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
-            console.log(file)
-            fileIO.writeJSONToFile(path, filterViewer.getState());
+            fileIO.writeJSONToFile( extractPathFromURL(file), filterViewer.getState() );
         }
     }
 
-    FIlterViewer{
+    FiltersView{
         id: filterViewer
         anchors.fill: parent
     }

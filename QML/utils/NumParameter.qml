@@ -13,28 +13,50 @@ Item {
     height: 30
     width: 300
 
-    NumEdit{
-        id:  spinBox
-        minValue: root.minValue
-        maxValue: root.maxValue
+    SpinBox {
+        id:  spinbox
 
-        decimals: root.viewDecimals
+        property int decimals: viewDecimals
+        property real factor: Math.pow(10, decimals)
+
+        from: root.minValue * factor
+        to: root.maxValue * factor
+        stepSize: factor
+
+        validator: DoubleValidator{
+            bottom: Math.min(spinbox.from, spinbox.to) / spinbox.factor
+            top:  Math.max(spinbox.from, spinbox.to) / spinbox.factor
+        }
+
+        textFromValue: function(value, locale) {
+            return parseFloat(value*1.0/factor).toFixed(decimals);
+        }
+
+        valueFromText: function(text, locale) {
+            return parseFloat(text) * factor;
+        }
+
+        inputMethodHints: Qt.ImhFormattedNumbersOnly
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        anchors.leftMargin: 5
+        anchors.leftMargin: 2
+        width: 120
+        editable: true
 
         property alias rvalue: root.value
 
         onRvalueChanged: {
-            value = rvalue;
+            value = rvalue * factor;
         }
 
         onValueModified: {
-            rvalue = value;
+            focus = false;
+            rvalue = value / factor;
             root.valueModified();
         }
+
     }
 
     TrackBar {
@@ -45,7 +67,7 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        anchors.left: spinBox.right
+        anchors.left: spinbox.right
         anchors.right: parent.right
         anchors.leftMargin: 2
 

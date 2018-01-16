@@ -4,7 +4,6 @@
 #include "Commands.h"
 #include <functional>
 
-
 class FilterProcessor;
 
 namespace FilterProcessorComands {
@@ -37,5 +36,4 @@ private:
 };
 
 }
-
 #endif // COMMANDCALLBACKACCEPTOR_H

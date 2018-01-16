@@ -4,10 +4,8 @@
         <file>QML/types/FilterTypeObject.qml</file>
         <file>QML/types/qmldir</file>
         <file>QML/types/ConnectorTypeObject.qml</file>
-        <file>QML/FilterPanel.qml</file>
         <file>QML/ImageViewer.qml</file>
         <file>QML/FilterWidgetManager.qml</file>
-        <file>QML/utils/NumEdit.qml</file>
         <file>QML/utils/TrackBar.qml</file>
         <file>QML/utils/NumParameter.qml</file>
         <file>QML/Filter/Filter.qml</file>
@@ -24,9 +22,11 @@
         <file>QML/FilterWidgets/SourceImage.qml</file>
         <file>QML/FilterManipulator.qml</file>
         <file>QML/FilterManipulatorLogic.js</file>
-        <file>QML/FIlterViewer.qml</file>
         <file>QML/AboutDialog.qml</file>
         <file>QML/AboutDialogForm.ui.qml</file>
         <file>QML/media/aboutIco.png</file>
+        <file>QML/FiltersView.qml</file>
+        <file>QML/FilterViewer.qml</file>
+        <file>QML/FilterInfoStorage.js</file>
     </qresource>
 </RCC>
