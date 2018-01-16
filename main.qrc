@@ -4,7 +4,6 @@
         <file>QML/types/FilterTypeObject.qml</file>
         <file>QML/types/qmldir</file>
         <file>QML/types/ConnectorTypeObject.qml</file>
-        <file>QML/FilterPanel.qml</file>
         <file>QML/ImageViewer.qml</file>
         <file>QML/FilterWidgetManager.qml</file>
         <file>QML/utils/TrackBar.qml</file>
