@@ -5,58 +5,19 @@ import "FilterWidgets"
 Item {
     id: root
 
-    property var filterInfo: {}
-    property var filterInfoArray: []
+    property string currentFilterName: ""
     property var widgets: {}
-    property string filterName: ""
-    property int  filterNumber: -1
 
-    signal parameterModified(int filterNumber, var parameter)
+    signal parameterModified(string paramName)
 
-    function updateWidgets(){
-        if(filterInfo != null){
-            var filterName = filterInfo["name"];
-            //root.filterNumber = filterInfo["number"];
-            root.filterName = filterName;
-            root.widgets[filterName].params = filterInfo["params"];
-
-        }
+    function initFilterParams(filterParams){
+        if(root.currentFilterName!="")
+            root.widgets[root.currentFilterName].params =  filterParams;
     }
-
-    function paramsForFilter(filterNumber){
-        if(filterInfoArray[filterNumber] = null)
-            return null;
-        else
-            return filterInfoArray[filterNumber].params;
-    }
-
-    function setParamsForFilter(filterParams){
-        //if(filterParams.hasOwnProperty("filterNumber") && filterParams.hasOwnProperty("params") && filterParams.hasOwnProperty("filterName"))
-            filterInfoArray[filterParams.filterNumber] = {"name":filterParams.filterName, "params": filterParams.params};
-    }
-
-    function saveParameter(filterNumber, parameter){
-        //if(filterInfoArray[filterNumber] == null);
-            //filterInfoArray[filterNumber]  = {;
-
-        if(filter["params"]){
-            filter.params[parameter.name].value = parameter.value;
-        }
-    }
-
-    onFilterNumberChanged: {
-        /*filterName = filterInfoArray[filterNumber].name;*/
-        filterInfo = filterInfoArray[filterNumber];
-    }
-
-    onFilterInfoChanged: {
-        updateWidgets();
-    }
-
 
     AddWeighted{
         id: addWeightedWidget
-        visible: root.filterName == name
+        visible: root.currentFilterName == name
         anchors.fill: parent
         anchors.margins: 1
 
@@ -67,117 +28,14 @@ Item {
         }
 
         onParameterModified: {
-            saveParameter(filterNumber, parameter);
-            root.parameterModified(filterNumber, parameter)
-        }
-    }
-
-    BoundByPercent{
-        id: boundByPercentWidget
-        visible: root.filterName == name
-        anchors.fill: parent
-        anchors.margins: 1
-
-        Component.onCompleted: {
-            if(root.widgets == null)
-               root.widgets = {}
-            root.widgets[name] = boundByPercentWidget
-        }
-        onParameterModified: {
-            saveParameter(filterNumber, parameter);
-            root.parameterModified(filterNumber, parameter)
-        }
-    }
-
-    CLAHE{
-        id: claheWidget
-        visible: root.filterName == name
-        anchors.fill: parent
-        anchors.margins: 1
-
-        onParameterModified: {
-            saveParameter(filterNumber, parameter);
-            root.parameterModified(filterNumber, parameter)
-        }
-
-
-        Component.onCompleted: {
-            if(root.widgets == null)
-               root.widgets = {}
-            root.widgets[name] = claheWidget
-        }
-    }
-
-    Inversion{
-        id: inversionWidget
-        visible: root.filterName == name
-        anchors.fill: parent
-        anchors.margins: 1
-
-        Component.onCompleted: {
-            if(root.widgets == null)
-               root.widgets = {}
-            root.widgets[name] = inversionWidget
-        }
-    }
-
-    SourceImage{
-        id: sourceImageWidget
-        visible: root.filterName == name
-        anchors.fill: parent
-        anchors.margins: 1
-
-        Component.onCompleted: {
-            if(root.widgets == null)
-               root.widgets = {}
-            root.widgets[name] = sourceImageWidget
-        }
-
-        onParameterModified: {
-            saveParameter(filterNumber, parameter);
-            root.parameterModified(filterNumber, parameter)
-        }
-    }
-
-    Power{
-        id: powerImageWidget
-        visible: root.filterName == name
-        anchors.fill: parent
-        anchors.margins: 1
-
-        Component.onCompleted: {
-            if(root.widgets == null)
-               root.widgets = {}
-            root.widgets[name] = powerImageWidget
-        }
-
-        onParameterModified: {
-            saveParameter(filterNumber, parameter);
-            root.parameterModified(filterNumber, parameter)
-        }
-    }
-
-    Laplacian{
-        id: laplacianImageWidget
-        visible: root.filterName == name
-        anchors.fill: parent
-        anchors.margins: 1
-
-        Component.onCompleted: {
-            if(root.widgets == null)
-               root.widgets = {}
-            root.widgets[name] = laplacianImageWidget
-        }
-
-        onParameterModified: {
-            saveParameter(filterNumber, parameter);
-            root.parameterModified(filterNumber, parameter)
+            root.widgets[name].params[parameter.name].value = parameter.value;
+            root.parameterModified(parameter.name);
         }
     }
 
     BilateralBlur{
         id: bilateralBlurImageWidget
-        visible: root.filterName == name
+        visible: root.currentFilterName == name
         anchors.fill: parent
         anchors.margins: 1
 
@@ -188,8 +46,118 @@ Item {
         }
 
         onParameterModified: {
-            saveParameter(filterNumber, parameter);
-            root.parameterModified(filterNumber, parameter)
+            root.widgets[name].params[parameter.name].value = parameter.value;
+            root.parameterModified(parameter.name);
         }
     }
+
+    BoundByPercent{
+        id: boundByPercentWidget
+        visible: root.currentFilterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = boundByPercentWidget
+        }
+
+        onParameterModified: {
+            root.widgets[name].params[parameter.name].value = parameter.value;
+            root.parameterModified(parameter.name);
+        }
+    }
+
+    CLAHE{
+        id: claheWidget
+        visible: root.currentFilterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = claheWidget
+        }
+
+        onParameterModified: {
+            root.widgets[name].params[parameter.name].value = parameter.value;
+            root.parameterModified(parameter.name);
+        }
+    }
+
+    Inversion{
+        id: inversionWidget
+        visible: root.currentFilterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = inversionWidget
+        }
+
+        onParameterModified: {
+            root.widgets[name].params[parameter.name].value = parameter.value;
+            root.parameterModified(parameter.name);
+        }
+    }
+
+    Laplacian{
+        id: laplacianImageWidget
+        visible: root.currentFilterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = laplacianImageWidget
+        }
+
+        onParameterModified: {
+            root.widgets[name].params[parameter.name].value = parameter.value;
+            root.parameterModified(parameter.name);
+        }
+
+    }
+
+    Power{
+        id: powerImageWidget
+        visible: root.currentFilterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = powerImageWidget
+        }
+
+        onParameterModified: {
+            root.widgets[name].params[parameter.name].value = parameter.value;
+            root.parameterModified(parameter.name);
+        }
+    }
+
+    SourceImage{
+        id: sourceImageWidget
+        visible: root.currentFilterName == name
+        anchors.fill: parent
+        anchors.margins: 1
+
+        Component.onCompleted: {
+            if(root.widgets == null)
+               root.widgets = {}
+            root.widgets[name] = sourceImageWidget
+        }
+
+        onParameterModified: {
+            root.widgets[name].params[parameter.name].value = parameter.value;
+            root.parameterModified(parameter.name);
+        }
+    }
+
 }

@@ -5,6 +5,12 @@ Item {
     property var availableRasterModes
     property var filterInfo
 
+    signal parameterModified(string paramName)
+
+    function reloadImage(){
+        imageViewer.reloadImage();
+    }
+
     ImageViewer{
         id: imageViewer
 
@@ -15,9 +21,28 @@ Item {
 
     }
 
+    FilterWidgetManager{
+        id: widgetManager
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: 200
+
+        onParameterModified: {
+            root.parameterModified(paramName)
+        }
+
+    }
+
     onFilterInfoChanged: {
         if(filterInfo.hasOwnProperty("number")){
             imageViewer.filterNumber = filterInfo.number;
+        }
+        if(filterInfo.hasOwnProperty("name")){
+            widgetManager.currentFilterName = filterInfo.name;
+            if(filterInfo.hasOwnProperty("params")){
+                widgetManager.initFilterParams(filterInfo.params)
+            }
         }
     }
 

@@ -16,8 +16,17 @@ Item {
             if((oldParams == null) || (oldParams == {}) )
                 FilterParamsInfo.setFilterAllParams(params.filterNumber, params.params);
         }
+
+        onImageRastered: {
+            updateImage(number);
+        }
     }
 
+    function updateImage(filterNumber){
+        filterManipulator.updateFilterImage(filterNumber);
+        if(filterViewer.currentFilterNum == filterNumber)
+            filterViewer.reloadImage();
+    }
 
     FilterManipulator{
         id: filterManipulator
@@ -28,6 +37,7 @@ Item {
             filterProcessor.connectFilters(outputFilterNumber, outputConnectorNumber, inputFilterNumber, inputConnectorNumber);
         }
         onFilterAdded: {
+            FilterParamsInfo.setFilterName(number, type);
             filterProcessor.addFilter(number, type);
         }
         onFilterRemove: {
@@ -61,6 +71,11 @@ Item {
         onCurrentRasterModeChanged: {
             if((currentRasterMode != null) && (currentRasterMode != ""))
                 filterProcessor.setRasterMode(currentRasterMode);
+        }
+
+        onParameterModified: {
+            var val = FilterParamsInfo.filterParam(currentFilterNum, paramName);
+            filterProcessor.setParameterValueForFilter(currentFilterNum, paramName, val);
         }
     }
 

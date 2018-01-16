@@ -52,6 +52,6 @@ function filterParam(filterNumber, paramName){
     if(!filter.hasOwnProperty("params"))
         return null;
     if(filter.params.hasOwnProperty(paramName))
-       return filter.params.paramName.value;
+       return filter.params[paramName].value;
     return null;
 }
