@@ -17,11 +17,6 @@ CommandCallBackAcceptor::CommandCallBackAcceptor(AddFilterCallBack _addFilterCal
 
 }
 
-/*CommandCallBackAcceptor::CommandCallBackAcceptor(FilterProcessor _filterProcessorPtr):m_filterProcessorPtr(_filterProcessorPtr)
-{
-
-}*/
-
 void CommandCallBackAcceptor::accept(const AddFilter & command)
 {
     m_addFilterCallBack(command);

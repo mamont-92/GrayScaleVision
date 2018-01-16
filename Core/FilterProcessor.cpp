@@ -82,7 +82,6 @@ void FilterProcessor::addFilter(int num, QString type)
     if(ptr){
         m_filters.insert(num, ptr);
         m_needUpdatingFilters.insert(num);
-        //updateAllFilters();
         emit paramsChanged(FilterParams(num, ptr->allParametersInfo()));
     }
 }
@@ -96,7 +95,6 @@ void FilterProcessor::removeFilter(int num) // TO DO :  add removing filter conn
     m_filters.remove(num);
     if(ptr)
         delete ptr;
-    //updateAllFilters();
 }
 
 void FilterProcessor::removeAllConnections(int filterNumber)
@@ -169,7 +167,6 @@ void FilterProcessor::setParameterValueForFilter(int filterNumber, QString param
     if(filterPtr)
         filterPtr->setParameter(paramName, value);
     m_needUpdatingFilters = m_needUpdatingFilters.unite(allDependentNodes(filterNumber));
-    //updateFromFilter(filterNumber);
 }
 
 QVariant FilterProcessor::availableFilters()
@@ -219,48 +216,37 @@ QSet<int> FilterProcessor::allDependentNodes(int startNode)
     return  dpendentNodes;
 }
 
-/*void FilterProcessor::updateFromFilter(int number)
-{
-
-    updateFilterSet(allDependentNodes(number));
-}*/
-
 void FilterProcessor::updateFilterSet(QSet<int> filterSet)
 {
-    //
+    QSet<int> updatedFilters = QSet<int>::fromList(m_filters.keys()).subtract(filterSet);
+    QList<int> nonUpdatedFilters = QList<int>::fromSet(filterSet);
 
-        QSet<int> updatedFilters = QSet<int>::fromList(m_filters.keys()).subtract(filterSet);
-        QList<int> nonUpdatedFilters = QList<int>::fromSet(filterSet);
+    while(nonUpdatedFilters.count() > 0){
+        QMutableListIterator<int> mainFilterIterator(nonUpdatedFilters);
+        while(mainFilterIterator.hasNext()){
+            int curFilter = mainFilterIterator.next();
+            bool isCompleteNode = true;
 
-        while(nonUpdatedFilters.count() > 0){
-            QMutableListIterator<int> mainFilterIterator(nonUpdatedFilters);
-            while(mainFilterIterator.hasNext()){
-                int curFilter = mainFilterIterator.next();
-                bool isCompleteNode = true;
+            QList<Connection> inConnections = m_inConnections.values(curFilter);
+            QListIterator<Connection> inConIter(inConnections);
+            while(inConIter.hasNext() && isCompleteNode){
+                Connection inCon = inConIter.next();
+                isCompleteNode = isCompleteNode && updatedFilters.contains(inCon.targetFilter);
+            }
 
-                QList<Connection> inConnections = m_inConnections.values(curFilter);
-                QListIterator<Connection> inConIter(inConnections);
-                while(inConIter.hasNext() && isCompleteNode){
-                    Connection inCon = inConIter.next();
-                    isCompleteNode = isCompleteNode && updatedFilters.contains(inCon.targetFilter);
+            if(isCompleteNode){
+                AbstractFilter * filterPtr = m_filters.value(curFilter, NULL);
+                if(filterPtr){
+                    filterPtr->update();
+
+                    QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0), m_rasterMode);
+                    setImageForFilter(curFilter, img);
                 }
-
-                if(isCompleteNode){
-                    AbstractFilter * filterPtr = m_filters.value(curFilter, NULL);
-                    if(filterPtr){
-                        filterPtr->update();
-
-                        QImage img = ImageDataRasterizer::ImageDataToQImage(filterPtr->outSlot((qint8)0), m_rasterMode);
-                        setImageForFilter(curFilter, img);
-                    }
-                    mainFilterIterator.remove();
-                    updatedFilters.insert(curFilter);
-                }
+                mainFilterIterator.remove();
+                updatedFilters.insert(curFilter);
             }
         }
-    //});
-
-    //
+    }
 }
 
 inline void FilterProcessor::setImageForFilter(int filterNumber, QImage img)
