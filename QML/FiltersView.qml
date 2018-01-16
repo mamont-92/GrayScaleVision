@@ -12,9 +12,11 @@ Item {
         id: filterProcessor
 
         onParamsChanged: { // need it if no params have before, another - ignore because of already imported params
-            var oldParams = FilterParamsInfo.filterParam(params.filterNumber);
-            if((oldParams == null) || (oldParams == {}) )
-                FilterParamsInfo.setFilterAllParams(params.filterNumber, params.params);
+            /*var oldParams = FilterParamsInfo.filterAllParams(params.filterNumber);
+            for(var propertyName in oldParams) {
+                params.params[propertyName].value = oldParams[propertyName].value;
+            }*/
+            FilterParamsInfo.setFilterAllParams(params.filterNumber, params.params);
         }
 
         onImageRastered: {
@@ -80,11 +82,8 @@ Item {
     }
 
 
-    //property real minRightPanelRatio: 0.25
-    //property real maxRightPanelRatio: 0.95
-    //property real rightPanelRatio: 0.75
 
-    /*function filters(){
+    function filters(){
         return filterManipulator.allFilters();
     }
 
@@ -93,7 +92,7 @@ Item {
     }
 
     function filterParams(number){
-        return filterWidgetManager.paramsForFilter(number);
+        return FilterParamsInfo.filterAllParams(number);
     }
 
     function createFilter(name, x, y){
@@ -105,11 +104,11 @@ Item {
     }
 
     function setParamValueForFilter(filterNumber, paramName, paramValue){
-        //filterWidgetManager.saveParameter(filterNumber, {name: paramName, value: paramValue});
-        //filterProcessor.setParameterValueForFilter(filterNumber, paramName, paramValue);
-    }*/
+        FilterParamsInfo.setFilterParamValue(filterNumber, paramName, paramValue);
+        filterProcessor.setParameterValueForFilter(filterNumber, paramName, paramValue);
+    }
 
-    /*function getState(){
+    function getState(){
         var curState = {
             "filters" : [], "connections" : [],
         };
@@ -151,7 +150,13 @@ Item {
             }
 
         }
-    }*/
+    }
+
+
+
+    //property real minRightPanelRatio: 0.25
+    //property real maxRightPanelRatio: 0.95
+    //property real rightPanelRatio: 0.75
 
 
 

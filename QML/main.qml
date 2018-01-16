@@ -62,7 +62,7 @@ ApplicationWindow {
     function extractPathFromURL(url){
         var path = url.toString();
         path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
-
+        return path;
     }
 
     FileDialog {

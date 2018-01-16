@@ -24,7 +24,7 @@ function setFilterParamValue(filterNumber, paramName, paramValue){
     var filter = filterInfo[filterNumber];
     if(!filter.hasOwnProperty("params"))
         filter.params = {};
-    filter.params.paramName = {value: paramValue};
+    filter.params[paramName] = {value: paramValue};
 }
 
 function filterName(filterNumber){
