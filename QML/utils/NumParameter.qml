@@ -21,6 +21,7 @@ Item {
 
         from: root.minValue * factor
         to: root.maxValue * factor
+        stepSize: factor
 
         validator: DoubleValidator{
             bottom: Math.min(spinbox.from, spinbox.to) / spinbox.factor
@@ -51,7 +52,6 @@ Item {
         }
 
         onValueModified: {
-            console.log("mod", value);
             focus = false;
             rvalue = value / factor;
             root.valueModified();

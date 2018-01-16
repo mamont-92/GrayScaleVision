@@ -104,11 +104,12 @@ Item {
         anchors.right: parent.right
 
         border.color: "grey"
-        border.width: 1
+        border.width: 2
 
         Text {
             id: filterPanelTextText
             anchors.top : parent.top
+            anchors.topMargin: 2
             anchors.horizontalCenter: parent.horizontalCenter
             text: "Filter: " + FilterParamsInfo.filterName(filterViewer.currentFilterNum)
         }

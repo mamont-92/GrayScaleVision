@@ -36,6 +36,8 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: widgetManager.top
+        anchors.margins: 3
+
         height: 30
 
         model :availableRasterModes
