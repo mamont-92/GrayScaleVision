@@ -31,7 +31,6 @@ void BilateralBlur::update()
     }
 
     cv::Mat outMat, inMat(inDataPtr->height(), inDataPtr->width(), CV_32FC1, inDataPtr->data());
-    cv::bilateralFilter(inMat, outMat, diameter.valueInt(), sigmaIntensity.valueInt(), sigmaSpace.valueInt());
     cv::bilateralFilter(inMat, outMat, -1, sigmaIntensity.valueInt(), sigmaSpace.valueInt());
 
     outDataPtr->setDataWithCopy(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
