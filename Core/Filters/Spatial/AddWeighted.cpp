@@ -42,6 +42,6 @@ void AddWeighted::update()
 
     cv::addWeighted(src1Mat, alpha.valueReal(), src2Mat, beta.valueReal(),gamma.valueReal(), outMat);
 
-    outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
+    outDataPtr->setDataWithCopy(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
     outSlotPtr->setSpatialChanged();
 }

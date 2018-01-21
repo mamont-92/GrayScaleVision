@@ -31,7 +31,8 @@ void Inversion::update()
     float * outRawData = outDataPtr->data();
 
     float minVal, maxVal;
-    inDataPtr->calcMinMax(minVal, maxVal);
+    min_max(*inDataPtr, minVal, maxVal);
+    //inDataPtr->calcMinMax(minVal, maxVal);
 
     int maxInd = qMin(inDataPtr->pixelCount(), outDataPtr->pixelCount());
 

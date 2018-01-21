@@ -34,6 +34,6 @@ void BilateralBlur::update()
     cv::bilateralFilter(inMat, outMat, diameter.valueInt(), sigmaIntensity.valueInt(), sigmaSpace.valueInt());
     cv::bilateralFilter(inMat, outMat, -1, sigmaIntensity.valueInt(), sigmaSpace.valueInt());
 
-    outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
+    outDataPtr->setDataWithCopy(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
     outSlotPtr->setSpatialChanged();
 }

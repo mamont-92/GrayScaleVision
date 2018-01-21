@@ -32,7 +32,7 @@ QImage ImageDataRasterizer::ImageDataToQImage(const ImageDataSpatial & imgDataPt
         return QImage();
 
     float minVal, maxVal;
-    imgDataPtr.calcMinMax(minVal, maxVal);
+    min_max(imgDataPtr, minVal, maxVal);
     const float epsilon = 0.00000001f;
     float invDelta = 255.0 / qMax((maxVal - minVal), epsilon);
 
@@ -73,13 +73,13 @@ QImage ImageDataRasterizer::ImageDataToQImage(const ImageDataSpatial & imgDataPt
     return QImage();
 }
 
-QImage ImageDataRasterizer::ImageDataToQImage(ImageDataSpatial * imgDataPtr, QString colorMode){
+/*QImage ImageDataRasterizer::ImageDataToQImage(ImageDataSpatial * imgDataPtr, QString colorMode){
 
     if(imgDataPtr->isEmpty())
         return QImage();
 
     float minVal, maxVal;
-    imgDataPtr->calcMinMax(minVal, maxVal);
+    min_max(*imgDataPtr, minVal, maxVal);
     const float epsilon = 0.00000001f;
     float invDelta = 255.0 / qMax((maxVal - minVal), epsilon);
 
@@ -118,4 +118,4 @@ QImage ImageDataRasterizer::ImageDataToQImage(ImageDataSpatial * imgDataPtr, QSt
     }
 
     return QImage();
-}
+}*/

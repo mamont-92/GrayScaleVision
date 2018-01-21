@@ -30,6 +30,6 @@ void Laplacian::update()
     cv::Mat outMat,  inMat(inDataPtr->height(), inDataPtr->width(), CV_32FC1, inDataPtr->data());
     cv::Laplacian(inMat, outMat, -1, kernelSize.valueInt());
 
-    outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
+    outDataPtr->setDataWithCopy(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
     outSlotPtr->setSpatialChanged();
 }
