@@ -42,7 +42,7 @@ const T& min(const T& a, const T& b)
 }
 
 template<typename DataType, typename Func>
-void parallel_process(ImageData<DataType> && imgData, Func func)
+void parallel_process(ImageData<DataType> & imgData, Func func)
 {
     qint64 maxInd = imgData.pixelCount();
     DataType * data = imgData.data();
