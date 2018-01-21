@@ -29,7 +29,7 @@ void Power::update()
     }
 
     float minVal, maxVal;
-    min_max(*inDataPtr, minVal, maxVal);
+    ImageDataUtils::min_max(*inDataPtr, minVal, maxVal);
     float delta = qMax(maxVal - minVal, (float)0.00001);
 
     cv::Mat outMat,  inMat(inDataPtr->height(), inDataPtr->width(), CV_32FC1, inDataPtr->data());

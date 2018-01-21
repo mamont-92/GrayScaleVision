@@ -30,9 +30,7 @@ void CLAHE::update()
     }
 
     float minVal, maxVal;
-    min_max(*inDataPtr, minVal, maxVal);
-    //inDataPtr->calcMinMax(minVal, maxVal);
-
+    ImageDataUtils::min_max(*inDataPtr, minVal, maxVal);
     cv::Mat tempUShortMat, outMat,  inMat(inDataPtr->height(), inDataPtr->width(), CV_32FC1, inDataPtr->data());
 
     const float maxUShortVal = 65535;

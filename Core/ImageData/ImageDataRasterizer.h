@@ -10,7 +10,6 @@ class ImageDataRasterizer
 {
 public:
     static QImage ImageDataToQImage(const ImageDataSpatial & imgDataPtr, QString colorMode = "Grayscale");
-    //static QImage ImageDataToQImage(ImageDataSpatial * imgDataPtr, QString colorMode = "Grayscale");
     static QStringList availableRasterModes();
 private:
     static const QMap<QString, int> m_rasterModes;

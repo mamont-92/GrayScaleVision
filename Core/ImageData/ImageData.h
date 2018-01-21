@@ -6,6 +6,14 @@
 #include "opencv2/opencv.hpp"
 #include <complex>
 
+
+template <typename DataType>
+class ImageData;
+
+using ImageDataSpatial = ImageData<float>;
+using complexFloat = std::complex<float>;
+using ImageDataFrequency = ImageData<complexFloat>;
+
 namespace ImageDataUtils{
 template <typename>
 struct CVType{
@@ -32,16 +40,6 @@ const T& min(const T& a, const T& b)
 {
     return (b < a) ? b : a;
 }
-
-}
-
-template <typename DataType>
-class ImageData;
-
-using ImageDataSpatial = ImageData<float>;
-using complexFloat = std::complex<float>;
-using ImageDataFrequency = ImageData<complexFloat>;
-
 
 template<typename DataType, typename Func>
 void parallel_process(ImageData<DataType> && imgData, Func func)
@@ -96,7 +94,7 @@ void min_max(const ImageData<DataType> & imgData, DataType & min, DataType & max
     }
 
 }
-
+}
 
 template <typename DataType>
 class ImageData
@@ -114,7 +112,7 @@ public:
     quint16 width() const;
     quint16 height() const;
     DataType * data();
-    const DataType * data() const; //watafaq is thiiis?
+    const DataType * data() const;
     QRect rect() const;
     bool isEmpty() const;
     quint32 pixelCount() const;

@@ -31,9 +31,7 @@ void Inversion::update()
     float * outRawData = outDataPtr->data();
 
     float minVal, maxVal;
-    min_max(*inDataPtr, minVal, maxVal);
-    //inDataPtr->calcMinMax(minVal, maxVal);
-
+    ImageDataUtils::min_max(*inDataPtr, minVal, maxVal);
     int maxInd = qMin(inDataPtr->pixelCount(), outDataPtr->pixelCount());
 
     #pragma omp parallel for

@@ -32,7 +32,7 @@ QImage ImageDataRasterizer::ImageDataToQImage(const ImageDataSpatial & imgDataPt
         return QImage();
 
     float minVal, maxVal;
-    min_max(imgDataPtr, minVal, maxVal);
+    ImageDataUtils::min_max(imgDataPtr, minVal, maxVal);
     const float epsilon = 0.00000001f;
     float invDelta = 255.0 / qMax((maxVal - minVal), epsilon);
 
@@ -72,50 +72,3 @@ QImage ImageDataRasterizer::ImageDataToQImage(const ImageDataSpatial & imgDataPt
 
     return QImage();
 }
-
-/*QImage ImageDataRasterizer::ImageDataToQImage(ImageDataSpatial * imgDataPtr, QString colorMode){
-
-    if(imgDataPtr->isEmpty())
-        return QImage();
-
-    float minVal, maxVal;
-    min_max(*imgDataPtr, minVal, maxVal);
-    const float epsilon = 0.00000001f;
-    float invDelta = 255.0 / qMax((maxVal - minVal), epsilon);
-
-    qint64 maxInd = imgDataPtr->pixelCount();
-
-    int rasterMode = m_rasterModes.value(colorMode, -1);
-    if(rasterMode >= 0){
-        cv::Mat srcMat(imgDataPtr->height(), imgDataPtr->width(), CV_32FC1, const_cast<float*>(imgDataPtr->data()) ), convMat, colorMat;
-        srcMat.convertTo(convMat, CV_8UC1, invDelta, -invDelta*minVal);
-        cv::applyColorMap(convMat, colorMat, rasterMode);
-        QImage colorImage;
-        switch(colorMat.channels()){
-        case 3:
-            colorImage = QImage(imgDataPtr->width(), imgDataPtr->height(), QImage::Format_RGB888);
-            break;
-        case 4:
-            colorImage = QImage(imgDataPtr->width(), imgDataPtr->height(), QImage::Format_RGBA8888);
-            break;
-        default:
-            qDebug() << "Error: can't raster image";
-        }
-        memcpy(colorImage.bits(), colorMat.data, colorMat.channels() * imgDataPtr->width() * imgDataPtr->height());
-        return colorImage;
-    }
-    else{
-        QImage grayImage(imgDataPtr->width(), imgDataPtr->height(), QImage::Format_Grayscale8);
-
-        const float *originalData = imgDataPtr->data();
-        uchar * bits = grayImage.bits();
-
-        #pragma omp parallel for
-        for(int i = 0; i < maxInd; ++i){
-            bits[i] = (originalData[i] - minVal) * invDelta;
-        }
-        return grayImage;
-    }
-
-    return QImage();
-}*/

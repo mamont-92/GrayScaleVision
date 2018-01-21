@@ -37,7 +37,7 @@ void Convolution3x3::update()
     float * outRawData = outDataPtr->data();
 
     float minVal, maxVal;
-    min_max(*inDataPtr, minVal, maxVal);
+    ImageDataUtils::min_max(*inDataPtr, minVal, maxVal);
 
     int width = inDataPtr->width(), height = inDataPtr->height();
     int beginInd = 0, endInd = width;

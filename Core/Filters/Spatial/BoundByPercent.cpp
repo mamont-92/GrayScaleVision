@@ -37,8 +37,7 @@ void BoundByPercent::update()
     float * outRawData = outDataPtr->data();
 
     float minVal, maxVal;
-    min_max(*inDataPtr, minVal, maxVal);
-    //inDataPtr->calcMinMax(minVal, maxVal);
+    ImageDataUtils::min_max(*inDataPtr, minVal, maxVal);
     float delta = maxVal - minVal;
 
     float newMinVal = minVal + delta*minRatio;
