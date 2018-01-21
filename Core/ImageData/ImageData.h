@@ -313,7 +313,7 @@ void ImageData<DataType>::fillInRect(DataType _value, const QRect & _rect){
 template <typename DataType>
 bool ImageData<DataType>::isEmpty() const
 {
-    return m_allocatedPixels;
+    return !m_allocatedPixels;
 }
 
 template <typename DataType>
