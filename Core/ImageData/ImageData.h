@@ -6,7 +6,7 @@
 #include "opencv2/opencv.hpp"
 #include <complex>
 
-
+namespace ImageDataUtils{
 template <typename>
 struct CVType{
     enum {type = 0};
@@ -33,12 +33,15 @@ const T& min(const T& a, const T& b)
     return (b < a) ? b : a;
 }
 
+}
+
 template <typename DataType>
 class ImageData;
 
 using ImageDataSpatial = ImageData<float>;
-using ImageDataFrequency = ImageData<std::complex<float> >;
 using complexFloat = std::complex<float>;
+using ImageDataFrequency = ImageData<complexFloat>;
+
 
 template<typename DataType, typename Func>
 void parallel_process(ImageData<DataType> && imgData, Func func)
@@ -54,8 +57,8 @@ template<typename DataType>
 void min_max(const ImageData<DataType> & imgData, DataType & min, DataType & max)
 {
     const DataType * data = imgData.data();
-    if(CVType<DataType>::type){
-        cv::Mat src(imgData.height(), imgData.width(), CVType<DataType>::type, (void*)data);
+    if(ImageDataUtils::CVType<DataType>::type){
+        cv::Mat src(imgData.height(), imgData.width(), ImageDataUtils::CVType<DataType>::type, (void*)data);
         double dmin, dmax;
         cv::minMaxIdx(src, &dmin, &dmax);
         min = dmin;
@@ -345,7 +348,7 @@ DataType ImageData<DataType>::at(QPoint _point) const
     void ImageData<DataType>::setDataWithCopy(const DataType * _data, QSize _size)
     {
     resize(_size);
-    memcpy(m_data, _data, sizeof(DataType)* min((qint64)_size.width() * _size.height(), (qint64)m_allocatedPixels));
+    memcpy(m_data, _data, sizeof(DataType)* ImageDataUtils::min((qint64)_size.width() * _size.height(), (qint64)m_allocatedPixels));
 }
 
 #endif // IMAGEDATA_H
