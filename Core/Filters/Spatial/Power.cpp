@@ -29,7 +29,7 @@ void Power::update()
     }
 
     float minVal, maxVal;
-    inDataPtr->calcMinMax(minVal, maxVal);
+    ImageDataUtils::min_max(*inDataPtr, minVal, maxVal);
     float delta = qMax(maxVal - minVal, (float)0.00001);
 
     cv::Mat outMat,  inMat(inDataPtr->height(), inDataPtr->width(), CV_32FC1, inDataPtr->data());
@@ -37,6 +37,6 @@ void Power::update()
     cv::pow(outMat, power.valueReal(), outMat);
     outMat.convertTo(outMat, -1, delta, minVal);
 
-    outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
+    outDataPtr->setDataWithCopy(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
     outSlotPtr->setSpatialChanged();
 }

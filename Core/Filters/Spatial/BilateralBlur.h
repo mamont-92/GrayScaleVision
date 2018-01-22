@@ -8,7 +8,7 @@ class BilateralBlur : public AbstractFilter
 {
 public:
     BilateralBlur();
-    IntegerParameter diameter, sigmaIntensity, sigmaSpace;
+    IntegerParameter sigmaIntensity, sigmaSpace;
     void update();
     DECLARE_READABLE_NAME("BilateralBlur")
 };

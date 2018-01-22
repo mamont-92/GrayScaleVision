@@ -1,9 +1,7 @@
 #ifndef IMAGEDATACONVERTOR_H
 #define IMAGEDATACONVERTOR_H
 
-
-#include "ImageDataFrequency.h"
-#include "ImageDataSpatial.h"
+#include "ImageData.h"
 
 class ImageDataConvertor
 {

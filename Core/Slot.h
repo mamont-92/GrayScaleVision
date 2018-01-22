@@ -1,8 +1,7 @@
 #ifndef SLOT_H
 #define SLOT_H
 
-#include "ImageData/ImageDataFrequency.h"
-#include "ImageData/ImageDataSpatial.h"
+#include "ImageData/ImageData.h"
 #include <QSharedPointer>
 #include <QWeakPointer>
 

@@ -10,6 +10,9 @@
 #include <QFuture>
 #include "Commands.h"
 #include "CommandCallBackAcceptor.h"
+#include "Core/ImageData/imagedata.h"
+#include <QDebug>
+#include <complex>
 
 using namespace FilterProcessorComands;
 
@@ -36,6 +39,12 @@ FilterProcessor::FilterProcessor(QObject *parent) :QObject(parent)
         if(m_commandQueue.count())
             runFilterUpdating();
     });
+
+    /*ImageData<double> dData(10,10);
+    ImageData<float> fData(20,35);
+    ImageData<std::complex<float> > cfData(45,65);
+    qDebug() << "olol" << dData.pixelCount() << fData.height() << cfData.rect();*/
+    //qDebug() << "ololo" << cData.getCVType() << fData.getCVType() << usData.getCVType() << CV_32FC1 << CV_16UC1;
 }
 
 FilterProcessor::~FilterProcessor()
@@ -242,7 +251,7 @@ void FilterProcessor::updateFilterSet(QSet<int> filterSet)
                     filterPtr->update();
                     auto filterOutSlotPtr = filterPtr->outSlot((qint8)0);
                     if(!filterOutSlotPtr.isNull()){
-                        QImage img = ImageDataRasterizer::ImageDataToQImage(filterOutSlotPtr->asSpatialData(), m_rasterMode);
+                        QImage img = ImageDataRasterizer::ImageDataToQImage(*(filterOutSlotPtr->asSpatialData()), m_rasterMode);
                         setImageForFilter(curFilter, img);
                     }
 

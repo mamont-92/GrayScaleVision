@@ -34,7 +34,6 @@ SOURCES += main.cpp \
     Core/AbstractFilter.cpp \
     Core/Filters/Spatial/AddWeighted.cpp \
     Core/Filters/Spatial/Inversion.cpp \
-    Core/ImageData/ImageDataSpatial.cpp \
     Core/Filters/Spatial/SourceImage.cpp \
     Core/ImageData/ImageDataLoader.cpp \
     Core/ImageData/ImageDataRasterizer.cpp \
@@ -56,7 +55,6 @@ SOURCES += main.cpp \
     Core/FilterProcessorGate.cpp \
     Core/Commands.cpp \
     Core/CommandCallBackAcceptor.cpp \
-    Core/ImageData/ImageDataFrequency.cpp \
     Core/ImageData/ImageDataConvertor.cpp \
     Core/Filters/Frequency/MultByConstInRad.cpp \
     Core/Filters/Frequency/MultByInterpolatedValueInRad.cpp \
@@ -68,7 +66,6 @@ HEADERS  += \
     Core/Filters/Spatial/AddWeighted.h \
     Core/Filters/Spatial/Inversion.h \
     Core/BaseFilters.h \
-    Core/ImageData/ImageDataSpatial.h \
     Core/Filters/Spatial/SourceImage.h \
     Core/ImageData/ImageDataLoader.h \
     Core/ImageData/ImageDataRasterizer.h \
@@ -90,13 +87,13 @@ HEADERS  += \
     Core/FilterProcessor.h \
     Core/Commands.h \
     Core/CommandCallBackAcceptor.h \
-    Core/ImageData/ImageDataFrequency.h \
     Core/ImageData/ImageDataConvertor.h \
     Core/Filters/Frequency/MultByConstInRad.h \
     Core/Filters/Frequency/MultByInterpolatedValueInRad.h \
     Core/Slot.h \
     Core/Filters/FrequencyAll.h \
-    Core/Filters/SpatialAll.h
+    Core/Filters/SpatialAll.h \
+    Core/ImageData/ImageData.h
 
 FORMS    +=
 

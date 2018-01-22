@@ -2,7 +2,6 @@
 #define ABSTRACTFILTER_H
 
 #include "FilterCreator.h"
-//#include "ImageData/ImageDataSpatial.h"
 #include "Slot.h"
 #include "AbstractParameter.h"
 #include <QVector>

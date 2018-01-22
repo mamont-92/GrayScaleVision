@@ -21,7 +21,7 @@ void SourceImage::update()
         if(newImg.isEmpty())
             outDataPtr->setEmpty();
         else
-            outDataPtr->setWithCopyData(newImg.data(), newImg.size());
+            outDataPtr->setDataWithCopy(newImg.data(), newImg.size());
 
         outSlotPtr->setSpatialChanged();
     }

@@ -30,8 +30,7 @@ void CLAHE::update()
     }
 
     float minVal, maxVal;
-    inDataPtr->calcMinMax(minVal, maxVal);
-
+    ImageDataUtils::min_max(*inDataPtr, minVal, maxVal);
     cv::Mat tempUShortMat, outMat,  inMat(inDataPtr->height(), inDataPtr->width(), CV_32FC1, inDataPtr->data());
 
     const float maxUShortVal = 65535;
@@ -46,7 +45,7 @@ void CLAHE::update()
 
     outMat.convertTo(outMat, CV_32FC1, 1.f/delta*maxUShortVal, 0);
 
-    outDataPtr->setWithCopyData(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
+    outDataPtr->setDataWithCopy(reinterpret_cast<float*>(outMat.data), QSize(outMat.cols, outMat.rows));
 
     outSlotPtr->setSpatialChanged();
 }
